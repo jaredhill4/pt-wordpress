@@ -1,0 +1,32 @@
+// --------------------------------------------------
+// paths
+// --------------------------------------------------
+
+$images-path: '~images';
+$fonts-path: '~fonts';
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+$fancybox-image-url: $images-path;
+
+// --------------------------------------------------
+// globals
+// --------------------------------------------------
+
+$global-site-header-top-height: 40px;
+$global-site-header-top-font-size: 12px;
+$global-site-header-bottom-height: 80px;
+$global-sidebar-section-margin: 0 0 30px;
+
+// --------------------------------------------------
+// z-indexes
+// --------------------------------------------------
+
+$z-index-primary-nav: 1010;
+$z-index-secondary-nav: 1011;
+$z-index-mobile-nav: 1012;
+$z-index-mobile-header: 1013;
+
+// --------------------------------------------------
+// font families
+// --------------------------------------------------
+
+$font-family-icon: FontAwesome;

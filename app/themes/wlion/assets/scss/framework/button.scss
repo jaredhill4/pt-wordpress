@@ -1,0 +1,225 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$button-default-color: 'gray-lighter';
+
+$button-padding-x: 1em;
+$button-padding-y: 0.5em;
+
+// --------------------------------------------------
+// functions
+// --------------------------------------------------
+
+@function calc-btn-color($background-color) {
+  @if (lightness($background-color) > 60) {
+    @return color('black');
+  } @else {
+    @return color('white');
+  }
+}
+
+@function calc-btn-outline-color($color) {
+  @if (lightness($color) > 70) {
+    @return color('black');
+  } @else {
+    @return $color;
+  }
+}
+
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin create-button($color-base, $color-hover) {
+  background-color: $color-base;
+  border-color: $color-base;
+  color: calc-btn-color($color-base);
+
+  &:hover {
+    background-color: $color-hover;
+    border-color: $color-hover;
+    color: calc-btn-color($color-base);
+  }
+
+  &:focus {
+    @include focus($color-base);
+  }
+
+  &:active {
+    background-color: $color-hover;
+    border-color: $color-hover;
+    color: calc-btn-color($color-base);
+  }
+}
+
+@mixin create-button-outline($color-base) {
+  background-color: transparent;
+  border-color: $color-base;
+  color: calc-btn-outline-color($color-base);
+
+  &:hover {
+    background-color: $color-base;
+    border-color: $color-base;
+    color: calc-btn-color($color-base);
+  }
+
+  &:active {
+    background-color: $color-base;
+    border-color: $color-base;
+    color: calc-btn-color($color-base);
+  }
+}
+
+@mixin btn($colors: $colors) {
+  $selector: '.btn';
+  $selector-outline: '#{$selector}.btn--outline';
+  $color-base: map-deep-get($colors, $button-default-color, 'base');
+  $color-hover: map-deep-get($colors, $button-default-color, 'hover');
+
+  #{$selector} {
+    @include create-button($color-base, $color-hover);
+  }
+
+  #{$selector-outline} {
+    @include create-button-outline($color-base);
+  }
+
+  @each $key, $color in $colors {
+    $selector: '.btn--#{$key}';
+    $selector-outline: '#{$selector}.btn--outline';
+    $color-base: map-get($color, 'base');
+    $color-hover: map-get($color, 'hover');
+
+    #{$selector} {
+      @include create-button($color-base, $color-hover);
+    }
+
+    #{$selector-outline} {
+      @include create-button-outline($color-base);
+    }
+  }
+}
+
+// --------------------------------------------------
+// base styles
+// --------------------------------------------------
+
+.btn {
+  border-style: solid;
+  border-width: $global-border-width;
+  border-radius: $global-border-radius;
+  cursor: pointer;
+  display: inline-block;
+  font-size: $font-size-md;
+  font-weight: $font-weight-normal;
+  letter-spacing: 0.025em;
+  line-height: 1.25;
+  padding: $button-padding-y $button-padding-x;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: $global-transition-fast;
+  user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+
+  &:hover {
+    outline: 0;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 0;
+    text-decoration: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  &:active {
+    outline: 0;
+    background-image: none;
+  }
+}
+
+// try to prevent clicking of disabled `<a>` elements
+a.btn.btn--disabled,
+fieldset[disabled] a.btn {
+  pointer-events: none;
+}
+
+// --------------------------------------------------
+// color variants
+// --------------------------------------------------
+
+@include btn();
+
+// --------------------------------------------------
+// styles
+// --------------------------------------------------
+
+.btn--round {
+  border-radius: 4rem;
+}
+
+.btn--block {
+  display: block;
+  width: 100%;
+}
+
+.btn--link {
+  background-color: transparent;
+  border-color: transparent;
+  color: $link-color;
+
+  &:hover {
+    background-color: transparent;
+    border-color: transparent;
+    color: $link-color-hover;
+    text-decoration: underline;
+  }
+
+  &:active {
+    background-color: transparent;
+    border-color: transparent;
+    color: $link-color-hover;
+  }
+
+  &:focus {
+    box-shadow: none;
+    text-decoration: underline;
+  }
+}
+
+// --------------------------------------------------
+// sizes
+// --------------------------------------------------
+
+.btn--xs,
+.form__input-group--xs .btn {
+  font-size: $font-size-xs;
+}
+
+.btn--sm,
+.form__input-group--sm .btn {
+  font-size: $font-size-sm;
+}
+
+/* md is default
+.btn--md,
+.form__input-group--md .btn {
+} */
+
+.btn--lg,
+.form__input-group--lg .btn {
+  font-size: $font-size-lg;
+}
+
+.btn--xl,
+.form__input-group--xl .btn {
+  font-size: $font-size-xl;
+}

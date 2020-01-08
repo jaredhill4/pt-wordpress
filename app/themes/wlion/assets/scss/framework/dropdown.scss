@@ -1,0 +1,92 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$dropdown-background: color('white');
+$dropdown-border-color: $global-border-color;
+$dropdown-border-width: $global-border-width;
+$dropdown-border-radius: $global-border-radius;
+$dropdown-box-shadow: $global-box-shadow;
+$dropdown-color: color('black');
+$dropdown-font-size: 1rem;
+$dropdown-line-height: 1.15;
+$dropdown-spacer: 4px;
+$dropdown-padding-x: 0.5em;
+$dropdown-padding-y: 0.5em;
+$dropdown-transition: opacity 0.25s ease;
+$dropdown-width: 200px;
+$dropdown-z-index: 1060;
+
+$dropdown-link-border-radius: $dropdown-border-radius;
+$dropdown-link-color: $dropdown-color;
+$dropdown-link-hover-color: $dropdown-color;
+$dropdown-link-hover-background: rgba(color('gray-lighter'), 0.6);
+$dropdown-link-padding-x: 1em;
+$dropdown-link-padding-y: 0.5em;
+
+$dropdown-divider-border-color: $global-border-color;
+$dropdown-divider-border-width: $global-border-width;
+$dropdown-divider-margin-y: 0.5em;
+$dropdown-divider-margin-x: -0.5em;
+
+// --------------------------------------------------
+// base styles
+// --------------------------------------------------
+
+.dropdown {
+  background-clip: padding-box;
+  background-color: $dropdown-background;
+  border: $dropdown-border-width solid $dropdown-border-color;
+  border-radius: $dropdown-border-radius;
+  box-shadow: $dropdown-box-shadow;
+  color: $dropdown-color;
+  display: none;
+  font-size: $dropdown-font-size;
+  line-height: 1.2;
+  margin: $dropdown-spacer 0;
+  opacity: 0;
+  padding: $dropdown-padding-y $dropdown-padding-x;
+  position: absolute;
+  text-align: left;
+  transition: $dropdown-transition;
+  width: $dropdown-width;
+  z-index: $dropdown-z-index;
+
+  &[x-placement^='left'],
+  &[x-placement^='left-start'],
+  &[x-placement^='left-end'],
+  &[x-placement^='right'],
+  &[x-placement^='right-start'],
+  &[x-placement^='right-end'] {
+    margin: 0 $dropdown-spacer;
+  }
+}
+
+.dropdown--visible {
+  opacity: 1;
+}
+
+.dropdown > a {
+  border-radius: $dropdown-link-border-radius;
+  color: $dropdown-link-color;
+  display: block;
+  padding: $dropdown-link-padding-y $dropdown-link-padding-x;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $dropdown-link-hover-background;
+    color: $dropdown-link-hover-color;
+    text-decoration: none;
+  }
+}
+
+.dropdown__item {
+}
+
+.dropdown__divider {
+  border-top: $dropdown-divider-border-width solid
+    $dropdown-divider-border-color;
+  height: 0;
+  margin: $dropdown-divider-margin-y $dropdown-divider-margin-x;
+  overflow: hidden;
+}

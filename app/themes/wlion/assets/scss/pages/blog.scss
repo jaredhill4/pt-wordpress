@@ -1,0 +1,88 @@
+// --------------------------------------------------
+// includes
+// --------------------------------------------------
+
+@import './framework/variables';
+
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.post {
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  border-bottom: $global-border;
+}
+
+// --------------------------------------------------
+// header
+// --------------------------------------------------
+
+.post__header {
+  margin: 0 0 30px;
+}
+
+.post__title {
+  margin-top: 0;
+
+  a {
+    color: inherit;
+  }
+}
+
+.post__meta {
+  display: block;
+
+  .bullet {
+    padding: 0 5px;
+  }
+}
+
+// --------------------------------------------------
+// body
+// --------------------------------------------------
+
+.post__body {
+}
+
+.post__thumb {
+  margin: 0 0 30px;
+}
+
+.post__tags {
+  font-size: 14px;
+
+  a {
+    padding: 5px 10px;
+    margin: 0 5px 0 0;
+    background: color('gray-light');
+    transition: $global-transition-fast;
+
+    &:hover {
+      background: darken(color('gray-light'), 10%);
+    }
+  }
+}
+
+// --------------------------------------------------
+// nav
+// --------------------------------------------------
+
+.post__nav {
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: $global-border;
+}
+
+// --------------------------------------------------
+// archive header
+// --------------------------------------------------
+
+.post__archive-header {
+  padding: 0 0 20px;
+  margin: 0 0 40px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: $global-border;
+}

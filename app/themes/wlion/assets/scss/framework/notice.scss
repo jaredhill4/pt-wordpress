@@ -1,0 +1,66 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$notice-padding: $type-margin-base;
+
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin notice-colors($colors: $colors) {
+  @each $key, $color in $colors {
+    $selector: '.notice--#{$key}';
+    $border-color: map-get($color, 'base');
+    $title-color: map-get($color, 'base');
+
+    @if (str-index($key, 'gray-light') != null) {
+      $title-color: color('black');
+    }
+
+    #{$selector} {
+      border-left-color: $border-color;
+
+      .notice__title {
+        color: $title-color;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// base styles
+// --------------------------------------------------
+
+.notice {
+  @extend %squash-start;
+  @extend %squash-end;
+  position: relative;
+  display: block;
+  padding: $notice-padding;
+  border: solid $global-border-width $global-border-color;
+  border-left: solid 5px $global-border-color;
+  border-radius: $global-border-radius;
+  margin-bottom: $type-margin-base;
+}
+
+.notice__title {
+  margin-top: 0;
+  margin-bottom: $type-margin-base/2;
+}
+
+// --------------------------------------------------
+// colors
+// --------------------------------------------------
+
+@include notice-colors();
+
+// --------------------------------------------------
+// close
+// --------------------------------------------------
+
+.notice__close {
+  @extend %close;
+  top: $notice-padding;
+  right: $notice-padding;
+}

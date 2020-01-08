@@ -1,0 +1,77 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.tabs {
+  display: block;
+}
+
+// --------------------------------------------------
+// nav
+// --------------------------------------------------
+
+.tabs__nav {
+  display: block;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: solid $global-border-width $global-border-color;
+  }
+
+  li {
+    z-index: 10;
+    position: relative;
+    display: inline-block;
+    margin-bottom: -1px;
+
+    & + li {
+      margin-left: rem(4);
+    }
+
+    a,
+    button {
+      background-color: transparent;
+      color: $link-color;
+      display: block;
+      padding: 0.75em 1.25em;
+      line-height: 1.25;
+      letter-spacing: 0.025em;
+      border: solid $global-border-width transparent;
+      border-bottom-color: $global-border-color;
+      border-radius: $global-border-radius $global-border-radius 0 0;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        color: $link-color-hover;
+        background: lighten(color('gray-lighter'), 5%);
+        outline: 0;
+      }
+
+      &:focus {
+        outline: 0;
+      }
+
+      &.toggle__switch--on {
+        color: color('black');
+        background: color('white');
+        border-color: $global-border-color;
+        border-bottom-color: transparent;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// content
+// --------------------------------------------------
+
+.tabs__content {
+  padding: $type-margin-base;
+  border: solid $global-border-width $global-border-color;
+  border-top: 0;
+  border-radius: 0 0 $global-border-radius $global-border-radius;
+}

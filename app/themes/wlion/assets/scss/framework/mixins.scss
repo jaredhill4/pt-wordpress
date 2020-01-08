@@ -1,0 +1,116 @@
+/*
+ * Mixins are similar to macros (i.e., functions or methods) from other programming languages,
+ * except they generate CSS code at compile time. They allow you to write less code
+ * by packaging up code into reusable chunks.
+ *
+ * Defining a mixin: `@mixin my-mixin($selector, $property, $value) { $selector { $property: $value } }`
+ * Using a mixin: `@include my-mixin('.item', 'width', 20px);`
+ *
+ * Documentation: http://thesassway.com/intermediate/leveraging-sass-mixins-for-cleaner-code
+ */
+
+// --------------------------------------------------
+// breakpoint postfixes
+// --------------------------------------------------
+
+@mixin apply-breakpoint-postfixes(
+  $selector: '&',
+  $include-print: false,
+  $include-default: false
+) {
+  $breakpoints: (
+    'xs': $breakpoint-xs,
+    'sm': $breakpoint-sm,
+    'md': $breakpoint-md,
+    'lg': $breakpoint-lg,
+    'xl': $breakpoint-xl
+  );
+
+  @if ($include-default) {
+    $breakpoints: map-merge(
+      (
+        'default': ''
+      ),
+      $breakpoints
+    );
+  }
+
+  @if ($include-print) {
+    $breakpoints: map-merge(
+      $breakpoints,
+      (
+        'pr': 'print'
+      )
+    );
+  }
+
+  @each $key, $value in $breakpoints {
+    $index: index(($breakpoints), ($key $value));
+    $min: $value;
+    $max: null;
+    $next-breakpoint: null;
+    $postfix: '';
+    $media: '';
+
+    @if ($key != 'default') {
+      $postfix: '-#{$key}';
+    }
+
+    @if ($index != length($breakpoints)) {
+      $next-breakpoint: nth($breakpoints, $index + 1);
+      $next-breakpoint-key: nth($next-breakpoint, 1);
+      $next-breakpoint-value: nth($next-breakpoint, 2);
+
+      @if ($next-breakpoint-key != 'pr') {
+        $max: $next-breakpoint-value - 1;
+      }
+    }
+
+    @if ($key == 'pr') {
+      @media print {
+        #{$selector}#{$postfix} {
+          @content;
+        }
+      }
+    }
+    @elseif ($key != 'default') {
+      @media screen and (min-width: $min) {
+        #{$selector}#{$postfix}-min {
+          @content;
+        }
+      }
+
+      @if ($max) {
+        @media screen and (max-width: $max) {
+          #{$selector}#{$postfix}-max {
+            @content;
+          }
+        }
+
+        @media screen and (min-width: $min) and (max-width: $max) {
+          #{$selector}#{$postfix} {
+            @content;
+          }
+        }
+      } @else {
+        @media screen and (min-width: $min) {
+          #{$selector}#{$postfix} {
+            @content;
+          }
+        }
+      }
+    } @else {
+      #{$selector} {
+        @content;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// focus
+// --------------------------------------------------
+
+@mixin focus($color: color('primary')) {
+  box-shadow: 0 0 0 0.2rem rgba($color, 0.5);
+}

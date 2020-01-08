@@ -1,0 +1,43 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.gallery {
+  .gallery__item {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+// --------------------------------------------------
+// carousel / slideshow
+// --------------------------------------------------
+
+.gallery--carousel,
+.gallery--slideshow {
+  margin: 0 0 $type-margin-base;
+
+  .gallery__item {
+    margin: 0;
+  }
+}
+
+.gallery--carousel {
+  display: block;
+  width: auto;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  .gallery__item {
+    padding: 0 12px;
+  }
+
+  .slick-prev {
+    left: 27px;
+  }
+
+  .slick-next {
+    right: 27px;
+  }
+}

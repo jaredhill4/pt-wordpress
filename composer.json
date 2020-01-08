@@ -1,0 +1,69 @@
+{
+  "name": "wlion/pt-wordpress",
+  "description": "Starter template for building WordPress sites",
+  "type": "project",
+  "extra": {
+    "wordpress-install-dir": "wp",
+    "installer-paths": {
+      "app/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "app/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://{%DELICIOUS_BRAINS_COMPOSER_API_USER}:{%DELICIOUS_BRAINS_COMPOSER_API_PASS}@composer.deliciousbrains.com"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "advanced-custom-fields/advanced-custom-fields-pro",
+        "version": "5.8.7",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%ACF_PRO_KEY}&t={%version}"
+        },
+        "require": {
+          "composer/installers": "^1.4",
+          "ffraenz/private-composer-installer": "^2.0"
+        }
+      }
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "*",
+    "johnpbloch/wordpress": ">=5.1",
+    "wpackagist-plugin/classic-editor": "^1.5",
+    "wpackagist-plugin/contact-form-7": "^5.1.6",
+    "wpackagist-plugin/disqus-comment-system": "^3.0.17",
+    "wpackagist-plugin/flamingo": "^2.1",
+    "wpackagist-plugin/google-sitemap-generator": "^4.1.0",
+    "wpackagist-plugin/contact-form-7-honeypot": "^1.14.1",
+    "wpackagist-plugin/login-lockdown": "^v1.8.1",
+    "wpackagist-plugin/wp-nested-pages": "^3.1.7",
+    "wpackagist-plugin/no-captcha-recaptcha": "^1.3.4",
+    "wpackagist-plugin/post-type-switcher": "^3.2.0",
+    "wpackagist-plugin/redirection": "^4.6.1",
+    "wpackagist-plugin/regenerate-thumbnails": "^3.1.2",
+    "wpackagist-plugin/relevanssi": "^4.4.1",
+    "wpackagist-plugin/wp-smushit": "^3.3.2",
+    "wpackagist-plugin/sucuri-scanner": "^1.8.22",
+    "wpackagist-plugin/tinymce-advanced": "^5.3.0",
+    "wpackagist-plugin/wp-super-cache": "^1.7.0",
+    "advanced-custom-fields/advanced-custom-fields-pro": "^5.0.0",
+    "deliciousbrains-plugin/wp-migrate-db-pro": "*",
+    "deliciousbrains-plugin/wp-migrate-db-pro-cli": "*",
+    "deliciousbrains-plugin/wp-migrate-db-pro-media-files": "*",
+    "deliciousbrains-plugin/wp-migrate-db-pro-multisite-tools": "*",
+    "deliciousbrains-plugin/wp-migrate-db-pro-theme-plugin-files": "*"
+  }
+}

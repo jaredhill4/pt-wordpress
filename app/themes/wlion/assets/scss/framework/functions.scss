@@ -1,0 +1,84 @@
+/*
+ * Functions are very similar to mixins but instead of outputting lines
+ * of sass, functions return a value.
+ *
+ * Defining a function: `@function my-function($arg1, $arg2) { @return $arg1 + $arg2; }`
+ * Using a function: `padding: my-function(10px, 20px);`
+ *
+ * Documentation: http://thesassway.com/advanced/pure-sass-functions
+ */
+
+// tint
+// ---------------
+// Mix a color with white. The greater the percentage,
+// the closer the new color will be to white.
+@function tint($color, $percent) {
+  @return mix(#fff, $color, $percent);
+}
+
+// shade
+// ---------------
+// Mix a color with black. The greater the percentage,
+// the closer the new color will be to black.
+@function shade($color, $percent) {
+  @return mix(#000, $color, $percent);
+}
+
+// rem
+// ---------------
+// Calculate the rem value for a given pixel value
+// based on the default font-size
+@function rem($size, $base-font-size: 16) {
+  @if (unitless($size)) {
+    $size: $size * 1px;
+  }
+  @if (unitless($base-font-size)) {
+    $base-font-size: $base-font-size * 1px;
+  }
+  @return $size / $base-font-size * 1rem;
+}
+
+// map-deep-get
+// ---------------
+// Fetch nested keys
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+// color-contrast
+// ---------------
+// via https://medium.com/@MikeKellyWeb/calculating-color-contrast-with-sass-eff39ef23f96
+@function color-contrast($color, $light, $dark) {
+  $color-brightness: round(
+    (red($color) * 299)+ (green($color) * 587)+ (blue($color) * 114)/1000
+  );
+  $light-color: round(
+    (red(#ffffff) * 299)+ (green(#ffffff) * 587)+ (blue(#ffffff) * 114)/1000
+  );
+  @if (abs($color-brightness) < ($light-color/2)) {
+    @return $light;
+  } @else {
+    @return $dark;
+  }
+}
+
+// color-difference
+// ---------------
+// via https://medium.com/@jonnykates/automating-colour-contrast-ratios-with-sass-e201f3b52797
+@function color-difference($foreground, $background) {
+  $r: (max(red($foreground), red($background))) -
+    (min(red($foreground), red($background)));
+  $g: (max(green($foreground), green($background))) -
+    (min(green($foreground), green($background)));
+  $b: (max(blue($foreground), blue($background))) -
+    (min(blue($foreground), blue($background)));
+  $sum: $r + $g + $b;
+  @if ($sum < 500) {
+    @return 'false';
+  } @else {
+    @return 'true';
+  }
+}

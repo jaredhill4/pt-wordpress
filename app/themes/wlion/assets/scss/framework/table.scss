@@ -1,0 +1,117 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$table-border-color: $global-border-color;
+$table-border-width: $global-border-width;
+
+$table-striped-background-color: rgba(#000, 0.03);
+
+$table-hover-background-color: $table-striped-background-color;
+
+// --------------------------------------------------
+// table
+// --------------------------------------------------
+
+.table {
+  background-color: transparent;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  width: 100%;
+
+  th,
+  td {
+    border-color: $table-border-color;
+    border-style: solid;
+    border-width: $table-border-width 0 0 0;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead {
+    th,
+    td {
+      border-bottom-width: $table-border-width * 2;
+      border-top-width: 0;
+      vertical-align: bottom;
+    }
+  }
+
+  tfoot {
+    th,
+    td {
+      border-top-width: $table-border-width * 2;
+    }
+  }
+
+  tbody + tbody {
+    border-top: $table-border-width * 2 solid $table-border-color;
+  }
+}
+
+.table--narrow {
+  width: auto;
+}
+
+.table--striped {
+  tbody tr:nth-of-type(even) {
+    background-color: $table-striped-background-color;
+  }
+}
+
+.table--hover {
+  tbody tr:hover {
+    background-color: $table-hover-background-color;
+  }
+}
+
+.table--compact {
+  th,
+  td {
+    padding: 0.3rem 0.4rem;
+  }
+}
+
+.table--bordered {
+  border: $table-border-width solid $table-border-color;
+
+  th,
+  td {
+    border-width: $table-border-width;
+  }
+
+  thead {
+    th,
+    td {
+      border-bottom-width: $table-border-width * 2;
+    }
+  }
+
+  tfoot {
+    th,
+    td {
+      border-top-width: $table-border-width * 2;
+    }
+  }
+}
+
+.table--responsive {
+  @include apply-breakpoint-postfixes($include-default: true) {
+    display: block;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    &.table--bordered {
+      border-width: 0;
+
+      thead {
+        th,
+        td {
+          border-top-width: $table-border-width;
+        }
+      }
+    }
+  }
+}

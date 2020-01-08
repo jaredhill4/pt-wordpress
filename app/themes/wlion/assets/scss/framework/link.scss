@@ -1,0 +1,39 @@
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin link-colors($colors: $colors) {
+  @each $key, $color in $colors {
+    $selector: 'a.link--#{$key}';
+
+    #{$selector} {
+      color: map-get($color, 'base');
+
+      &:hover {
+        color: map-get($color, 'hover');
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// links
+// --------------------------------------------------
+
+a,
+a.link {
+  color: $link-color;
+  transition: $global-transition-fast;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+  }
+}
+
+// --------------------------------------------------
+// colors
+// --------------------------------------------------
+
+@include link-colors();

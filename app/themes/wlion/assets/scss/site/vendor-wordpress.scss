@@ -1,0 +1,32 @@
+// --------------------------------------------------
+// admin bar
+// --------------------------------------------------
+
+#wpadminbar {
+  position: fixed !important;
+}
+
+// --------------------------------------------------
+// image captions
+// --------------------------------------------------
+
+.wp-caption {
+  position: relative;
+  width: auto !important;
+  margin-bottom: $type-margin-base;
+
+  p {
+    display: none;
+  }
+
+  img {
+    width: 100% !important;
+  }
+
+  .wp-caption-text {
+    display: block;
+    margin: $type-margin-base/2 0 0;
+    line-height: $line-height-headings;
+    color: color('gray');
+  }
+}

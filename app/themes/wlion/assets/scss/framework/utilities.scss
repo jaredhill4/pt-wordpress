@@ -1,0 +1,896 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$utilities-border-sizes: (0, 1, 2, 3, 4, 5);
+$utilities-margin-sizes: (auto, 0, 5, 10, 15, 20, 30);
+$utilities-padding-sizes: (0, 5, 10, 15, 20, 30);
+$utilities-width-sizes: (auto, 25, 33, 50, 66, 75, 100);
+$utilities-height-sizes: (auto, 25, 33, 50, 66, 75, 100);
+$utilities-display: (
+  none,
+  inline,
+  block,
+  inline-block,
+  table,
+  table-row,
+  table-cell,
+  flex,
+  inline-flex
+);
+$utilities-overflow: (visible, hidden, scroll, auto);
+$utilities-text-align: (left, right, center, justify);
+$utilities-font-sizes: (
+  'xs': $font-size-xs,
+  'sm': $font-size-sm,
+  'md': $font-size-md,
+  'lg': $font-size-lg,
+  'xl': $font-size-xl
+);
+$utilities-font-weights: (
+  'thin': $font-weight-thin,
+  'extra-light': $font-weight-extra-light,
+  'light': $font-weight-light,
+  'normal': $font-weight-normal,
+  'medium': $font-weight-medium,
+  'semi-bold': $font-weight-semi-bold,
+  'bold': $font-weight-bold,
+  'extra-bold': $font-weight-extra-bold,
+  'black': $font-weight-black
+);
+$utilities-font-families: (
+  'sans-serif': $font-family-sans-serif,
+  'serif': $font-family-serif,
+  'monospace': $font-family-monospace
+);
+$utilities-font-style: (normal, italic, oblique);
+$utilities-vertical-align: (
+  baseline,
+  sub,
+  super,
+  top,
+  text-top,
+  middle,
+  bottom,
+  text-bottom
+);
+$utilities-text-transform: (uppercase, lowercase, capitalize);
+$utilities-float: (left, right, none);
+$utilities-aspect-ratios: ((21, 9), (16, 9), (4, 3), (1, 1));
+$utilities-sides: (top, right, bottom, left);
+$utilities-flex-wrap: (nowrap, wrap, wrap-reverse);
+$utilities-flex-direction: (row, row-reverse, column, column-reverse);
+$utilities-justify-content: (
+  center,
+  flex-start,
+  flex-end,
+  space-between,
+  space-around,
+  space-evenly
+);
+$utilities-justify-items: (
+  auto,
+  center,
+  flex-start,
+  flex-end,
+  self-start,
+  self-end,
+  baseline,
+  stretch
+);
+$utilities-justify-self: (
+  auto,
+  center,
+  flex-start,
+  flex-end,
+  baseline,
+  stretch
+);
+$utilities-align-content: (
+  center,
+  flex-start,
+  flex-end,
+  space-between,
+  space-around
+);
+$utilities-align-items: (flex-start, flex-end, center, stretch, baseline);
+$utilities-align-self: (auto, center, flex-start, flex-end, baseline, stretch);
+$utilities-flex-grow: (0, 1);
+$utilities-flex-shrink: (0, 1);
+$utilities-order: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+// color
+@mixin u--color($colors: $colors) {
+  $selector: '.u--color';
+
+  @each $key, $color in $colors {
+    $color-base: map-get($color, 'base');
+    $color-hover: map-get($color, 'hover');
+
+    '#{$selector}-#{$key}' {
+      color: $color-base !important;
+    }
+
+    'a#{$selector}-#{$key}:hover' {
+      color: $color-hover !important;
+    }
+  }
+}
+
+// background color
+@mixin u--background-color($colors: $colors) {
+  $selector: '.u--background-color';
+
+  @each $key, $color in $colors {
+    $color-base: map-get($color, 'base');
+
+    '#{$selector}-#{$key}' {
+      background-color: $color-base !important;
+    }
+  }
+}
+
+// border color
+@mixin u--border-color($colors: $colors, $sides: $utilities-sides) {
+  $selector: '.u--border-color';
+
+  @each $key, $color in $colors {
+    $color-base: map-get($color, 'base');
+
+    '#{$selector}-#{$key}' {
+      border-color: $color-base !important;
+    }
+
+    @each $side in $sides {
+      '#{$selector}-#{$side}-#{$key}' {
+        border-#{$side}-color: $color-base !important;
+      }
+    }
+  }
+}
+
+// border width
+@mixin u--border-width(
+  $sizes: $utilities-border-sizes,
+  $sides: $utilities-sides
+) {
+  $selector: '.u--border-width';
+
+  @each $size in $sizes {
+    '#{$selector}-#{$size}' {
+      border-width: #{$size}px !important;
+    }
+
+    @each $side in $sides {
+      '#{$selector}-#{$side}-#{$size}' {
+        border-#{$side}-width: #{$size}px !important;
+      }
+    }
+  }
+}
+
+// margin
+@mixin u--margin($sizes: $utilities-margin-sizes, $sides: $utilities-sides) {
+  $selector: '.u--margin';
+
+  @each $size in $sizes {
+    $margin: $size;
+
+    @if ($size != auto) {
+      $margin: rem($size);
+    }
+
+    '#{$selector}-#{$size}' {
+      margin: $margin !important;
+    }
+
+    @each $side in $sides {
+      '#{$selector}-#{$side}-#{$size}' {
+        margin-#{$side}: $margin !important;
+      }
+    }
+  }
+
+  @each $size in $sizes {
+    $margin: $size;
+
+    @if ($size != auto) {
+      $margin: rem($size);
+    }
+
+    @include apply-breakpoint-postfixes('#{$selector}-#{$size}', true) {
+      margin: $margin !important;
+    }
+
+    @each $side in $sides {
+      @include apply-breakpoint-postfixes(
+        '#{$selector}-#{$side}-#{$size}',
+        true
+      ) {
+        margin-#{$side}: $margin !important;
+      }
+    }
+  }
+}
+
+// padding
+@mixin u--padding($sizes: $utilities-padding-sizes, $sides: $utilities-sides) {
+  $selector: '.u--padding';
+
+  @each $size in $sizes {
+    '#{$selector}-#{$size}' {
+      padding: rem($size) !important;
+    }
+
+    @each $side in $sides {
+      '#{$selector}-#{$side}-#{$size}' {
+        padding-#{$side}: rem($size) !important;
+      }
+    }
+  }
+
+  @each $size in $sizes {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$size}', true) {
+      padding: rem($size) !important;
+    }
+
+    @each $side in $sides {
+      @include apply-breakpoint-postfixes(
+        '#{$selector}-#{$side}-#{$size}',
+        true
+      ) {
+        padding-#{$side}: rem($size) !important;
+      }
+    }
+  }
+}
+
+@mixin u--width($sizes: $utilities-width-sizes) {
+  $selector: '.u--width';
+
+  @each $size in $sizes {
+    $width: $size;
+
+    @if ($size != auto) {
+      $width: percentage($size) / 100;
+    }
+
+    '#{$selector}-#{$size}' {
+      width: $width !important;
+    }
+  }
+
+  @each $size in $sizes {
+    $width: $size;
+
+    @if ($size != auto) {
+      $width: percentage($size) / 100;
+    }
+
+    @include apply-breakpoint-postfixes('#{$selector}-#{$size}', true) {
+      width: $width !important;
+    }
+  }
+}
+
+@mixin u--height($sizes: $utilities-height-sizes) {
+  $selector: '.u--height';
+
+  @each $size in $sizes {
+    $height: $size;
+
+    @if ($size != auto) {
+      $height: percentage($size) / 100;
+    }
+
+    '#{$selector}-#{$size}' {
+      height: $height !important;
+    }
+  }
+
+  @each $size in $sizes {
+    $height: $size;
+
+    @if ($size != auto) {
+      $height: percentage($size) / 100;
+    }
+
+    @include apply-breakpoint-postfixes('#{$selector}-#{$size}', true) {
+      height: $height !important;
+    }
+  }
+}
+
+// font weight
+@mixin u--font-size($options: $utilities-font-sizes) {
+  $selector: '.u--font-size';
+
+  @each $key, $value in $options {
+    '#{$selector}-#{$key}' {
+      font-size: $value !important;
+    }
+  }
+}
+
+// font weight
+@mixin u--font-weight($options: $utilities-font-weights) {
+  $selector: '.u--font-weight';
+
+  @each $key, $value in $options {
+    '#{$selector}-#{$key}' {
+      font-weight: $value !important;
+    }
+  }
+}
+
+// font weight
+@mixin u--font-family($options: $utilities-font-families) {
+  $selector: '.u--font-family';
+
+  @each $key, $value in $options {
+    '#{$selector}-#{$key}' {
+      font-family: $value !important;
+    }
+  }
+}
+
+// font style
+@mixin u--font-style($options: $utilities-font-style) {
+  $selector: '.u--font-style';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      font-style: $option !important;
+    }
+  }
+}
+
+// text alignment
+@mixin u--text-align($options: $utilities-text-align) {
+  $selector: '.u--text-align';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      text-align: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      text-align: $option !important;
+    }
+  }
+}
+
+// text transform
+@mixin u--text-transform($options: $utilities-text-transform) {
+  $selector: '.u--text-transform';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      text-transform: $option !important;
+    }
+  }
+}
+
+// vertical alignment
+@mixin u--vertical-align($options: $utilities-vertical-align) {
+  $selector: '.u--vertical-align';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      vertical-align: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      vertical-align: $option !important;
+    }
+  }
+}
+
+// float
+@mixin u--float($options: $utilities-float) {
+  $selector: '.u--float';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      float: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      float: $option !important;
+    }
+  }
+}
+
+// responsive embed
+@mixin u--embed-responsive($aspect-ratios: $utilities-aspect-ratios) {
+  $selector: '.u--embed-responsive';
+
+  #{$selector} {
+    position: relative;
+    display: block;
+    padding-bottom: ((9 * 100) / 16) * 1%;
+
+    iframe,
+    video,
+    embed,
+    object {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none !important;
+    }
+  }
+
+  @each $aspect-ratio in $aspect-ratios {
+    '#{$selector}--#{nth($aspect-ratio, 1)}x#{nth($aspect-ratio, 2)}' {
+      padding-bottom: ((nth($aspect-ratio, 2) * 100) / nth($aspect-ratio, 1)) *
+        1%;
+    }
+  }
+}
+
+// display
+@mixin u--display($options: $utilities-display) {
+  $selector: '.u--display';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      display: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      display: $option !important;
+    }
+  }
+}
+
+// overflow
+@mixin u--overflow($options: $utilities-overflow) {
+  $selector: '.u--overflow';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      overflow: $option !important;
+    }
+    '#{$selector}-x-#{$option}' {
+      overflow-x: $option !important;
+    }
+    '#{$selector}-y-#{$option}' {
+      overflow-y: $option !important;
+    }
+  }
+}
+
+// hidden
+@mixin u--hidden() {
+  $selector: '.u--hidden';
+
+  @include apply-breakpoint-postfixes('#{$selector}', true, true) {
+    display: none !important;
+  }
+}
+
+// flex wrap
+@mixin u--flex-wrap($options: $utilities-flex-wrap) {
+  $selector: '.u--flex-wrap';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      flex-wrap: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      flex-wrap: $option !important;
+    }
+  }
+}
+
+// flex direction
+@mixin u--flex-direction($options: $utilities-flex-direction) {
+  $selector: '.u--flex-direction';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      flex-direction: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      flex-direction: $option !important;
+    }
+  }
+}
+
+// justify content
+@mixin u--justify-content($options: $utilities-justify-content) {
+  $selector: '.u--justify-content';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      justify-content: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      justify-content: $option !important;
+    }
+  }
+}
+
+// justify items
+@mixin u--justify-items($options: $utilities-justify-items) {
+  $selector: '.u--justify-items';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      justify-items: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      justify-items: $option !important;
+    }
+  }
+}
+
+// justify self
+@mixin u--justify-self($options: $utilities-justify-self) {
+  $selector: '.u--justify-self';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      justify-self: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      justify-self: $option !important;
+    }
+  }
+}
+
+// align content
+@mixin u--align-content($options: $utilities-align-content) {
+  $selector: '.u--align-content';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      align-content: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      align-content: $option !important;
+    }
+  }
+}
+
+// align items
+@mixin u--align-items($options: $utilities-align-items) {
+  $selector: '.u--align-items';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      align-items: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      align-items: $option !important;
+    }
+  }
+}
+
+// align self
+@mixin u--align-self($options: $utilities-align-self) {
+  $selector: '.u--align-self';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      align-self: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      align-self: $option !important;
+    }
+  }
+}
+
+// flex grow
+@mixin u--flex-grow($options: $utilities-flex-grow) {
+  $selector: '.u--flex-grow';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      flex-grow: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      flex-grow: $option !important;
+    }
+  }
+}
+
+// flex shrink
+@mixin u--flex-shrink($options: $utilities-flex-shrink) {
+  $selector: '.u--flex-shrink';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      flex-shrink: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      flex-shrink: $option !important;
+    }
+  }
+}
+
+// order
+@mixin u--order($options: $utilities-order) {
+  $selector: '.u--order';
+
+  @each $option in $options {
+    '#{$selector}-#{$option}' {
+      order: $option !important;
+    }
+  }
+
+  @each $option in $options {
+    @include apply-breakpoint-postfixes('#{$selector}-#{$option}', true) {
+      order: $option !important;
+    }
+  }
+}
+
+// --------------------------------------------------
+// clear fix
+// --------------------------------------------------
+
+.u--clearfix {
+  @extend %clearfix;
+}
+
+// --------------------------------------------------
+// truncate
+// --------------------------------------------------
+
+.u--truncate {
+  @extend %truncate;
+}
+
+// --------------------------------------------------
+// squashing
+// --------------------------------------------------
+
+.u--squash {
+  @extend %squash-start;
+  @extend %squash-end;
+}
+
+.u--squash-start {
+  @extend %squash-start;
+}
+
+.u--squash-end {
+  @extend %squash-end;
+}
+
+// --------------------------------------------------
+// text color
+// --------------------------------------------------
+
+@include u--color();
+
+// --------------------------------------------------
+// background color
+// --------------------------------------------------
+
+@include u--background-color();
+
+// --------------------------------------------------
+// borders
+// --------------------------------------------------
+
+// border
+.u--border {
+  border: $global-border;
+}
+
+// border color
+@include u--border-color();
+
+// border width
+@include u--border-width();
+
+// --------------------------------------------------
+// margins
+// --------------------------------------------------
+
+@include u--margin();
+
+// --------------------------------------------------
+// padding
+// --------------------------------------------------
+
+@include u--padding();
+
+// --------------------------------------------------
+// width
+// --------------------------------------------------
+
+@include u--width();
+
+// --------------------------------------------------
+// height
+// --------------------------------------------------
+
+@include u--height();
+
+// --------------------------------------------------
+// font size
+// --------------------------------------------------
+
+@include u--font-size();
+
+// --------------------------------------------------
+// font weight
+// --------------------------------------------------
+
+@include u--font-weight();
+
+// --------------------------------------------------
+// font family
+// --------------------------------------------------
+
+@include u--font-family();
+
+// --------------------------------------------------
+// font style
+// --------------------------------------------------
+
+@include u--font-style();
+
+// --------------------------------------------------
+// text alignment
+// --------------------------------------------------
+
+@include u--text-align();
+
+// --------------------------------------------------
+// vertical alignment
+// --------------------------------------------------
+
+@include u--vertical-align();
+
+// --------------------------------------------------
+// text transform
+// --------------------------------------------------
+
+@include u--text-transform();
+
+// --------------------------------------------------
+// floats
+// --------------------------------------------------
+
+@include u--float();
+
+// --------------------------------------------------
+// responsive embeds
+// --------------------------------------------------
+
+@include u--embed-responsive();
+
+// --------------------------------------------------
+// display
+// --------------------------------------------------
+
+@include u--display();
+
+// --------------------------------------------------
+// hidden
+// --------------------------------------------------
+
+@include u--hidden();
+
+// --------------------------------------------------
+// screen reader
+// --------------------------------------------------
+
+.u--visible-sr {
+  @extend %visible-sr;
+}
+
+// --------------------------------------------------
+// flex wrap
+// --------------------------------------------------
+
+@include u--flex-wrap();
+
+// --------------------------------------------------
+// flex direction
+// --------------------------------------------------
+
+@include u--flex-direction();
+
+// --------------------------------------------------
+// justify content
+// --------------------------------------------------
+
+@include u--justify-content();
+
+// --------------------------------------------------
+// justify items
+// --------------------------------------------------
+
+@include u--justify-items();
+
+// --------------------------------------------------
+// justify self
+// --------------------------------------------------
+
+@include u--justify-self();
+
+// --------------------------------------------------
+// align content
+// --------------------------------------------------
+
+@include u--align-content();
+
+// --------------------------------------------------
+// align items
+// --------------------------------------------------
+
+@include u--align-items();
+
+// --------------------------------------------------
+// align self
+// --------------------------------------------------
+
+@include u--align-self();
+
+// --------------------------------------------------
+// flex grow
+// --------------------------------------------------
+
+@include u--flex-grow();
+
+// --------------------------------------------------
+// flex shrink
+// --------------------------------------------------
+
+@include u--flex-shrink();
+
+// --------------------------------------------------
+// order
+// --------------------------------------------------
+
+@include u--order();

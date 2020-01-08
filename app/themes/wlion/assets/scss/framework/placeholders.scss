@@ -1,0 +1,134 @@
+/*
+ * Placeholders help to make `@extend` generate more efficient output by
+ * bundling only the selectors that extend them.
+ *
+ * Defining a placeholder: `%my-placeholder { ... }`
+ * Using a placeholder: `@extend %my-placeholder;`
+ *
+ * Documentation: http://thesassway.com/intermediate/understanding-placeholder-selectors
+ */
+
+// --------------------------------------------------
+// clearfix
+// --------------------------------------------------
+
+%clearfix {
+  zoom: 1;
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+// --------------------------------------------------
+// truncate
+// --------------------------------------------------
+
+%truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+// --------------------------------------------------
+// squash
+// --------------------------------------------------
+
+%squash-start {
+  > :first-child {
+    margin-top: 0 !important;
+
+    > :first-child {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+%squash-end {
+  > :last-child {
+    margin-bottom: 0 !important;
+
+    > :last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+// --------------------------------------------------
+// close
+// --------------------------------------------------
+
+%close {
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  opacity: 0.3;
+  padding: 0;
+  z-index: 5;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 14px;
+    height: 2px;
+    top: 50%;
+    margin-top: -(2px / 2);
+    background: color('black');
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+// --------------------------------------------------
+// print visibility
+// --------------------------------------------------
+
+%hidden-print {
+  @media #{$mq-pr} {
+    display: none !important;
+  }
+}
+
+%visible-print {
+  @media #{$mq-pr} {
+    display: none !important;
+  }
+}
+
+// --------------------------------------------------
+// screen reader visibility
+// --------------------------------------------------
+
+%visible-sr {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

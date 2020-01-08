@@ -1,0 +1,97 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$tooltip-background: color('black');
+$tooltip-border-radius: $global-border-radius;
+$tooltip-box-shadow: none;
+$tooltip-color: color('white');
+$tooltip-font-size: 0.9rem;
+$tooltip-line-height: 1.15;
+$tooltip-max-width: 200px;
+$tooltip-opacity: 0.9;
+$tooltip-padding-x: 0.5em;
+$tooltip-padding-y: 0.3em;
+$tooltip-transition: opacity 0.25s ease;
+$tooltip-z-index: 1070;
+
+// --------------------------------------------------
+// tooltips
+// --------------------------------------------------
+
+// Base class
+.tooltip {
+  background-color: $tooltip-background;
+  border-radius: $tooltip-border-radius;
+  box-shadow: $tooltip-box-shadow;
+  color: $tooltip-color;
+  display: block;
+  font-size: $tooltip-font-size;
+  line-height: $tooltip-line-height;
+  max-width: $tooltip-max-width;
+  opacity: 0;
+  padding: $tooltip-padding-y $tooltip-padding-x;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  transition: $tooltip-transition;
+  word-wrap: break-word;
+  z-index: $tooltip-z-index;
+
+  &::after {
+    border: 5px solid transparent;
+    content: ' ';
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+  }
+
+  &[x-placement^='bottom'] {
+    margin-top: 5px;
+
+    &::after {
+      border-bottom-color: $tooltip-background;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+    }
+  }
+
+  &[x-placement^='left'] {
+    margin-right: 5px;
+
+    &::after {
+      border-left-color: $tooltip-background;
+      left: 100%;
+      margin-top: -5px;
+      top: 50%;
+    }
+  }
+
+  &[x-placement^='right'] {
+    margin-left: 5px;
+
+    &::after {
+      border-right-color: $tooltip-background;
+      margin-top: -5px;
+      right: 100%;
+      top: 50%;
+    }
+  }
+
+  &[x-placement^='top'] {
+    margin-bottom: 5px;
+
+    &::after {
+      border-top-color: $tooltip-background;
+      left: 50%;
+      margin-left: -5px;
+      top: 100%;
+    }
+  }
+}
+
+.tooltip--visible {
+  opacity: $tooltip-opacity;
+}

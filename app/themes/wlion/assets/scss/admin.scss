@@ -1,0 +1,89 @@
+// --------------------------------------------------
+// includes
+// --------------------------------------------------
+
+@import './site/variables.scss';
+@import './framework/colors.scss';
+@import './framework/variables.scss';
+
+// --------------------------------------------------
+// login form logo
+// --------------------------------------------------
+
+body.login div#login h1 a {
+  background-image: url(#{$images-path}/logo-theme.png);
+  background-size: 285px auto;
+  background-position: 20px 0;
+  padding-bottom: 15px;
+  width: 100%;
+  height: 60px;
+  box-shadow: none;
+}
+
+// --------------------------------------------------
+// login form recaptcha
+// --------------------------------------------------
+
+#loginform .g-recaptcha {
+  margin-bottom: 20px;
+}
+
+// --------------------------------------------------
+// dashboard styles
+// --------------------------------------------------
+
+.wlion-dashboard-widget {
+  h3 {
+    padding: 10px 0;
+  }
+  code {
+    display: block;
+    white-space: nowrap;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px 0;
+  }
+  table {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 0;
+    border-spacing: 0;
+
+    thead,
+    tbody {
+      padding: 0;
+      margin: 0;
+    }
+    tbody {
+      tr:last-child {
+        td {
+          border-bottom: none;
+        }
+      }
+    }
+    tr {
+      padding: 0;
+
+      td,
+      th {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        text-align: center;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// tiny mce menu
+// --------------------------------------------------
+
+.mce-menu-sub .mce-menu-item .mce-text {
+  font-size: 14px !important;
+}

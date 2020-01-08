@@ -1,0 +1,49 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.accordion {
+  display: block;
+  margin: 0;
+
+  dd {
+    margin: 0;
+  }
+}
+
+// --------------------------------------------------
+// header
+// --------------------------------------------------
+
+.accordion__header {
+  display: block;
+  margin-top: rem(12);
+  padding: $type-margin-base * 0.8 $type-margin-base;
+  border: solid $global-border-width $global-border-color;
+  border-radius: $global-border-radius;
+  cursor: pointer;
+
+  &:hover {
+    color: color('primary');
+  }
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &.toggle__switch--on {
+    border-radius: $global-border-radius $global-border-radius 0 0;
+  }
+}
+
+// --------------------------------------------------
+// content
+// --------------------------------------------------
+
+.accordion__content {
+  margin: 0;
+  padding: $type-margin-base;
+  border: solid $global-border-width $global-border-color;
+  border-top: none;
+  border-radius: 0 0 $global-border-radius $global-border-radius;
+}

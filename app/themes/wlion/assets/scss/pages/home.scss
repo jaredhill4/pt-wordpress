@@ -1,0 +1,28 @@
+/**
+ * Home CSS
+ */
+
+// Includes
+@import './framework/variables';
+
+.home-service-icon {
+  display: inline-block;
+  font-size: 80px;
+  height: 150px;
+  width: 150px;
+  line-height: 150px;
+  color: #fff;
+  background-color: color('primary');
+  border-radius: 100%;
+  text-align: center;
+  transition: $global-transition-fast;
+
+  &:hover {
+    color: #fff;
+    background-color: darken(color('primary'), 20%);
+  }
+}
+
+.home-testimonial {
+  padding: 0 80px;
+}

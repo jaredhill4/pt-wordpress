@@ -1,0 +1,63 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$card-padding: $type-margin-base;
+
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0%;
+  height: 100%;
+  background-color: color('white');
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: $global-border-radius;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+// --------------------------------------------------
+// content
+// --------------------------------------------------
+
+.card__header,
+.card__body,
+.card__footer {
+  @extend %squash-start;
+  @extend %squash-end;
+
+  & + & {
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.card__header,
+.card__footer {
+  padding: $card-padding * 0.75 $card-padding;
+}
+
+.card__body {
+  padding: $card-padding;
+  flex: 1 1 auto;
+
+  > * {
+    margin-bottom: 0;
+  }
+
+  > * + * {
+    margin-top: $type-margin-base/2;
+  }
+}
+
+// --------------------------------------------------
+// media
+// --------------------------------------------------
+
+.card__media {
+  display: block;
+  width: 100%;
+}

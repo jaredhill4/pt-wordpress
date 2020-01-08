@@ -1,0 +1,548 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$form-input-color: color('black');
+$form-input-background-color: color('white');
+$form-input-border-color: $global-border-color;
+$form-input-border-radius: $global-border-radius;
+$form-input-border-width: $global-border-width;
+$form-input-font-size: 1rem;
+$form-input-font-weight: 400;
+$form-input-line-height: 1.25;
+$form-input-padding-x: 0.75em;
+$form-input-padding-y: 0.5em;
+$form-input-transition: $global-transition-fast;
+
+$form-input-focus-border-color: color('primary');
+$form-input-focus-color: $form-input-color;
+
+$form-input-placeholder-color: rgba($form-input-color, 0.35);
+
+$form-input-disabled-background-color: color('gray-lighter');
+
+$form-input-group-color: $form-input-color;
+$form-input-group-background-color: $form-input-border-color;
+
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin form__field--validation($name, $color) {
+  .form__field--#{$name} {
+    color: $color;
+
+    .form__input,
+    .form__select > select {
+      border-color: $color;
+
+      &:focus {
+        @include focus($color);
+      }
+    }
+
+    .form__checkbox,
+    .form__radio {
+      input[type='checkbox'],
+      input[type='radio'] {
+        &:focus {
+          @include focus($color);
+          border-color: $color;
+        }
+
+        &:checked {
+          border-color: $color;
+        }
+      }
+    }
+
+    .form__checkbox {
+      input[type='checkbox'] {
+        &:checked {
+          background-color: $color;
+        }
+      }
+    }
+
+    .form__radio {
+      input[type='radio'] {
+        &::before {
+          background: $color;
+        }
+
+        &:checked {
+          border-color: $color;
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// form
+// --------------------------------------------------
+
+.form {
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+  font-weight: $font-weight-bold;
+  margin-top: $type-margin-base * 1.5;
+  margin-bottom: $type-margin-base;
+}
+
+.form__field {
+  margin-bottom: 1rem;
+}
+
+.form__label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  touch-action: manipulation;
+}
+
+// --------------------------------------------------
+// input
+// --------------------------------------------------
+
+.form__input,
+.form__select > select {
+  background-color: $form-input-background-color;
+  background-clip: padding-box;
+  background-image: none;
+  border-color: $form-input-border-color;
+  border-radius: $form-input-border-radius;
+  border-style: solid;
+  border-width: $form-input-border-width;
+  color: $form-input-color;
+  display: block;
+  font-size: $font-size-md;
+  font-weight: $font-weight-normal;
+  line-height: 1.25;
+  padding: $form-input-padding-y $form-input-padding-x;
+  transition: $global-transition-fast;
+  width: 100%;
+
+  &:focus {
+    @include focus;
+    border-color: $form-input-focus-border-color;
+    color: $form-input-focus-color;
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: $form-input-placeholder-color;
+    opacity: 1;
+  }
+
+  &:disabled,
+  &[readonly] {
+    background-color: $form-input-disabled-background-color;
+    opacity: 1;
+  }
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+// --------------------------------------------------
+// select
+// --------------------------------------------------
+
+.form__select > select {
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.form__select:not(.form__select--multiple) {
+  font-size: $form-input-font-size;
+  position: relative;
+
+  &::after {
+    border: 1px solid $form-input-color;
+    border-right: 0;
+    border-top: 0;
+    content: ' ';
+    display: block;
+    height: 0.5em;
+    pointer-events: none;
+    position: absolute;
+    transform: rotate(-45deg);
+    width: 0.5em;
+    margin-top: -0.375em;
+    right: $form-input-padding-x + 0.125em;
+    top: 50%;
+    z-index: 2;
+  }
+
+  > select {
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    padding-right: ($form-input-padding-x * 2) + 0.625em;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}
+
+// --------------------------------------------------
+// checkbox and radio
+// --------------------------------------------------
+
+.form__checkbox,
+.form__radio {
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.25;
+  padding-left: 30px;
+  position: relative;
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    appearance: none;
+    background-color: $form-input-background-color;
+    border-color: $form-input-border-color;
+    border-style: solid;
+    border-width: $form-input-border-width;
+    cursor: pointer;
+    height: 20px;
+    left: 0;
+    margin-left: 0;
+    margin-top: -10px;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    transition: $global-transition-fast;
+    width: 20px;
+
+    &:focus {
+      @include focus;
+      border-color: $form-input-focus-border-color;
+      outline: 0;
+    }
+
+    &:checked {
+      border-color: $form-input-focus-border-color;
+    }
+  }
+}
+
+.form__checkbox {
+  input[type='checkbox'] {
+    border-radius: $form-input-border-radius;
+
+    &::after {
+      display: block;
+      border-bottom: 2px solid color('white');
+      border-right: 2px solid color('white');
+      content: ' ';
+      left: 6px;
+      height: 13px;
+      opacity: 0;
+      position: absolute;
+      top: 1px;
+      transform: rotate(40deg) scale(0.5, 0.5);
+      transition: $global-transition-fast;
+      width: 6px;
+      z-index: 2;
+    }
+
+    &:checked {
+      background-color: $form-input-focus-border-color;
+
+      &::after {
+        opacity: 1;
+        transform: rotate(40deg) scale(1);
+      }
+    }
+  }
+
+  + .form__checkbox {
+    margin-left: 1.5em;
+  }
+}
+
+.form__radio {
+  input[type='radio'] {
+    border-radius: 50%;
+
+    &::before {
+      background: color('primary');
+      border-radius: 50%;
+      content: ' ';
+      display: block;
+      height: 12px;
+      left: 3px;
+      opacity: 0;
+      position: absolute;
+      top: 3px;
+      transform: scale(0.5, 0.5);
+      transition: $global-transition-fast;
+      width: 12px;
+      z-index: 1;
+    }
+
+    &:checked {
+      border-color: $form-input-focus-border-color;
+
+      &::before {
+        opacity: 1;
+        transform: scale(1, 1);
+      }
+    }
+  }
+
+  + .form__radio {
+    margin-left: 1.5em;
+  }
+}
+
+.form__checkbox--disabled,
+.form__radio--disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.form__checkbox--disabled input[type='checkbox'] {
+  cursor: default;
+}
+.form__radio--disabled input[type='radio'] {
+  cursor: default;
+}
+
+// --------------------------------------------------
+// help text
+// --------------------------------------------------
+
+.form__help {
+  display: block;
+  margin-top: 0.25rem;
+
+  .form__checkbox + & .form__radio + & {
+    padding-left: 30px;
+  }
+}
+
+// --------------------------------------------------
+// submit
+// --------------------------------------------------
+
+.form__submit {
+  display: block;
+  position: relative;
+}
+
+// --------------------------------------------------
+// styles
+// --------------------------------------------------
+
+.form__input--round,
+.form__select--round:not(.form__select--multiple) > select {
+  border-radius: 4rem;
+}
+
+// --------------------------------------------------
+// sizes
+// --------------------------------------------------
+
+.form__input--xs,
+.form__checkbox--xs,
+.form__radio--xs,
+.form__select--xs,
+.form__select--xs > select,
+.form__input-group--xs .form__select > select,
+.form__input-group--xs .form__input {
+  font-size: $font-size-xs;
+}
+
+.form__input--sm,
+.form__checkbox--sm,
+.form__radio--sm,
+.form__select--sm,
+.form__select--sm > select,
+.form__input-group--sm .form__select > select,
+.form__input-group--sm .form__input {
+  font-size: $font-size-sm;
+}
+
+/* md is default
+.form__input--md,
+.form__checkbox--md,
+.form__radio--md,
+.form__select--md,
+.form__select--md > select,
+.form__input-group--md .form__select > select,
+.form__input-group--md .form__input {
+} */
+
+.form__input--lg,
+.form__checkbox--lg,
+.form__radio--lg,
+.form__select--lg,
+.form__select--lg > select,
+.form__input-group--lg .form__select > select,
+.form__input-group--lg .form__input {
+  font-size: $font-size-lg;
+}
+
+.form__input--xl,
+.form__checkbox--xl,
+.form__radio--xl,
+.form__select--xl,
+.form__select--xl > select,
+.form__input-group--xl .form__select > select,
+.form__input-group--xl .form__input {
+  font-size: $font-size-xl;
+}
+
+// --------------------------------------------------
+// input group
+// --------------------------------------------------
+
+.form__input-group {
+  align-items: stretch;
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.form__input-group > .form__select,
+.form__input-group > .form__input {
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  position: relative;
+  width: 1%;
+  z-index: 2;
+
+  &:focus {
+    z-index: 3;
+  }
+
+  & + .form__select > select,
+  & + .form__input {
+    border-left-width: 0;
+  }
+}
+
+.form__input-group-addon,
+.form__input-group-btn,
+.form__input-group > .form__input {
+  align-items: center;
+  display: flex;
+
+  &:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+}
+.form__input-group > .form__select {
+  align-items: center;
+  display: flex;
+
+  &:not(:first-child):not(:last-child) > select {
+    border-radius: 0;
+  }
+}
+
+// Input group addons
+.form__input-group-addon {
+  background-color: $form-input-group-background-color;
+  border: $form-input-border-width solid $form-input-border-color;
+  border-radius: $form-input-border-radius;
+  color: $form-input-group-color;
+  font-size: $form-input-font-size;
+  font-weight: $form-input-font-weight;
+  line-height: $form-input-line-height;
+  margin-bottom: 0;
+  padding: $form-input-padding-y $form-input-padding-x;
+  text-align: center;
+  white-space: nowrap;
+}
+
+// Input group addon sizes
+.form__input-group-addon--xs,
+.form__input-group--xs .form__input-group-addon {
+  font-size: $font-size-xs;
+}
+.form__input-group-addon--sm,
+.form__input-group--sm .form__input-group-addon {
+  font-size: $font-size-sm;
+}
+/* md is default
+.form__input-group-addon--md,
+.form__input-group--md .form__input-group-addon {
+} */
+.form__input-group-addon--lg,
+.form__input-group--lg .form__input-group-addon {
+  font-size: $font-size-lg;
+}
+.form__input-group-addon--xl,
+.form__input-group--xl .form__input-group-addon {
+  font-size: $font-size-xl;
+}
+
+// Input group buttons
+.form__input-group > .btn {
+  align-items: stretch;
+  position: relative;
+  white-space: nowrap;
+
+  &:focus,
+  &:hover {
+    z-index: 3;
+  }
+
+  &:not(:last-child) {
+    margin-right: (-$form-input-border-width);
+  }
+
+  &:not(:first-child) {
+    z-index: 2;
+    margin-left: 0;
+
+    &:focus,
+    &:hover {
+      z-index: 3;
+    }
+  }
+}
+
+// Reset border radius
+.form__input-group > .form__select:not(:last-child) > select,
+.form__input-group > .form__input:not(:last-child),
+.form__input-group-addon:not(:last-child),
+.form__input-group > .btn:not(:last-child) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.form__input-group-addon:not(:last-child) {
+  border-right: 0;
+}
+.form__input-group .form__select:not(:first-child) > select,
+.form__input-group .form__input:not(:first-child),
+.form__input-group-addon:not(:first-child),
+.form__input-group > .btn:not(:first-child) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.form__input + .form__input-group-addon:not(:first-child) {
+  border-left: 0;
+}
+
+// --------------------------------------------------
+// validation
+// --------------------------------------------------
+
+@include form__field--validation('success', color('green'));
+@include form__field--validation('error', color('red'));
+@include form__field--validation('warning', color('yellow'));
+@include form__field--validation('info', color('blue'));

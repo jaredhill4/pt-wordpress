@@ -1,0 +1,295 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$code-background-color: #263238;
+
+$code-font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco,
+  Consolas, monospace;
+$code-font-size: 14px;
+$code-line-height: 32px;
+
+$code-max-height: 390px;
+
+$code-line-highlight-background-color: #1e292d;
+
+$code-syntax-colors: (
+  'pln': #e6e9ed,
+  'str': #ffcb6b,
+  'kwd': #ac92ec,
+  'com': #506e7a,
+  'typ': #ac92ec,
+  'lit': #f3886c,
+  'pun': #aae1f4,
+  'opn': #e6e9ed,
+  'clo': #e6e9ed,
+  'tag': #f3886c,
+  'atn': #ffcb6b,
+  'atv': #c3e889,
+  'dec': #4fc1e9,
+  'var': #e6e9ed,
+  'fun': #e6e9ed
+);
+
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin code-syntax-colors($colors: $code-syntax-colors) {
+  @each $key, $value in $colors {
+    .code .#{$key} {
+      color: $value;
+    }
+  }
+}
+
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.code {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+// --------------------------------------------------
+// pre
+// --------------------------------------------------
+
+.code__pre {
+  position: relative;
+  background: $code-background-color;
+  font-family: $code-font-family;
+  border: 0 !important;
+  border-radius: 0;
+  font-size: $code-font-size;
+  line-height: $code-line-height;
+  margin: 0;
+  padding: 0;
+
+  &[data-code-language] {
+    &::before {
+      z-index: 3;
+      position: relative;
+      display: block;
+      background: lighten($code-background-color, 10%);
+      color: lighten($code-background-color, 60%);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      height: 44px;
+      line-height: 44px;
+      padding: 0 15px;
+      content: attr(data-code-language);
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      transition: $global-transition-fast;
+    }
+
+    &:hover {
+      &::before {
+        color: $color-white;
+        background: lighten($code-background-color, 20%);
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// code
+// --------------------------------------------------
+
+.code__code {
+  position: relative;
+  display: block;
+  max-height: $code-max-height;
+  overflow-y: auto;
+  white-space: pre;
+}
+
+// --------------------------------------------------
+// lines
+// --------------------------------------------------
+
+ol.code__lines {
+  z-index: 2;
+  position: relative;
+  margin: 0;
+  padding: 10px 0;
+  color: #656d78;
+  list-style: none !important;
+  counter-reset: lines-counter;
+  overflow-x: auto;
+
+  & > li {
+    position: relative;
+    padding: 0;
+    counter-increment: lines-counter;
+    background: rgba(0, 0, 0, 0);
+    transition: $global-transition-fast;
+
+    span {
+      display: inline-block;
+    }
+
+    &::before {
+      position: absolute;
+      display: none;
+      content: counter(linenums-counter);
+      top: 6px;
+      right: 100%;
+      margin-right: -40px;
+      color: #506e7a;
+      opacity: 0.4;
+    }
+
+    &::after {
+      display: inline;
+      content: '';
+      margin-left: 15px;
+    }
+
+    &:hover {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// line numbers
+// --------------------------------------------------
+
+ol.code__line-numbers {
+  z-index: 4;
+  position: relative;
+  display: block;
+  float: left;
+  color: #506e7a;
+  opacity: 0.4;
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+  box-shadow: 3px 0 50px rgba(0, 0, 0, 0);
+  transition: $global-transition-fast;
+  user-select: none;
+
+  & > li {
+    display: block;
+    padding: 0 20px;
+    text-align: right;
+  }
+
+  .code__pre--scrolled & {
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
+  }
+}
+
+// --------------------------------------------------
+// line highlight
+// --------------------------------------------------
+
+.code__line-highlight {
+  z-index: 1;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $code-line-height;
+  background: $code-line-highlight-background-color;
+  transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.code__line-highlight--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+// --------------------------------------------------
+// copy button
+// --------------------------------------------------
+
+.code__copy-btn {
+  z-index: 10;
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 10px;
+  padding: 6px 10px;
+  color: $color-white;
+  color: lighten($code-background-color, 60%);
+  font-size: 12px;
+  line-height: 18px;
+  font-family: $font-family-sans-serif;
+  background: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 3px;
+  transition: $global-transition-fast;
+
+  &::after {
+    display: inline;
+    content: 'Copy';
+  }
+
+  &:hover {
+    background: #4fc1e9;
+    color: $color-white;
+  }
+
+  .code__pre:hover & {
+    opacity: 1;
+    visibility: visible;
+  }
+  .code__pre[data-code-language] & {
+    top: 7px;
+    right: 7px;
+  }
+  .code__pre[data-code-language]:hover & {
+    color: $color-white;
+  }
+}
+
+.code__copy-btn--copied {
+  &,
+  &:hover {
+    background: darken(#c3e889, 10%);
+    color: $color-white;
+  }
+
+  &::after {
+    content: 'Copied!';
+  }
+}
+
+// --------------------------------------------------
+// unstyled code
+// --------------------------------------------------
+
+.code__unstyled-code {
+  position: fixed;
+  left: -999999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+// --------------------------------------------------
+// syntax
+// --------------------------------------------------
+
+.com {
+  font-style: italic;
+}
+
+// --------------------------------------------------
+// syntax colors
+// --------------------------------------------------
+
+@media screen {
+  @include code-syntax-colors();
+}

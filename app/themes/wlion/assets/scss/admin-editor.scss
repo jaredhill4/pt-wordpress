@@ -1,0 +1,38 @@
+// --------------------------------------------------
+// includes
+// --------------------------------------------------
+
+@import './site/variables.scss';
+@import './framework/functions.scss';
+@import './framework/colors.scss';
+@import './framework/variables.scss';
+@import './framework/mixins.scss';
+@import './framework/placeholders.scss';
+@import './framework/base.scss';
+@import './framework/typography.scss';
+@import './framework/button.scss';
+
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+body {
+  margin: 20px;
+}
+
+// --------------------------------------------------
+// buttons
+// --------------------------------------------------
+
+.mce-content-body a[data-mce-selected].btn {
+  @extend .btn;
+}
+
+// --------------------------------------------------
+// tables
+// --------------------------------------------------
+
+.mce-item-table th,
+.mce-item-table td {
+  min-width: 30px;
+}

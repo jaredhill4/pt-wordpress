@@ -1,0 +1,81 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.site-header {
+  display: none;
+  background-color: color('white');
+  border-bottom: $global-border;
+
+  @media #{$mq-min-lg} {
+    display: block;
+  }
+}
+
+// --------------------------------------------------
+// top
+// --------------------------------------------------
+
+.site-header__top {
+  font-size: 12px;
+  border-bottom: $global-border;
+  background-color: color('white');
+}
+
+// --------------------------------------------------
+// bottom
+// --------------------------------------------------
+
+.site-header__bottom {
+  padding: 0;
+  margin: 0;
+}
+
+// --------------------------------------------------
+// content
+// --------------------------------------------------
+
+.site-header__content {
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: color('white');
+  justify-content: space-between;
+  align-items: center;
+}
+
+// --------------------------------------------------
+// logo
+// --------------------------------------------------
+
+.site-header__logo {
+  display: block;
+  font-size: 30px;
+  color: color('black');
+
+  img {
+    position: relative;
+    top: -5px;
+    height: 40px;
+    max-width: none;
+  }
+}
+
+// --------------------------------------------------
+// mobile
+// --------------------------------------------------
+
+.mobile-header {
+  z-index: $z-index-mobile-header;
+  position: relative;
+  display: block;
+  height: 60px;
+  background-color: darken(color('black'), 10%);
+  color: color('white');
+  line-height: 60px;
+  padding: 0 10px;
+  border-bottom: solid 1px color('gray-darker');
+
+  @media #{$mq-min-lg} {
+    display: none;
+  }
+}

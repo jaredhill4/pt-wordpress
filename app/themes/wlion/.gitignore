@@ -1,0 +1,11 @@
+# System
+.DS_Store
+._*
+Thumbs.db
+
+# NodeJS
+/node_modules
+npm-debug.log
+
+# Build
+/build

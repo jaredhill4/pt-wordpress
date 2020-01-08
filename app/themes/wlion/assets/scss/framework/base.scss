@@ -1,0 +1,60 @@
+// --------------------------------------------------
+// box-sizing
+// --------------------------------------------------
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+// --------------------------------------------------
+// html
+// --------------------------------------------------
+
+html {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  overflow-x: hidden;
+
+  @media #{$mq-min-sm} {
+    font-size: $font-size-base;
+  }
+
+  @media #{$mq-min-md} {
+    font-size: $font-size-base;
+  }
+
+  @media #{$mq-min-lg} {
+    font-size: $font-size-base;
+  }
+
+  @media #{$mq-min-xl} {
+    font-size: $font-size-base;
+  }
+}
+
+// --------------------------------------------------
+// body
+// --------------------------------------------------
+
+body {
+  color: $font-color-base;
+  font-family: $font-family-sans-serif;
+  line-height: $line-height-base;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+// --------------------------------------------------
+// images
+// --------------------------------------------------
+
+img {
+  max-width: 100%;
+  height: auto !important;
+}

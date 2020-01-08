@@ -1,0 +1,38 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.social-links {
+  ul {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      padding: 0;
+      margin: 0 0 7px;
+
+      &:last-child {
+        padding-right: 0;
+      }
+
+      a {
+        display: block;
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        color: color('white');
+        background: color('primary');
+        text-align: center;
+        transition: $global-transition-fast;
+        border-radius: 5px;
+
+        &:hover {
+          background: color('primary')-hover;
+        }
+      }
+    }
+  }
+}

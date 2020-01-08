@@ -1,0 +1,36 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+@import './site/variables.scss';
+
+// --------------------------------------------------
+// vendors
+// --------------------------------------------------
+
+@import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '@fortawesome/fontawesome-free/scss/solid.scss';
+@import '@fortawesome/fontawesome-free/scss/brands.scss';
+@import '@fortawesome/fontawesome-free/scss/regular.scss';
+@import 'fancybox/dist/scss/jquery.fancybox.scss';
+
+// --------------------------------------------------
+// framework
+// --------------------------------------------------
+
+@import './framework/index.scss';
+
+// --------------------------------------------------
+// site
+// --------------------------------------------------
+
+@import './site/index.scss';
+
+// --------------------------------------------------
+// pages
+// --------------------------------------------------
+
+@import './pages/home.scss';
+@import './pages/blog.scss';
+@import './pages/contact.scss';
+@import './pages/styleguide.scss';

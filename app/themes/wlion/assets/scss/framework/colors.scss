@@ -1,0 +1,121 @@
+// --------------------------------------------------
+// theme
+// --------------------------------------------------
+
+$theme-primary: #7135a5 !default;
+$theme-blue: #29abe2 !default;
+$theme-green: #22b573 !default;
+$theme-yellow: #fbb03b !default;
+$theme-red: #db4949 !default;
+
+$theme-white: #fff !default;
+$theme-black: #292b2c !default;
+
+$theme-gray-lightest: #f2f2f2 !default;
+$theme-gray-lighter: #e3e3e3 !default;
+$theme-gray-light: #c8cbcc !default;
+$theme-gray: #9ea3a8 !default;
+$theme-gray-dark: #72757a !default;
+$theme-gray-darker: #4d4d4d !default;
+$theme-gray-darkest: #353535 !default;
+
+// --------------------------------------------------
+// color map
+// --------------------------------------------------
+
+// This is the theme color map. Manage all colors here.
+// Use the "color()" function to apply a specific color.
+$colors: (
+  'white': (
+    'name': 'White',
+    'base': $theme-white,
+    'hover': darken($theme-white, 10%)
+  ),
+  'black': (
+    'name': 'Black',
+    'base': $theme-black,
+    'hover': lighten($theme-black, 10%)
+  ),
+  'primary': (
+    'name': 'Primary',
+    'base': $theme-primary,
+    'hover': darken($theme-primary, 10%)
+  ),
+  'blue': (
+    'name': 'Blue',
+    'base': $theme-blue,
+    'hover': darken($theme-blue, 10%)
+  ),
+  'green': (
+    'name': 'Green',
+    'base': $theme-green,
+    'hover': darken($theme-green, 10%)
+  ),
+  'yellow': (
+    'name': 'Yellow',
+    'base': $theme-yellow,
+    'hover': darken($theme-yellow, 10%)
+  ),
+  'red': (
+    'name': 'red',
+    'base': $theme-red,
+    'hover': darken($theme-red, 10%)
+  ),
+  'gray-lightest': (
+    'name': 'Gray Lightest',
+    'base': $theme-gray-lightest,
+    'hover': darken($theme-gray-lightest, 10%)
+  ),
+  'gray-lighter': (
+    'name': 'Gray Lighter',
+    'base': $theme-gray-lighter,
+    'hover': darken($theme-gray-lighter, 10%)
+  ),
+  'gray-light': (
+    'name': 'Gray Light',
+    'base': $theme-gray-light,
+    'hover': darken($theme-gray-light, 10%)
+  ),
+  'gray': (
+    'name': 'Gray',
+    'base': $theme-gray,
+    'hover': darken($theme-gray, 10%)
+  ),
+  'gray-dark': (
+    'name': 'Gray Dark',
+    'base': $theme-gray-dark,
+    'hover': lighten($theme-gray-dark, 10%)
+  ),
+  'gray-darker': (
+    'name': 'Gray Darker',
+    'base': $theme-gray-darker,
+    'hover': lighten($theme-gray-darker, 10%)
+  ),
+  'gray-darkest': (
+    'name': 'Gray Darkest',
+    'base': $theme-gray-darkest,
+    'hover': lighten($theme-gray-darkest, 10%)
+  )
+);
+
+// --------------------------------------------------
+// functions
+// --------------------------------------------------
+
+// Return a value of a color in the theme color map.
+// If no specific key is set, return the base value.
+@function color($name: null, $key: null) {
+  $color: null;
+  $value: '';
+
+  @if ($name) {
+    $color: map-get($colors, $name);
+    $value: map-get($color, 'base');
+
+    @if ($key) {
+      $value: map-get($color, $key);
+    }
+  }
+
+  @return $value;
+}

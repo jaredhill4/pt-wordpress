@@ -1,0 +1,26 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+ul.sitemap {
+  padding-left: 0;
+
+  & > li {
+    list-style: none;
+    margin: $type-margin-base 0 0;
+
+    & > a {
+      @extend .h3;
+      display: block;
+      font-size: 1.333333em;
+      margin-top: 0;
+      padding: 0;
+      color: color('black');
+      margin-bottom: $type-margin-base/2;
+    }
+  }
+
+  li li:first-child {
+    margin-top: 0;
+  }
+}

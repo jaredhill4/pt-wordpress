@@ -1,0 +1,36 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.back-to-top {
+  z-index: 1000;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  visibility: hidden;
+  opacity: 0;
+  transition: $global-transition-slow;
+
+  .btn {
+    padding: 0;
+    margin: 0;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+  }
+}
+
+// --------------------------------------------------
+// visible
+// --------------------------------------------------
+
+.back-to-top--visible {
+  visibility: hidden;
+  opacity: 0;
+
+  @media #{$mq-min-md} {
+    visibility: visible;
+    opacity: 1;
+  }
+}

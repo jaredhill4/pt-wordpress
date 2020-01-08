@@ -1,0 +1,145 @@
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.side-nav {
+  margin-bottom: $global-sidebar-section-margin;
+
+  .sidebar-header {
+    margin: 0;
+    padding: 20px;
+    background-color: color('primary');
+    color: color('white');
+
+    h5 {
+      margin: 0;
+      padding: 0;
+      color: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  > ul {
+    border: $global-border;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      border-bottom: $global-border;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      a {
+        display: block;
+        padding: 20px;
+        transition: $global-transition-fast;
+      }
+
+      .caret {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 25px 0;
+        width: 50px;
+        text-align: center;
+        font-family: $font-family-icon;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: none;
+        color: #ccc;
+        border: none !important;
+        vertical-align: baseline;
+
+        &.caret--down {
+          &::before {
+            content: $fa-var-caret-down;
+          }
+        }
+
+        &.caret--up {
+          &::before {
+            content: $fa-var-caret-up;
+          }
+        }
+      }
+
+      .children {
+        padding: 0 10px 10px;
+        margin-top: -1px;
+
+        li {
+          border-bottom: $global-border;
+
+          &:first-child {
+            border-top: $global-border;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+
+      &.current_page_item,
+      &.active {
+        > a {
+          background: #eee;
+        }
+      }
+
+      &.page_item_has_children {
+        > ul {
+          display: none;
+
+          &.open {
+            display: block;
+          }
+
+          li {
+            a {
+              padding-left: 0 0 0 20px;
+            }
+
+            .caret {
+              display: none;
+            }
+          }
+
+          &.show {
+            display: block;
+          }
+        }
+
+        .caret {
+          display: block;
+        }
+
+        &.current_page_item,
+        &.current_page_parent {
+          > ul {
+            display: block;
+
+            &.show {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

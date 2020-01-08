@@ -1,0 +1,82 @@
+// --------------------------------------------------
+// mixins
+// --------------------------------------------------
+
+@mixin swatch-colors($colors: $colors) {
+  @each $key, $color in $colors {
+    $selector: '.swatch--#{$key}';
+    $color-name: map-get($color, 'name');
+    $color-base: map-get($color, 'base');
+    $color-hover: map-get($color, 'hover');
+
+    #{$selector} {
+      .swatch__color {
+        background-color: $color-base;
+      }
+
+      &::after {
+        content: '#{$color-name} - #{$color-base}';
+      }
+
+      &.swatch--dual {
+        &::after {
+          content: '#{$color-name} - #{$color-base} / #{$color-hover}';
+        }
+
+        .swatch__color {
+          &::after {
+            background: $color-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// base
+// --------------------------------------------------
+
+.swatch {
+  display: block;
+  margin: $type-margin-base/2 0;
+
+  &::after {
+    display: block;
+    content: '';
+    color: color('gray-dark');
+    font-size: $font-size-xs;
+    line-height: $line-height-headings;
+    padding: rem(10) 0 0;
+    text-transform: uppercase;
+  }
+
+  .swatch__color {
+    position: relative;
+    display: block;
+    padding-bottom: 33.33%;
+    border-radius: $global-border-radius;
+    box-shadow: $global-box-shadow;
+  }
+
+  &.swatch--dual {
+    .swatch__color {
+      &::after {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 50%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0 $global-border-radius $global-border-radius 0;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------
+// colors
+// --------------------------------------------------
+
+@include swatch-colors();

@@ -1,0 +1,47 @@
+/**
+ * Styleguide CSS
+ */
+
+// Includes
+@import './framework/variables';
+
+// Section Titles
+body {
+  counter-reset: section-counter;
+}
+
+.section-title {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    display: block;
+    color: color('gray-light');
+    margin-right: 20px;
+    counter-increment: section-counter;
+    content: counters(section-counter, '.', decimal-leading-zero);
+    font-size: 0.6em;
+    vertical-align: top;
+    top: 7px;
+    right: 100%;
+  }
+}
+
+// Loading container
+.loading-container {
+  position: relative;
+  padding: 100px 0;
+  text-align: center;
+
+  &.dark {
+    padding: 100px 0;
+    background: color('black');
+  }
+}
+
+.sample-carousel-slide {
+  width: 100%;
+  padding: 150px 30px;
+  text-align: center;
+  background-color: color('gray-light');
+}

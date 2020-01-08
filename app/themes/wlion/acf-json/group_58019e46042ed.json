@@ -1,0 +1,265 @@
+{
+    "key": "group_58019e46042ed",
+    "title": "Meta & Social Data",
+    "fields": [
+        {
+            "key": "field_58e257644ff12",
+            "label": "Metadata",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_58e2578a4ff13",
+            "label": "Title",
+            "name": "meta_title",
+            "type": "text",
+            "instructions": "Replaces the page title that appears in the browser tab for this page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_58e257934ff14",
+            "label": "Description",
+            "name": "meta_description",
+            "type": "textarea",
+            "instructions": "A description of this post\/page for use by search engines.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_58e2579d4ff15",
+            "label": "Keywords",
+            "name": "meta_keywords",
+            "type": "textarea",
+            "instructions": "Keywords to be added to this post\/page for use by search engines. Separate keywords and keyword phrases with a comma (\",\").",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_55268a8d39a88",
+            "label": "Open Graph",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_541c56832e197",
+            "label": "Title",
+            "name": "og_title",
+            "type": "text",
+            "instructions": "Title to be used when sharing this post\/page to social sites that use Open Graph tags. (If nothing is entered, the post\/page title will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_541c574a2e199",
+            "label": "Description",
+            "name": "og_description",
+            "type": "textarea",
+            "instructions": "Description to be used when sharing this post\/page to social sites that use Open Graph tags. (If nothing is entered, the meta description or post\/page excerpt will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_541c59142e19c",
+            "label": "Image",
+            "name": "og_image",
+            "type": "image",
+            "instructions": "Image to be used when sharing this post\/page to social sites that use Open Graph tags. (If nothing is entered, the featured image will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_55268a9c39a89",
+            "label": "Twitter",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_541c58382e19a",
+            "label": "Title",
+            "name": "twitter_title",
+            "type": "text",
+            "instructions": "Title to be used when sharing this post\/page to Twitter. (If nothing is entered, the post\/page title will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_541c58962e19b",
+            "label": "Description",
+            "name": "twitter_description",
+            "type": "textarea",
+            "instructions": "Description to be used when sharing this post\/page to Twitter. (If nothing is entered, the meta description or post\/page excerpt will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_541c59732e19d",
+            "label": "Image",
+            "name": "twitter_image",
+            "type": "image",
+            "instructions": "Image to be used when sharing this post\/page to Twitter. (If nothing is entered, the featured image will be used.)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_template",
+                "operator": "!=",
+                "value": "templates\/redirect.php"
+            }
+        ]
+    ],
+    "menu_order": 2,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1569516900
+}

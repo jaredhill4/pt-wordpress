@@ -1,0 +1,22 @@
+# System/config/vendors
+.DS_Store
+._*
+Thumbs.db
+*.log
+.env
+vendor/
+
+# WordPress
+wp/*
+app/mu-plugins
+app/plugins/*
+app/themes/*
+app/upgrade
+app/uploads
+
+# Keep custom plugins and themes
+!app/plugins/wlion-wp-custom-system-emails
+!app/themes/wlion
+
+# Editors
+/.vscode
