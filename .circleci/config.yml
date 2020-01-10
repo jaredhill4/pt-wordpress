@@ -20,7 +20,20 @@ jobs:
 
     steps:
       - checkout
-      - run: echo "A first hello"
+      - run:
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
+      - run:
+          name: Code Has Arrived
+          command: |
+            ls -al
+            echo '^^^That should look familiar^^^'
+      - run:
+          name: Running in a Unique Container
+          command: |
+            node -v
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
       # # Download and cache dependencies
@@ -51,3 +64,11 @@ jobs:
       # #- run: ./vendor/bin/phpunit
       # - run: ./vendor/bin/codecept build
       # - run: ./vendor/bin/codecept run
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      # - deploy:
+      #     requires:
+      #       - build
