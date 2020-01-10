@@ -41,7 +41,9 @@ jobs:
       - save_cache:
           key: v1-composer-deps-{{ checksum "composer.lock" }}
           paths:
+            - wp
             - vendor
+            - app/plugins
 
       - restore_cache:
           keys:
