@@ -94,6 +94,10 @@ jobs:
       - attach_workspace:
           at: ./
 
+      - add_ssh_keys:
+          fingerprints:
+            - 9e:a6:91:49:29:17:ef:aa:02:6d:c8:ed:a5:63:5b:5a
+
       - run: |
           ls -la
           git remote add review wlion@web8.wlion.com:git/pt-wordpress-composer.git
