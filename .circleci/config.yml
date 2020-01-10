@@ -85,7 +85,7 @@ jobs:
 
   deploy:
     environment:
-      SSH_USER: wlion8
+      SSH_USER: wlion
       SSH_HOST: web8.wlion.com
       REPOSITORY: pt-wordpress-composer
 
