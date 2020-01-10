@@ -69,13 +69,15 @@ jobs:
             cd app/themes/wlion
             npm run build
 
+      # persist composer packages and build files to workspace
+
       - persist_to_workspace:
           root: ./
           paths:
             - vendor
+            - wp
             - app/plugins
             - app/themes/wlion/build
-            - wp
 
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
@@ -86,15 +88,19 @@ jobs:
 
     steps:
       - checkout
+
+      # attach composer packages and build files to workspace
+
       - attach_workspace:
           at: ./
-      - run:
-          name: List Files
-          command: |
-            ls -la vendor
-            ls -la app/plugins
-            ls -la app/themes/wlion/build
-            ls -la wp
+
+      - run: git status
+
+      # - run:
+      #     name: Remove .gitignore file
+      #     command: |
+      #       rm --rf .gitignore
+      #       mv .gitignore-deploy .gitignore
 
 workflows:
   version: 2
