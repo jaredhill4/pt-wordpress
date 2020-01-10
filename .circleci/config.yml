@@ -89,8 +89,8 @@ jobs:
       - run:
           name: List Files
           command: |
-            ll -a vendor
-            ll -a app/themes/wlion/build
+            ls -la vendor
+            ls -la app/themes/wlion/build
 
 workflows:
   version: 2
