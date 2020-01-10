@@ -149,11 +149,12 @@ jobs:
           command: |
             ls -la
 
+      # TODO: Implement WP Engine deployment
       # - run:
       #     name: Remove .gitignore file
       #     command: |
       #       rm --rf .gitignore
-      #       mv .gitignore-deploy .gitignore
+      #       mv deploy/.gitignore-deploy-wpe .gitignore
       # - run:
       #     name: Move files
       #     command: |
@@ -180,6 +181,8 @@ workflows:
           filters:
             branches:
               only: review
+
+      # TODO: Explore using tagged releases (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
 
       - deploy-production:
           requires:
