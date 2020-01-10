@@ -129,8 +129,12 @@ jobs:
       - run:
           name: List files
           command: |
-            echo "Files checked our and workspace attached."
             ls -la
+
+      - run:
+          name: Done
+          command: |
+            echo "Done!"
 
 workflows:
   version: 2
