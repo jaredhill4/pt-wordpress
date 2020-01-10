@@ -90,7 +90,9 @@ jobs:
           name: List Files
           command: |
             ls -la vendor
+            ls -la app/plugins
             ls -la app/themes/wlion/build
+            ls -la wp
 
 workflows:
   version: 2
