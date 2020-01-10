@@ -30,7 +30,6 @@ jobs:
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
-            - run:
       - run:
           name: Env
           command: |
