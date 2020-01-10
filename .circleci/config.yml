@@ -31,9 +31,20 @@ jobs:
             ls -al
             echo '^^^That should look familiar^^^'
       - run:
-          name: Running in a Unique Container
+          name: Composer Install
           command: |
-            node -v
+            composer install --prefer-dist
+      - run:
+          name: Yarn Install
+          command: |
+            cd app/themes/wlion
+            yarn install
+      - run:
+          name: Yarn Build
+          command: |
+            cd app/themes/wlion
+            yarn build
+
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
       # # Download and cache dependencies
