@@ -3,6 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 version: 2
+
 jobs:
   build:
     docker:
@@ -94,9 +95,12 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - add_ssh_keys
-        # fingerprints:
-        #   - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
+      - add_ssh_keys:
+          fingerprints:
+            - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
+
+      - run: ssh-keyscan web8.wlion.com >> ~/.ssh/known_hosts
+
       - run: |
           ls -la
           git remote add review wlion@web8.wlion.com:git/pt-wordpress-composer.git
