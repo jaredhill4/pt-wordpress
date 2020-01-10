@@ -30,6 +30,11 @@ jobs:
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
+            - run:
+      - run:
+          name: Env
+          command: |
+            make env-dev-valet
       - run:
           name: Composer Install
           command: |
