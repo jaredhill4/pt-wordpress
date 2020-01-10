@@ -70,7 +70,7 @@ jobs:
             npm run build
 
       - persist_to_workspace:
-          root: /
+          root: ./
           paths:
             - vendor
             - app/themes/wlion/build
