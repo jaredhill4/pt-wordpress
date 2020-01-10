@@ -119,12 +119,6 @@ jobs:
       - attach_workspace:
           at: ./
 
-      # - run:
-      #     name: Remove .gitignore file
-      #     command: |
-      #       rm --rf .gitignore
-      #       mv .gitignore-deploy .gitignore
-
       - add_ssh_keys:
           fingerprints:
             - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
@@ -154,6 +148,21 @@ jobs:
           name: List files
           command: |
             ls -la
+
+      # - run:
+      #     name: Remove .gitignore file
+      #     command: |
+      #       rm --rf .gitignore
+      #       mv .gitignore-deploy .gitignore
+      # - run:
+      #     name: Move files
+      #     command: |
+      #       cp wp deploy-cache
+      #       cp -r app deploy-cache/wp-content
+      #       cd deploy-cache
+      #       git init
+      #       git remote add production git@git.wpengine.com:percproduction.git
+      #       git push production
 
 workflows:
   version: 2
