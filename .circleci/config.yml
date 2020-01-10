@@ -165,7 +165,6 @@ workflows:
     jobs:
       - install-build-node-dependencies
       - install-php-dependencies
-
       - test:
           requires:
             - install-build-node-dependencies
