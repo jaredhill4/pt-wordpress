@@ -131,11 +131,6 @@ jobs:
           command: |
             ls -la
 
-      - run:
-          name: Done
-          command: |
-            echo "Done!"
-
 workflows:
   version: 2
   build-deploy:
