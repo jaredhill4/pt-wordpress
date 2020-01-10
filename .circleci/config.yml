@@ -20,38 +20,60 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: The First Step
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
-      - run:
-          name: Code Has Arrived
-          command: |
-            ls -al
-            echo '^^^That should look familiar^^^'
-      # - run:
-      #     name: Env
-      #     command: |
-      #       make env-dev-valet
+
+      # Download and cache dependencies
+
+      # composer cache
+
+      - restore_cache:
+          keys:
+            # "composer.json" can be used if "composer.json"
+            # is not committed to the repository.
+            - v1-composer-deps-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-composer-deps-
+
       - run:
           name: Composer Install
           command: |
-            composer install --prefer-dist
+            composer install -n --prefer-dist
           environment:
             ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
-            DELICIOUS_BRAINS_COMPOSER_API_USER: FB61EA04160807A7DC5A6B1D4D0F51E1
-            DELICIOUS_BRAINS_COMPOSER_API_PASS: B3D71428C40D9D7A4B4D8285C921E92F
+
+      - save_cache:
+          key: v1-composer-deps-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+
+      # node cache
+
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package.json" }}
+            - v1-npm-deps-
+
       - run:
           name: Yarn Install
           command: |
             cd app/themes/wlion
             yarn install
+
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package.json" }}
+          paths:
+            - app/themes/wlion/node_modules
+
       - run:
           name: Yarn Build
           command: |
             cd app/themes/wlion
             yarn build
+
+      - persist_to_workspace:
+          root: /
+          paths:
+            - vendor
+            - app/themes/wlion/build
 
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
@@ -59,12 +81,12 @@ jobs:
       # - restore_cache:
       #     keys:
       #       # "composer.lock" can be used if it is committed to the repo
-      #       - v1-dependencies-{{ checksum "composer.json" }}
+      #       - v1-composer-deps-{{ checksum "composer.json" }}
       #       # fallback to using the latest cache if no exact match is found
-      #       - v1-dependencies-
+      #       - v1-composer-deps-
       # - run: composer install -n --prefer-dist
       # - save_cache:
-      #     key: v1-dependencies-{{ checksum "composer.json" }}
+      #     key: v1-composer-deps-{{ checksum "composer.json" }}
       #     paths:
       #       - ./vendor
       # - restore_cache:
