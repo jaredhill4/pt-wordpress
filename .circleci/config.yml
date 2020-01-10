@@ -6,9 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      # Specify the version you desire here
       - image: circleci/php:7.1-node-browsers
-
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -23,7 +21,7 @@ jobs:
 
       # Download and cache dependencies
 
-      # composer cache
+      # composer install
 
       - restore_cache:
           keys:
@@ -45,7 +43,7 @@ jobs:
           paths:
             - vendor
 
-      # node cache
+      # npm install
 
       - restore_cache:
           keys:
@@ -53,7 +51,7 @@ jobs:
             - v1-npm-deps-
 
       - run:
-          name: Yarn Install
+          name: NPM Install
           command: |
             cd app/themes/wlion
             npm install
@@ -63,8 +61,10 @@ jobs:
           paths:
             - app/themes/wlion/node_modules
 
+      # npm build
+
       - run:
-          name: Yarn Build
+          name: NPM Run Build
           command: |
             cd app/themes/wlion
             npm run build
@@ -77,39 +77,26 @@ jobs:
 
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
-      # # Download and cache dependencies
-      # - restore_cache:
-      #     keys:
-      #       # "composer.lock" can be used if it is committed to the repo
-      #       - v1-composer-deps-{{ checksum "composer.json" }}
-      #       # fallback to using the latest cache if no exact match is found
-      #       - v1-composer-deps-
-      # - run: composer install -n --prefer-dist
-      # - save_cache:
-      #     key: v1-composer-deps-{{ checksum "composer.json" }}
-      #     paths:
-      #       - ./vendor
-      # - restore_cache:
-      #     keys:
-      #       - node-v1-{{ checksum "package.json" }}
-      #       - node-v1-
-      # - run: yarn install
-      # - save_cache:
-      #     key: node-v1-{{ checksum "package.json" }}
-      #     paths:
-      #       - node_modules
-      # # prepare the database
-      # - run: touch storage/testing.sqlite
-      # - run: php artisan migrate --env=testing --database=sqlite_testing --force
-      # # run tests with phpunit or codecept
-      # #- run: ./vendor/bin/phpunit
-      # - run: ./vendor/bin/codecept build
-      # - run: ./vendor/bin/codecept run
+
+  deploy:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: List Files
+          command: |
+            ll -a vendor
+            ll -a app/themes/wlion/build
+
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - build
-      # - deploy:
-      #     requires:
-      #       - build
+      - deploy:
+          requires:
+            - build
