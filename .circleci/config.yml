@@ -6,6 +6,9 @@ version: 2
 
 jobs:
   build:
+    environment:
+      ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
+
     docker:
       - image: circleci/php:7.1-node-browsers
       # Specify service dependencies here if necessary
@@ -34,8 +37,6 @@ jobs:
           name: Composer Install
           command: |
             composer install -n --prefer-dist
-          environment:
-            ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
 
       - save_cache:
           key: v1-composer-deps-{{ checksum "composer.lock" }}
@@ -122,12 +123,8 @@ jobs:
     steps:
       - checkout
 
-      - run: ls -la
-
       - attach_workspace:
           at: ./
-
-      - run: ls -la
 
       - run:
           name: List files
