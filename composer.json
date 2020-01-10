@@ -20,7 +20,7 @@
     },
     {
       "type": "composer",
-      "url": "https://{%DELICIOUS_BRAINS_COMPOSER_API_USER}:{%DELICIOUS_BRAINS_COMPOSER_API_PASS}@composer.deliciousbrains.com"
+      "url": "https://composer.deliciousbrains.com"
     },
     {
       "type": "package",
