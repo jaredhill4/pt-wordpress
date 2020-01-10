@@ -94,7 +94,10 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - run: git status
+      - run: |
+          ls -la
+          git remote add review wlion@web8.wlion.com:git/pt-wordpress-composer.git
+          git push review
 
       # - run:
       #     name: Remove .gitignore file
