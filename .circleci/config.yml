@@ -84,6 +84,11 @@ jobs:
       # - run: sudo docker-php-ext-install zip
 
   deploy:
+    environment:
+      SSH_USER: wlion8
+      SSH_HOST: web8.wlion.com
+      REPOSITORY: pt-wordpress-composer
+
     docker:
       - image: circleci/php:7.1-node-browsers
 
@@ -99,12 +104,14 @@ jobs:
           fingerprints:
             - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
 
-      - run: ssh-keyscan web8.wlion.com >> ~/.ssh/known_hosts
+      - run: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 
-      - run: |
-          ls -la
-          git remote add review wlion@web8.wlion.com:git/pt-wordpress-composer.git
-          git push review
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ls -la
+            git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
+            git push review
 
       # - run:
       #     name: Remove .gitignore file
