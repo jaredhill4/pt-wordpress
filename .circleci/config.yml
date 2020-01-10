@@ -5,32 +5,19 @@
 version: 2
 
 jobs:
-  build:
+  install-php-dependencies:
     environment:
       ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
 
     docker:
       - image: circleci/php:7.1-node-browsers
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
 
     steps:
       - checkout
 
-      # Download and cache dependencies
-
       - restore_cache:
           keys:
-            # "composer.json" can be used if "composer.json"
-            # is not committed to the repository.
             - v3-composer-deps-{{ checksum "composer.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v3-composer-deps-
 
       - run:
@@ -44,6 +31,20 @@ jobs:
             - wp
             - vendor
             - app/plugins
+
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - wp
+            - vendor
+            - app/plugins
+
+  install-node-dependencies:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+
+    steps:
+      - checkout
 
       - restore_cache:
           keys:
@@ -61,24 +62,31 @@ jobs:
           paths:
             - app/themes/wlion/node_modules
 
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - app/themes/wlion/node_modules
+
+  build-front-end-assets:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: ./
+
       - run:
           name: Build front-end assets
           command: |
             cd app/themes/wlion
             npm run build
 
-      # persist composer packages and build files to workspace
-
       - persist_to_workspace:
           root: ./
           paths:
-            - wp
-            - vendor
-            - app/plugins
             - app/themes/wlion/build
-
-      # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      # - run: sudo docker-php-ext-install zip
 
   test:
     docker:
@@ -86,8 +94,6 @@ jobs:
 
     steps:
       - checkout
-
-      # attach composer packages and build files to workspace
 
       - attach_workspace:
           at: ./
@@ -113,8 +119,6 @@ jobs:
 
     steps:
       - checkout
-
-      # attach composer packages and build files to workspace
 
       - attach_workspace:
           at: ./
@@ -174,15 +178,20 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - install-node-dependencies
+      - install-php-dependencies
+
+      - build-front-end-assets:
+          requires:
+            - install-node-dependencies
+            - install-php-dependencies
 
       - test:
           requires:
-            - build
+            - build-front-end-assets
 
       - deploy-review:
           requires:
-            - build
             - test
           filters:
             branches:
@@ -191,7 +200,6 @@ workflows:
       # TODO: Explore using tagged releases for production deployment (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
       - deploy-production:
           requires:
-            - build
             - test
           filters:
             branches:
