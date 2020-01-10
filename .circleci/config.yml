@@ -29,9 +29,9 @@ jobs:
           keys:
             # "composer.json" can be used if "composer.json"
             # is not committed to the repository.
-            - v1-composer-deps-{{ checksum "composer.lock" }}
+            - v2-composer-deps-{{ checksum "composer.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-composer-deps-
+            - v2-composer-deps-
 
       - run:
           name: Composer Install
@@ -39,7 +39,7 @@ jobs:
             composer install -n --prefer-dist
 
       - save_cache:
-          key: v1-composer-deps-{{ checksum "composer.lock" }}
+          key: v2-composer-deps-{{ checksum "composer.lock" }}
           paths:
             - vendor
 
