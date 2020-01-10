@@ -49,17 +49,17 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-npm-deps-{{ checksum "package.json" }}
+            - v1-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
             - v1-npm-deps-
 
       - run:
           name: Yarn Install
           command: |
             cd app/themes/wlion
-            yarn install
+            npm install
 
       - save_cache:
-          key: v1-npm-deps-{{ checksum "package.json" }}
+          key: v1-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
           paths:
             - app/themes/wlion/node_modules
 
@@ -67,7 +67,7 @@ jobs:
           name: Yarn Build
           command: |
             cd app/themes/wlion
-            yarn build
+            npm run build
 
       - persist_to_workspace:
           root: /
