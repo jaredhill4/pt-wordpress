@@ -183,8 +183,7 @@ workflows:
             branches:
               only: review
 
-      # TODO: Explore using tagged releases (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
-
+      # TODO: Explore using tagged releases for production deployment (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
       - deploy-production:
           requires:
             - build
