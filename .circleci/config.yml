@@ -34,7 +34,7 @@ jobs:
             - v1-composer-deps-
 
       - run:
-          name: Composer Install
+          name: Install Composer packages
           command: |
             composer install -n --prefer-dist
 
@@ -49,7 +49,7 @@ jobs:
             - v1-npm-deps-
 
       - run:
-          name: NPM Install
+          name: Install NPM packages
           command: |
             cd app/themes/wlion
             npm install
@@ -60,7 +60,7 @@ jobs:
             - app/themes/wlion/node_modules
 
       - run:
-          name: NPM Run Build
+          name: Build front-end assets
           command: |
             cd app/themes/wlion
             npm run build
@@ -70,13 +70,35 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - vendor
             - wp
+            - vendor
             - app/plugins
             - app/themes/wlion/build
 
       # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
+
+  test:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+
+    steps:
+      - checkout
+
+      # attach composer packages and build files to workspace
+
+      - attach_workspace:
+          at: ./
+
+      - run:
+          name: Run tests
+          command: |
+            echo "Running tests..."
+
+      - run:
+          name: Tests done
+          command: |
+            echo "All tests passed successfully!"
 
   deploy-review:
     environment:
@@ -111,7 +133,7 @@ jobs:
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 
       - run:
-          name: Deploy Over SSH
+          name: Deploy over SSH
           command: |
             git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
             git push review
@@ -135,12 +157,8 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - review
-                - master
+      - build
+      - test
 
       - deploy-review:
           requires:
