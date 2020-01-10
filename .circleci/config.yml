@@ -178,6 +178,7 @@ workflows:
       - deploy-review:
           requires:
             - build
+            - test
           filters:
             branches:
               only: review
@@ -187,6 +188,7 @@ workflows:
       - deploy-production:
           requires:
             - build
+            - test
           filters:
             branches:
               only: master
