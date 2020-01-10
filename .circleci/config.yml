@@ -122,8 +122,12 @@ jobs:
     steps:
       - checkout
 
+      - run: ls -la
+
       - attach_workspace:
           at: ./
+
+      - run: ls -la
 
       - run:
           name: List files
