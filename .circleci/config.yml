@@ -30,14 +30,18 @@ jobs:
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
-      - run:
-          name: Env
-          command: |
-            make env-dev-valet
+      # - run:
+      #     name: Env
+      #     command: |
+      #       make env-dev-valet
       - run:
           name: Composer Install
           command: |
             composer install --prefer-dist
+          environment:
+            ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
+            DELICIOUS_BRAINS_COMPOSER_API_USER: FB61EA04160807A7DC5A6B1D4D0F51E1
+            DELICIOUS_BRAINS_COMPOSER_API_PASS: B3D71428C40D9D7A4B4D8285C921E92F
       - run:
           name: Yarn Install
           command: |
