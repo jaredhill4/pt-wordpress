@@ -97,6 +97,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
+            - "SHA256:z6N4CNYSDyNAG4i40CrK5jvfWbfXFENXtr+HQtXTJWc"
 
       - run: |
           ls -la
