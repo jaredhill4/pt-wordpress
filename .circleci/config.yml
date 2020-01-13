@@ -100,8 +100,7 @@ jobs:
       - run:
           name: Checkout temporary branch
           command: |
-            git branch -l | grep --quiet temp-$CIRCLE_BRANCH && git branch -D temp-$CIRCLE_BRANCH
-            git checkout -b temp-$CIRCLE_BRANCH
+            git checkout -b deploy-$CIRCLE_SHA1
 
       # - run:
       #     name: Copy .env
@@ -114,9 +113,7 @@ jobs:
             ls -la
             rm .gitignore
             cp stubs/review.env .env
-            cat .env
             cp deploy/.gitignore-deploy-review .gitignore
-            cat .gitignore
 
       - run:
           name: Force add/commit env file and vendor and build directories
@@ -138,10 +135,8 @@ jobs:
       - run:
           name: Deploy over SSH
           command: |
-            git remote -v | grep --quiet review || git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
-            git fetch --prune --quiet review
-            git branch -r | grep --quiet review/temp-$CIRCLE_BRANCH && git push review --delete temp-$CIRCLE_BRANCH
-            git push review temp-$CIRCLE_BRANCH
+            git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
+            git push review deploy-$CIRCLE_SHA1
 
   deploy-production:
     docker:
