@@ -101,6 +101,7 @@ jobs:
           name: Copy .env
           command: |
             cp stubs/review.env .env
+            git rm --cached .env
             git add -f .env
             git commit -m "adding .env file"
 
