@@ -23,14 +23,9 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
-
       - restore_cache:
           keys:
-            # "composer.json" can be used if "composer.json"
-            # is not committed to the repository.
             - v3-composer-deps-{{ checksum "composer.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v3-composer-deps-
 
       - run:
@@ -67,8 +62,6 @@ jobs:
             cd app/themes/wlion
             npm run build
 
-      # persist composer packages and build files to workspace
-
       - persist_to_workspace:
           root: ./
           paths:
@@ -77,17 +70,12 @@ jobs:
             - app/plugins
             - app/themes/wlion/build
 
-      # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      # - run: sudo docker-php-ext-install zip
-
   test:
     docker:
       - image: circleci/php:7.1-node-browsers
 
     steps:
       - checkout
-
-      # attach composer packages and build files to workspace
 
       - attach_workspace:
           at: ./
@@ -113,8 +101,6 @@ jobs:
 
     steps:
       - checkout
-
-      # attach composer packages and build files to workspace
 
       - attach_workspace:
           at: ./
