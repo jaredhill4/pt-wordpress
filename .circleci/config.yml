@@ -115,12 +115,12 @@ jobs:
             cp stubs/$DEPLOY_ENV.env .env
 
       - run:
-          name: Force add/commit env file and vendor and build directories
+          name: Add/commit .env, .gitignore, vendor and build directories
           command: |
             git add -A
             git config --global user.email "deploy@wlion.com"
             git config --global user.name "White Lion Automated Deployment"
-            git commit -m "adding .env file"
+            git commit -m "committing build and environment files for deployment"
 
       - add_ssh_keys:
           fingerprints:
