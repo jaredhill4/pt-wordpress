@@ -1,0 +1,29 @@
+# System
+.DS_Store
+._*
+Thumbs.db
+npm-debug.log
+
+# WordPress
+*.log
+sitemap.xml
+sitemap.xml.gz
+wp-config.php
+wp-config-sample.php
+wp-content/advanced-cache.php
+wp-content/backup-db/
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/uploads/*
+wp-content/wp-cache-config.php
+wp-content/plugins/hello.php
+wp-content/themes/twenty*/
+/readme.html
+/license.txt
+
+# Custom
+.env
+vendor
+/.vscode
