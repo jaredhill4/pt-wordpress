@@ -2,10 +2,9 @@
 .DS_Store
 ._*
 Thumbs.db
-npm-debug.log
+*.log
 
 # WordPress
-*.log
 sitemap.xml
 sitemap.xml.gz
 wp-config.php
