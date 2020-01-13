@@ -93,6 +93,12 @@ jobs:
 
     steps:
       - checkout
+      - add_ssh_keys
+
+      - run:
+          name: Add SSH host to known hosts
+          command: |
+            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 
       - attach_workspace:
           at: ./
@@ -121,15 +127,6 @@ jobs:
             git config --global user.email "deploy@wlion.com"
             git config --global user.name "White Lion Automated Deployment"
             git commit -m "committing build and environment files for deployment"
-
-      - add_ssh_keys:
-          fingerprints:
-            - "82:20:b3:70:46:c2:21:4d:df:92:c2:46:27:91:68:7d"
-
-      - run:
-          name: Add SSH host to known hosts
-          command: |
-            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 
       - run:
           name: Deploy over SSH
