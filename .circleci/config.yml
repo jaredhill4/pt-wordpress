@@ -109,7 +109,7 @@ jobs:
           name: Copy .env
           command: |
             cp stubs/review.env .env
-            git add --force .env
+            git add -f .env
 
       - add_ssh_keys:
           fingerprints:
