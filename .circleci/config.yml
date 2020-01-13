@@ -100,7 +100,7 @@ jobs:
       - run:
           name: "Setup deploy environment variable"
           command: |
-            echo 'export DEPLOY_ENV="FOO"' >> $CIRCLE_BRANCH
+            echo 'export DEPLOY_ENV=$CIRCLE_BRANCH' >> $BASH_ENV
 
       - run:
           name: Checkout temporary branch
