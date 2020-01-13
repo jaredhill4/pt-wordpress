@@ -102,6 +102,7 @@ jobs:
           command: |
             cp stubs/review.env .env
             git add -f .env
+            git commit -m "adding .env file"
 
       - add_ssh_keys:
           fingerprints:
