@@ -98,6 +98,11 @@ jobs:
           at: ./
 
       - run:
+          name: "Setup deploy environment variable"
+          command: |
+            echo 'export DEPLOY_ENV="FOO"' >> $CIRCLE_BRANCH
+
+      - run:
           name: Checkout temporary branch
           command: |
             git checkout -b deploy-$CIRCLE_SHA1
@@ -111,8 +116,8 @@ jobs:
           name: Replace .gitignore and copy .env
           command: |
             rm .gitignore
-            cp stubs/review.env .env
-            cp deploy/.gitignore-deploy-review .gitignore
+            cp stubs/$DEPLOY_ENV.env .env
+            cp deploy/.gitignore-$DEPLOY_ENV .gitignore
 
       - run:
           name: Force add/commit env file and vendor and build directories
@@ -134,8 +139,8 @@ jobs:
       - run:
           name: Deploy over SSH
           command: |
-            git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
-            git push review deploy-$CIRCLE_SHA1
+            git remote add $DEPLOY_ENV $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
+            git push $DEPLOY_ENV deploy-$CIRCLE_SHA1
 
   deploy-production:
     docker:
