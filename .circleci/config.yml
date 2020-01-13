@@ -139,8 +139,8 @@ jobs:
           name: Deploy over SSH
           command: |
             git remote -v | grep --quiet review || git remote add review $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
-            git fetch --prune --quiet $CIRCLE_BRANCH
-            git branch -r | grep --quiet $CIRCLE_BRANCH/temp-$CIRCLE_BRANCH && git push $CIRCLE_BRANCH --delete temp-$CIRCLE_BRANCH
+            git fetch --prune --quiet review
+            git branch -r | grep --quiet review/temp-$CIRCLE_BRANCH && git push review --delete temp-$CIRCLE_BRANCH
             git push review temp-$CIRCLE_BRANCH
 
   deploy-production:
