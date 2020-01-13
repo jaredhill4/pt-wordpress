@@ -11,14 +11,6 @@ jobs:
 
     docker:
       - image: circleci/php:7.1-node-browsers
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
 
     steps:
       - checkout
