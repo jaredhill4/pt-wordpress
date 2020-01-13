@@ -111,6 +111,7 @@ jobs:
           name: Replace .gitignore
           command: |
             rm .gitignore
+            cp stubs/review.env .env
             cp deploy/.gitignore-deploy-review .gitignore
 
       - run:
