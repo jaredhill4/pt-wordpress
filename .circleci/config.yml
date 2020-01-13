@@ -101,7 +101,7 @@ jobs:
           name: Copy .env
           command: |
             cp stubs/review.env .env
-            git add -f .env
+            git add -f .env wp vendor app/plugins app/themes/wlion/build
             git config --global user.email "deploy@wlion.com"
             git config --global user.name "White Lion Automated Deployment"
             git commit -m "adding .env file"
