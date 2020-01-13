@@ -114,7 +114,9 @@ jobs:
             ls -la
             rm .gitignore
             cp stubs/review.env .env
+            cat .env
             cp deploy/.gitignore-deploy-review .gitignore
+            cat .gitignore
 
       - run:
           name: Force add/commit env file and vendor and build directories
