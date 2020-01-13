@@ -100,6 +100,7 @@ jobs:
       - run:
           name: Checkout temporary branch
           command: |
+            git branch -l | grep --quiet temp-$CIRCLE_BRANCH && git branch -D temp-$CIRCLE_BRANCH
             git checkout -b temp-$CIRCLE_BRANCH
 
       # - run:
@@ -108,8 +109,9 @@ jobs:
       #       cp stubs/review.env .env
 
       - run:
-          name: Replace .gitignore
+          name: Replace .gitignore and copy .env
           command: |
+            ll -la
             rm .gitignore
             cp stubs/review.env .env
             cp deploy/.gitignore-deploy-review .gitignore
