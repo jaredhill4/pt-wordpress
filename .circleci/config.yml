@@ -110,7 +110,6 @@ jobs:
       - run:
           name: Replace .gitignore and copy .env
           command: |
-            ls -la
             rm .gitignore
             cp stubs/review.env .env
             cp deploy/.gitignore-deploy-review .gitignore
