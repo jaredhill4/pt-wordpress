@@ -103,6 +103,8 @@ jobs:
             cp stubs/review.env .env
             git rm --cached .env
             git add -f .env
+            git config --global user.email "deploy@wlion.com"
+            git config --global user.name "White Lion Automated Deployment"
             git commit -m "adding .env file"
 
       - add_ssh_keys:
