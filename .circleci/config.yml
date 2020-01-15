@@ -99,6 +99,7 @@ jobs:
           name: Add SSH host to known hosts
           command: |
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+            ls -la ~/.ssh
 
       - attach_workspace:
           at: ./
