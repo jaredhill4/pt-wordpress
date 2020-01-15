@@ -148,7 +148,7 @@ jobs:
       - run:
           name: List files
           command: |
-            ls -la ~/.ssh
+            ls -la
 
       - run:
           name: Done
