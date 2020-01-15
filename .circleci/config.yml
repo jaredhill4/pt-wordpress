@@ -99,7 +99,6 @@ jobs:
           name: Add SSH host to known hosts
           command: |
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
-            ls -la ~/.ssh
 
       - attach_workspace:
           at: ./
@@ -122,12 +121,12 @@ jobs:
             cp stubs/$DEPLOY_ENV.env .env
 
       - run:
-          name: Add/commit .env, .gitignore, vendor and build directories
+          name: Add/commit vendor, build and environment files
           command: |
             git add -A
             git config --global user.email "deploy@wlion.com"
             git config --global user.name "White Lion Automated Deployment"
-            git commit -m "committing build and environment files for deployment"
+            git commit -m "committing vendor, build and environment files for deployment"
 
       - run:
           name: Deploy over SSH
