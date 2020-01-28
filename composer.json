@@ -44,7 +44,6 @@
     "johnpbloch/wordpress": ">=5.1",
     "wpackagist-plugin/classic-editor": "^1.5",
     "wpackagist-plugin/contact-form-7": "^5.1.6",
-    "wpackagist-plugin/disqus-comment-system": "^3.0.17",
     "wpackagist-plugin/flamingo": "^2.1",
     "wpackagist-plugin/google-sitemap-generator": "^4.1.0",
     "wpackagist-plugin/contact-form-7-honeypot": "^1.14.1",
