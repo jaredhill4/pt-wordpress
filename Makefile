@@ -7,38 +7,43 @@
 
 # Default
 all: default
-dev: env-dev install-composer-packages install-node-packages build-assets permissions-uploads import-dev done
+dev: valet-link env-dev install-composer-packages install-node-packages build-assets permissions-uploads import-dev done
 
 UPLOADS_DIR = "./app/uploads"
 THEME_DIR = "app/themes/wlion"
 
 default:
-	@printf "\033[1;31mPlease supply an environment argument (dev) or command\n\033[0m"
+	@printf "\033[1;31mPlease supply an environment argument (dev) or command\n\033[0m";
+
+valet-link:
+	@echo Creating valet link...;
+	@valet link;
+	@printf " \033[1;32mDone\n\033[0m";
 
 import-dev:
-	@echo -n Importing database...
-	@gunzip < db_dump.sql.gz | mysql -u root pt-wordpress
-	@printf " \033[1;32mDone\n\033[0m"
+	@echo Importing database...;
+	@gunzip < db_dump.sql.gz | mysql -u root pt-wordpress-composer;
+	@printf " \033[1;32mDone\n\033[0m";
 
 export-dev:
-	@echo -n Exporting database...
-	@mysqldump -u root --skip-extended-insert pt-wordpress | gzip --best > db_dump.sql.gz
-	@printf " \033[1;32mDone\n\033[0m"
+	@echo Exporting database...;
+	@mysqldump -u root --skip-extended-insert pt-wordpress-composer | gzip --best > db_dump.sql.gz;
+	@printf " \033[1;32mDone\n\033[0m";
 
 env-dev:
-	@echo -n Creating .env file...
-	@cp stubs/dev.env .env
-	@printf " \033[1;32mDone\n\033[0m"
+	@echo Creating .env file...;
+	@cp stubs/dev.env .env;
+	@printf " \033[1;32mDone\n\033[0m";
 
 permissions-directories:
-	@echo -n Updating directory permissions...
+	@echo Updating directory permissions...;
 	@find ./ -type d -exec chmod 0755 {} \;
-	@printf " \033[1;32mDone\n\033[0m"
+	@printf " \033[1;32mDone\n\033[0m";
 
 permissions-files:
-	@echo -n Updating file permissions...
+	@echo Updating file permissions...;
 	@find ./ -type f -exec chmod 0644 {} \;
-	@printf " \033[1;32mDone\n\033[0m"
+	@printf " \033[1;32mDone\n\033[0m";
 
 permissions-uploads:
 	@if test -d $(UPLOADS_DIR); \
@@ -48,12 +53,12 @@ permissions-uploads:
 	fi;
 
 install-composer-packages:
-	@echo -n Installing composer packages...
+	@echo Installing composer packages...;
 	@composer install;
 	@printf " \033[1;32mDone\n\033[0m";
 
 install-node-packages:
-	@echo -n Installing node packages...
+	@echo Installing node packages...;
 	@cd $(THEME_DIR); \
 	source $(HOME)/.nvm/nvm.sh; \
 	nvm install; \
@@ -62,13 +67,13 @@ install-node-packages:
 	@printf " \033[1;32mDone\n\033[0m";
 
 build-assets:
-	@echo -n Building assets...
+	@echo Building assets...;
 	@cd $(THEME_DIR); \
 	source $(HOME)/.nvm/nvm.sh; \
 	nvm install; \
 	nvm use; \
 	npm run build;
-	@printf " \033[1;32mDone\n\033[0m"
+	@printf " \033[1;32mDone\n\033[0m";
 
 done:
 	@printf "\033[1;36mReady to go!\n\033[0m"

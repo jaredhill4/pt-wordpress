@@ -25,7 +25,7 @@ $mq-max-lg: '(max-width: #{$breakpoint-xl - 1px})';
 // --------------------------------------------------
 
 $grid-column-count: 12;
-$grid-gutter-width: 1rem;
+$grid-gutter-width: rem(30);
 
 // --------------------------------------------------
 // links

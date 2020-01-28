@@ -17,8 +17,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v3-composer-deps-{{ checksum "composer.lock" }}
-            - v3-composer-deps-
+            - v1-composer-deps-{{ checksum "composer.lock" }}
+            - v1-composer-deps-
 
       - run:
           name: Install Composer packages
@@ -26,7 +26,7 @@ jobs:
             composer install -n --prefer-dist
 
       - save_cache:
-          key: v3-composer-deps-{{ checksum "composer.lock" }}
+          key: v1-composer-deps-{{ checksum "composer.lock" }}
           paths:
             - wp
             - vendor
