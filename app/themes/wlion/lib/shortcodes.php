@@ -366,7 +366,7 @@ add_filter('post_gallery', 'my_post_gallery', 10, 2);
  */
 function wl_dashboard_widget_shortcodes_function()
 {
-    get_template_part('partials/admin/shortcode-dashboard-widget');
+    wl_partial('admin.shortcode-dashboard-widget');
 }
 
 /**

@@ -57,7 +57,7 @@
                     '); ?>
                 <?php endif; ?>
 
-                <?php get_template_part('partials/pagination'); ?>
+                <?php wl_partial('pagination'); ?>
             </div>
 
             <!-- Sidebar -->

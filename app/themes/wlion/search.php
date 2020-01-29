@@ -56,7 +56,7 @@
                     <p><a href="<?= home_url(); ?>" class="btn btn--primary">Return to our Home Page</a></p>
                 <?php endif; ?>
 
-                <?php get_template_part('partials/pagination'); ?>
+                <?php wl_partial('pagination'); ?>
             </div>
         </div>
     </div>

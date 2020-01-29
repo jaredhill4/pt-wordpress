@@ -96,10 +96,6 @@
         <?php nav_mobile(); ?>
     </nav>
 
-    <?php if (is_front_page()): ?>
-        <?php get_template_part('partials/page-header', 'home'); ?>
-    <?php else: ?>
-        <?php get_template_part('partials/page-header'); ?>
-    <?php endif; ?>
+    <?php wl_get_page_header(); ?>
 
     <main class="page-content">

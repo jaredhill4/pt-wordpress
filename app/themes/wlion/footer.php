@@ -42,10 +42,10 @@
     </div>
 
     <!-- Include modals -->
-    <?php get_template_part('partials/modal-share'); ?>
+    <?php wl_partial('modal-share'); ?>
 
     <!-- Include analytics -->
-    <?php get_template_part('partials/analytics'); ?>
+    <?php wl_partial('analytics'); ?>
 
     <!-- Modernizr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>

@@ -4,6 +4,22 @@
  * Description: These are global helper functions for the theme.
  */
 
+if (!function_exists('dd')) {
+    /**
+     * Dump and die.
+     *
+     * @param array|string $input
+     * @return string
+     */
+    function dd($input = '') {
+        echo '<pre id="dd-0" style="position:fixed; bottom:0; top:0; left:0; right:0; z-index:99999; border-radius:0; padding:20px; background-color:#fff; margin:0;">';
+        highlight_string("<?php\n " . var_export($input, TRUE) . "?>");
+        echo '</pre>';
+        echo '<script>document.getElementsByTagName("code")[0].getElementsByTagName("span")[1].remove() ;document.getElementsByTagName("code")[0].getElementsByTagName("span")[document.getElementsByTagName("code")[0].getElementsByTagName("span").length - 1].remove(); document.body.appendChild(document.getElementById("dd-0")); </script>';
+        die();
+    }
+}
+
 if (!function_exists('slugify')) {
     /**
      * Convert a string to a slug.
@@ -74,5 +90,63 @@ if (!function_exists('is_blog')) {
             is_time() or
             is_single()
         );
+    }
+}
+
+if (!function_exists('wl_partial')) {
+    /**
+     * Load a partial into a template while supplying data.
+     *
+     * @param  string $slug    The slug name for the generic template.
+     * @param  array  $params  An associated array of data that will be extracted into the templates scope.
+     * @param  bool   $output  Whether to output component or return as string.
+     * @return string
+     */
+    function wl_partial($path, array $settings = [], $output = TRUE) {
+        if (!$output) {
+            ob_start();
+        }
+
+        // Allow dot-notated paths
+        $path = explode('.', $path);
+        $path = implode('/', $path);
+
+        // TODO: move to plugin and replace "get_template_directory()" with "plugin_dir_path(__FILE__)"
+        if (!$template_file = get_template_directory() . '/partials/' . $path . '.php') {
+          trigger_error(sprintf(__('Error locating %s for inclusion', 'wlion'), $template_file), E_USER_ERROR);
+        }
+
+        //extract($settings, EXTR_SKIP);
+        $props = $settings;
+
+        require($template_file);
+
+        if (!$output) {
+            return ob_get_clean();
+        }
+    }
+}
+
+/**
+ * Get the page header based on the current template.
+ *
+ * @return void
+*/
+function wl_get_page_header() {
+    global $template;
+
+    $template_name = basename($template, '.php');
+    // TODO: Keeping this in case we have issues/conflicts using `basename` in the future
+    // $template_name = str_replace(get_theme_file_path() . '/', '', $template_name);
+    // $template_name = str_replace(get_template_directory() . '/', '', $template_name);
+
+    $template_to_page_header_map = [
+        'front-page' => 'home',
+    ];
+
+    $page_header = $template_to_page_header_map[$template_name] ?? 'default';
+
+    if ($page_header) {
+        return wl_partial('page-headers.page-header-' . $page_header);
     }
 }
