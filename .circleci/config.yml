@@ -163,9 +163,9 @@ jobs:
       # - run:
       #     name: Move files
       #     command: |
-      #       cp wp deploy-cache
-      #       cp -r app deploy-cache/wp-content
-      #       cd deploy-cache
+      #       cp wp dist
+      #       cp -r app dist/wp-content
+      #       cd dist
       #       git init
       #       git remote add production git@git.wpengine.com:percproduction.git
       #       git push production
