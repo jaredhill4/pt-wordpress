@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bde76504ef8cd57713712272a56167ea",
+    "content-hash": "a0021eaac7ad81e1ad17a1293517828f",
     "packages": [
         {
             "name": "advanced-custom-fields/advanced-custom-fields-pro",
@@ -609,24 +609,6 @@
             "homepage": "https://wordpress.org/plugins/contact-form-7-honeypot/"
         },
         {
-            "name": "wpackagist-plugin/disqus-comment-system",
-            "version": "3.0.17",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/disqus-comment-system/",
-                "reference": "tags/3.0.17"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/disqus-comment-system.3.0.17.zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/disqus-comment-system/"
-        },
-        {
             "name": "wpackagist-plugin/flamingo",
             "version": "2.1.1",
             "source": {
@@ -754,15 +736,15 @@
         },
         {
             "name": "wpackagist-plugin/relevanssi",
-            "version": "4.4.1",
+            "version": "4.5.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/relevanssi/",
-                "reference": "tags/4.4.1"
+                "reference": "tags/4.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/relevanssi.4.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/relevanssi.4.5.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -844,15 +826,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-super-cache",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-super-cache/",
-                "reference": "tags/1.7.0"
+                "reference": "tags/1.7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-super-cache.1.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-super-cache.1.7.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
