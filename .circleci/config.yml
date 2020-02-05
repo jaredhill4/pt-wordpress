@@ -200,7 +200,7 @@ jobs:
           working_directory: ~/project/dist
 
   # Deploy Staging
-  deploy-stage:
+  deploy-staging:
     executor: default-executor
 
     environment:
