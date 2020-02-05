@@ -2,23 +2,80 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
-version: 2
+version: 2.1
 
-jobs:
-  build:
-    environment:
-      ACF_PRO_KEY: b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
-
+# Custom executors
+executors:
+  default-executor:
     docker:
       - image: circleci/php:7.1-node-browsers
+
+# Custom commands
+commands:
+  set_env_var:
+    steps:
+      - run:
+          name: "Setup deploy environment variable"
+          command: |
+            echo 'export DEPLOY_ENV=$CIRCLE_BRANCH' >> $BASH_ENV
+  add_known_hosts:
+    steps:
+      - run:
+          name: Add SSH host to known hosts
+          command: |
+            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+  build_wpengine:
+    steps:
+      - run:
+          name: Prepare files for WP Engine
+          command: |
+            mkdir dist
+            cp -a wp/. dist/
+            rm -rf dist/wp-content
+            mkdir -p dist/wp-content
+            cp -a app/. dist/wp-content
+            cp deploy/.gitignore-wpengine dist/.gitignore
+            cp stubs/production.env dist/.env
+  ssh_deploy:
+    parameters:
+      working_directory:
+        default: ~/project
+        type: string
+    steps:
+      - run:
+          name: Add/commit vendor, build and environment files
+          working_directory: << parameters.working_directory >>
+          command: |
+            git init
+            git add -A
+            git config --global user.email "deploy@wlion.com"
+            git config --global user.name "White Lion Automated Deployment"
+            git commit -m "committing vendor, build and environment files for deployment"
+      - run:
+          name: Checkout temporary branch
+          working_directory: << parameters.working_directory >>
+          command: |
+            git checkout -b deploy-$CIRCLE_SHA1
+      - run:
+          name: Deploy over SSH
+          working_directory: << parameters.working_directory >>
+          command: |
+            git remote add $DEPLOY_ENV $SSH_USER@$SSH_HOST:$REPOSITORY.git
+            git push $DEPLOY_ENV deploy-$CIRCLE_SHA1
+
+# Jobs
+jobs:
+  # Run Build
+  build:
+    executor: default-executor
 
     steps:
       - checkout
 
       - restore_cache:
           keys:
-            - v1-composer-deps-{{ checksum "composer.lock" }}
-            - v1-composer-deps-
+            - v3-composer-deps-{{ checksum "composer.lock" }}
+            - v3-composer-deps-
 
       - run:
           name: Install Composer packages
@@ -26,32 +83,43 @@ jobs:
             composer install -n --prefer-dist
 
       - save_cache:
-          key: v1-composer-deps-{{ checksum "composer.lock" }}
+          key: v3-composer-deps-{{ checksum "composer.lock" }}
           paths:
             - wp
             - vendor
             - app/plugins
 
+      - run:
+          name: Install NVM
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+
       - restore_cache:
           keys:
-            - v1-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
-            - v1-npm-deps-
+            - v2-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
+            - v2-npm-deps-
 
       - run:
           name: Install NPM packages
+          working_directory: ~/project/app/themes/wlion
           command: |
-            cd app/themes/wlion
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
+            nvm install
+            nvm use
             npm install
 
       - save_cache:
-          key: v1-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
+          key: v2-npm-deps-{{ checksum "app/themes/wlion/package-lock.json" }}
           paths:
             - app/themes/wlion/node_modules
 
       - run:
           name: Build front-end assets
+          working_directory: ~/project/app/themes/wlion
           command: |
-            cd app/themes/wlion
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
+            nvm use
             npm run build
 
       - persist_to_workspace:
@@ -86,7 +154,7 @@ jobs:
     environment:
       SSH_USER: wlion
       SSH_HOST: web8.wlion.com
-      REPOSITORY: pt-wordpress-composer
+      REPOSITORY: git/pt-wordpress-composer
 
     docker:
       - image: circleci/php:7.1-node-browsers
@@ -94,24 +162,11 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys
-
-      - run:
-          name: Add SSH host to known hosts
-          command: |
-            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+      - add_known_hosts
+      - set_env_var
 
       - attach_workspace:
           at: ./
-
-      - run:
-          name: "Setup deploy environment variable"
-          command: |
-            echo 'export DEPLOY_ENV=$CIRCLE_BRANCH' >> $BASH_ENV
-
-      - run:
-          name: Checkout temporary branch
-          command: |
-            git checkout -b deploy-$CIRCLE_SHA1
 
       - run:
           name: Replace .gitignore and copy .env
@@ -120,77 +175,118 @@ jobs:
             cp deploy/.gitignore-$DEPLOY_ENV .gitignore
             cp stubs/$DEPLOY_ENV.env .env
 
-      - run:
-          name: Add/commit vendor, build and environment files
-          command: |
-            git add -A
-            git config --global user.email "deploy@wlion.com"
-            git config --global user.name "White Lion Automated Deployment"
-            git commit -m "committing vendor, build and environment files for deployment"
+      - ssh_deploy
 
-      - run:
-          name: Deploy over SSH
-          command: |
-            git remote add $DEPLOY_ENV $SSH_USER@$SSH_HOST:git/$REPOSITORY.git
-            git push $DEPLOY_ENV deploy-$CIRCLE_SHA1
+  deploy-dev:
+    executor: default-executor
 
-  deploy-production:
-    docker:
-      - image: circleci/php:7.1-node-browsers
+    environment:
+      SSH_USER: git
+      SSH_HOST: git.wpengine.com
+      REPOSITORY: production/DEV_REPO
 
     steps:
       - checkout
+      - add_ssh_keys
+      - add_known_hosts
+      - set_env_var
 
       - attach_workspace:
           at: ./
 
-      - run:
-          name: List files
-          command: |
-            ls -la
+      - build_wpengine
 
-      - run:
-          name: Done
-          command: |
-            echo "Done!"
+      - ssh_deploy:
+          working_directory: ~/project/dist
 
-      # TODO: Implement WP Engine deployment
-      # - run:
-      #     name: Remove .gitignore file
-      #     command: |
-      #       rm --rf .gitignore
-      #       mv deploy/.gitignore-deploy-wpe .gitignore
-      # - run:
-      #     name: Move files
-      #     command: |
-      #       cp wp dist
-      #       cp -r app dist/wp-content
-      #       cd dist
-      #       git init
-      #       git remote add production git@git.wpengine.com:percproduction.git
-      #       git push production
+  # Deploy Staging
+  deploy-stage:
+    executor: default-executor
+
+    environment:
+      SSH_USER: git
+      SSH_HOST: git.wpengine.com
+      REPOSITORY: production/STAGE_REPO
+
+    steps:
+      - checkout
+      - add_ssh_keys
+      - add_known_hosts
+      - set_env_var
+
+      - attach_workspace:
+          at: ./
+
+      - build_wpengine
+
+      - ssh_deploy:
+          working_directory: ~/project/dist
+
+  # Deploy Production
+  deploy-production:
+    executor: default-executor
+
+    environment:
+      SSH_USER: git
+      SSH_HOST: git.wpengine.com
+      REPOSITORY: production/PROD_REPO
+
+    steps:
+      - checkout
+      - add_ssh_keys
+      - add_known_hosts
+      - set_env_var
+
+      - attach_workspace:
+          at: ./
+
+      - build_wpengine
+
+      - ssh_deploy:
+          working_directory: ~/project/dist
 
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
-
-      - test:
-          requires:
-            - build
+      - build:
+          context: deploy-wordpress
+          filters:
+            branches:
+              only:
+                - review
+                - dev
+            # tags:
+            #   only:
+            #     - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
 
       - deploy-review:
           requires:
-            - test
+            - build
           filters:
             branches:
               only: review
 
-      # TODO: Explore using tagged releases for production deployment (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
-      - deploy-production:
+      - deploy-dev:
           requires:
-            - test
+            - build
           filters:
             branches:
-              only: master
+              only: dev
+
+      - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
+      #TODO: Explore using tagged releases for production deployment (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
+      # - deploy-production:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only:
+      #           - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
