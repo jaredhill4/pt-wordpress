@@ -26,7 +26,7 @@
       "type": "package",
       "package": {
         "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "version": "5.8.7",
+        "version": "5.8.9",
         "type": "wordpress-plugin",
         "dist": {
           "type": "zip",
@@ -56,7 +56,6 @@
     "wpackagist-plugin/wp-smushit": "*",
     "wpackagist-plugin/sucuri-scanner": "*",
     "wpackagist-plugin/tinymce-advanced": "*",
-    "wpackagist-plugin/wp-super-cache": "*",
     "advanced-custom-fields/advanced-custom-fields-pro": "*",
     "deliciousbrains-plugin/wp-migrate-db-pro": "*",
     "deliciousbrains-plugin/wp-migrate-db-pro-cli": "*",
