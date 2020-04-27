@@ -62,6 +62,7 @@ install-node-packages:
 	@echo Installing node packages...;
 	@cd $(THEME_DIR); \
 	. $(NVM_SH); \
+	rm -rf node_modules; \
 	nvm install; \
 	nvm use; \
 	npm install;
