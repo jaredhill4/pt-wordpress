@@ -11,6 +11,7 @@ dev: valet-link env-dev install-composer-packages install-node-packages build-as
 
 UPLOADS_DIR = "./app/uploads"
 THEME_DIR = "app/themes/wlion"
+NVM_SH = "$(HOME)/.nvm/nvm.sh"
 
 default:
 	@printf "\033[1;31mPlease supply an environment argument (dev) or command\n\033[0m";
@@ -60,7 +61,7 @@ install-composer-packages:
 install-node-packages:
 	@echo Installing node packages...;
 	@cd $(THEME_DIR); \
-	source $(HOME)/.nvm/nvm.sh; \
+	. $(NVM_SH); \
 	nvm install; \
 	nvm use; \
 	npm install;
@@ -69,7 +70,7 @@ install-node-packages:
 build-assets:
 	@echo Building assets...;
 	@cd $(THEME_DIR); \
-	source $(HOME)/.nvm/nvm.sh; \
+	. $(NVM_SH); \
 	nvm install; \
 	nvm use; \
 	npm run build;
