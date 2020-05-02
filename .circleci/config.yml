@@ -12,18 +12,13 @@ executors:
 
 # Custom commands
 commands:
-  set_env_var:
-    steps:
-      - run:
-          name: "Setup deploy environment variable"
-          command: |
-            echo 'export DEPLOY_ENV=$CIRCLE_BRANCH' >> $BASH_ENV
   add_known_hosts:
     steps:
       - run:
           name: Add SSH host to known hosts
           command: |
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+
   build_wpengine:
     steps:
       - run:
@@ -34,8 +29,9 @@ commands:
             rm -rf dist/wp-content
             mkdir -p dist/wp-content
             cp -a app/. dist/wp-content
-            cp deploy/.gitignore-wpengine dist/.gitignore
-            cp stubs/production.env dist/.env
+            cp .stubs/.gitignore-wpengine dist/.gitignore
+            cp .stubs/production.env dist/.env
+
   ssh_deploy:
     parameters:
       working_directory:
@@ -131,8 +127,7 @@ jobs:
             - app/themes/wlion/build
 
   test:
-    docker:
-      - image: circleci/php:7.1-node-browsers
+    executor: default-executor
 
     steps:
       - checkout
@@ -151,19 +146,18 @@ jobs:
             echo "All tests passed successfully!"
 
   deploy-review:
+    executor: default-executor
+
     environment:
+      DEPLOY_ENV: review
       SSH_USER: wlion
       SSH_HOST: web8.wlion.com
       REPOSITORY: git/pt-wordpress-composer
-
-    docker:
-      - image: circleci/php:7.1-node-browsers
 
     steps:
       - checkout
       - add_ssh_keys
       - add_known_hosts
-      - set_env_var
 
       - attach_workspace:
           at: ./
@@ -172,8 +166,8 @@ jobs:
           name: Replace .gitignore and copy .env
           command: |
             rm .gitignore
-            cp deploy/.gitignore-$DEPLOY_ENV .gitignore
-            cp stubs/$DEPLOY_ENV.env .env
+            cp .stubs/.gitignore-$DEPLOY_ENV .gitignore
+            cp .stubs/$DEPLOY_ENV.env .env
 
       - ssh_deploy
 
@@ -181,6 +175,7 @@ jobs:
     executor: default-executor
 
     environment:
+      DEPLOY_ENV: dev
       SSH_USER: git
       SSH_HOST: git.wpengine.com
       REPOSITORY: production/DEV_REPO
@@ -189,7 +184,6 @@ jobs:
       - checkout
       - add_ssh_keys
       - add_known_hosts
-      - set_env_var
 
       - attach_workspace:
           at: ./
@@ -204,6 +198,7 @@ jobs:
     executor: default-executor
 
     environment:
+      DEPLOY_ENV: staging
       SSH_USER: git
       SSH_HOST: git.wpengine.com
       REPOSITORY: production/STAGE_REPO
@@ -212,7 +207,6 @@ jobs:
       - checkout
       - add_ssh_keys
       - add_known_hosts
-      - set_env_var
 
       - attach_workspace:
           at: ./
@@ -227,6 +221,7 @@ jobs:
     executor: default-executor
 
     environment:
+      DEPLOY_ENV: production
       SSH_USER: git
       SSH_HOST: git.wpengine.com
       REPOSITORY: production/PROD_REPO
@@ -235,7 +230,6 @@ jobs:
       - checkout
       - add_ssh_keys
       - add_known_hosts
-      - set_env_var
 
       - attach_workspace:
           at: ./
@@ -256,9 +250,10 @@ workflows:
               only:
                 - review
                 - dev
-            # tags:
-            #   only:
-            #     - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
+                - staging
+            tags:
+              only:
+                - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
 
       - deploy-review:
           requires:
@@ -280,13 +275,14 @@ workflows:
           filters:
             branches:
               only: staging
-      #TODO: Explore using tagged releases for production deployment (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
-      # - deploy-production:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only:
-      #           - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
+
+      # Reference for tag-based workflows (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
+      - deploy-production:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /^((20)[2-9][0-9])\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\.([0-9][1-9])*$/
