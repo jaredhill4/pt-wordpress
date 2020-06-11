@@ -1,0 +1,65 @@
+version: "3.3"
+
+services:
+  database:
+    container_name: ${PROJECT_NAME}_database
+    image: mysql:${MYSQL_VERSION}
+    volumes:
+      - ${DB_DUMP_DIR}:/docker-entrypoint-initdb.d
+      - ./.storage/data:/var/lib/mysql
+    restart: always
+    ports:
+      - "${DB_EXTERNAL_PORT}:3306"
+    environment:
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+
+  node:
+    container_name: ${PROJECT_NAME}_node
+    build:
+      context: .
+      dockerfile: .docker/node/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+    restart: always
+    volumes:
+      - ${HOST_THEME_DIR}:/app/
+      - app_node_modules:/app/node_modules/
+
+  web:
+    container_name: ${PROJECT_NAME}_web
+    depends_on:
+      - database
+      - node
+    build:
+      context: .
+      dockerfile: .docker/web/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        NODE_VERSION: ${NODE_VERSION}
+        WEB_ROOT_DIR: ${WEB_ROOT_DIR}
+    restart: always
+    ports:
+      - "${WEB_EXTERNAL_PORT}:80"
+    volumes:
+      # Configuration files
+      - ./.env:${WEB_ROOT_DIR}/.env
+      - ./.htaccess:${WEB_ROOT_DIR}/.htaccess
+      - ./index.php:${WEB_ROOT_DIR}/index.php
+      - ./wp-config.php:${WEB_ROOT_DIR}/wp-config.php
+
+      # Theme directory
+      - ${HOST_THEME_DIR}:${WEB_ROOT_DIR}/app/themes/wlion/
+
+      # Plugin directories
+      - ${HOST_PLUGINS_DIR}/wlion-login-lockdown/:${WEB_ROOT_DIR}/app/plugins/wlion-login-lockdown/
+      - ${HOST_PLUGINS_DIR}/wlion-wp-custom-system-emails/:${WEB_ROOT_DIR}/app/plugins/wlion-wp-custom-system-emails/
+
+      # Named volumes
+      - ./.storage/uploads:${WEB_ROOT_DIR}/app/uploads/
+      - app_node_modules:${WEB_ROOT_DIR}/app/themes/wlion/node_modules/
+
+volumes:
+  app_node_modules:

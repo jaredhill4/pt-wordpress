@@ -1,13 +1,16 @@
-# System/config/vendors
+# System
 .DS_Store
 ._*
 Thumbs.db
-*.log
+
+# Config
 .env
-vendor/
+
+# Editors
+/.vscode
 
 # WordPress
-wp/*
+wp
 app/mu-plugins
 app/plugins/*
 app/themes/*
@@ -18,5 +21,7 @@ app/uploads
 !app/plugins/wlion-*
 !app/themes/wlion
 
-# Editors
-/.vscode
+# Generated
+.storage
+vendor/
+*.log

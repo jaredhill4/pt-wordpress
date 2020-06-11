@@ -1,0 +1,17 @@
+# Custom
+.circleci
+.db
+.docker
+.git
+.cache
+.stubs
+README.md
+db_dump.sql.gz
+docker-compose*.yml
+Makefile
+
+# Generated
+app/themes/wlion/build
+app/themes/wlion/node_modules
+vendor
+wp
