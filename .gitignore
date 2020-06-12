@@ -9,19 +9,17 @@ Thumbs.db
 # Editors
 /.vscode
 
-# WordPress
-wp
+# Generated
+.storage
+*.log
 app/mu-plugins
 app/plugins/*
 app/themes/*
 app/upgrade
 app/uploads
+vendor/
+wp
 
 # Keep custom plugins and themes
 !app/plugins/wlion-*
 !app/themes/wlion
-
-# Generated
-.storage
-vendor/
-*.log

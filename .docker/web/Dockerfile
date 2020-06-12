@@ -7,9 +7,13 @@ FROM php:${PHP_VERSION}-apache
 # Use arguments
 ARG NODE_VERSION
 ARG WEB_ROOT_DIR
+ARG ACF_PRO_KEY
+ARG COMPOSER_AUTH
 
 # Environment variables
 ENV NVM_DIR /usr/local/nvm
+ENV ACF_PRO_KEY ${ACF_PRO_KEY}
+ENV COMPOSER_AUTH ${COMPOSER_AUTH}
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -55,7 +59,7 @@ ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
 WORKDIR ${WEB_ROOT_DIR}
 
 # Install Composer packages
-COPY [".env", "auth.json", "composer.*", "./"]
+COPY ["composer.*", "./"]
 RUN composer install --no-scripts --prefer-dist
 
 # Copy files

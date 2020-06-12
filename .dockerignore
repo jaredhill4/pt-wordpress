@@ -1,17 +1,19 @@
 # Custom
 .circleci
-.db
 .docker
 .git
-.cache
+.storage
 .stubs
 README.md
-db_dump.sql.gz
 docker-compose*.yml
 Makefile
 
 # Generated
-app/themes/wlion/build
-app/themes/wlion/node_modules
+app/plugins/*
+app/themes/*
 vendor
 wp
+
+# Keep custom plugins and themes
+!app/plugins/wlion-*
+!app/themes/wlion

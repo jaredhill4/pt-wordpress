@@ -3,7 +3,6 @@
     RewriteBase /
 
     # robots.txt
-    RewriteCond %{HTTP_HOST} \.wlreview3\.com$ [NC]
     RewriteCond %{HTTP_HOST} \.wlreview4\.com$ [NC]
     RewriteRule ^robots.txt$ robots_dev.txt [L]
     RewriteRule ^robots.txt$ robots.txt [L]
@@ -50,18 +49,3 @@ php_value upload_max_filesize 10M
 php_value post_max_size 10M
 php_value max_execution_time 300
 php_value max_input_time 300
-
-# BEGIN WordPress
-# The directives (lines) between `BEGIN WordPress` and `END WordPress` are
-# dynamically generated, and should only be modified via WordPress filters.
-# Any changes to the directives between these markers will be overwritten.
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-</IfModule>
-
-# END WordPress

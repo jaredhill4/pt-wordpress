@@ -1,94 +1,119 @@
-# Variables
-DONE_MESSAGE = " \033[1;32mDone\n\033[0m"
-
 # Include environment variables
 -include .env
 
-# Name our phony targets
-.PHONY: default dev refresh rebuild clean env build up up-d start restart stop kill down clean-docker clean-directories ssh-web ssh-node ssh-database export-database import-database
+# Variables
+DONE_MESSAGE = " \033[1;32mDone\n\033[0m"
 
 # Default
+.PHONY: default
 default:
 	@printf " \033[1;31mPlease supply an environment argument (dev) or command\n\033[0m";
 
 # Top-level commands
-dev: up
-refresh: down clean-directories up-d
-rebuild: clean build
-clean: clean-docker clean-directories
+.PHONY: dev refresh rebuild clean
+dev: env up
+refresh: down clean-host up
+rebuild: clean build up
+clean: clean-docker clean-host
 
+.PHONY: env
 env:
-	@echo Creating .env file...;
-	@cp .stubs/dev.env .env;
-	@printf $(DONE_MESSAGE);
+	@if [ ! -f .env ]; then \
+	echo "No \`.env\` file found. Creating \`.env\` file..."; \
+	cp .stubs/dev.env .env; \
+	printf $(DONE_MESSAGE); \
+	else \
+	echo "\`.env\` file found."; \
+	fi;
 
+.PHONY: build
 build:
 	@echo "Building docker images..."; \
 	docker-compose build; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: build-no-cache
+build-no-cache:
+	@echo "Building docker images from scratch..."; \
+	docker-compose build --no-cache; \
+	printf $(DONE_MESSAGE);
+
+.PHONY: up
 up:
 	@echo "Building and running docker services..."; \
 	docker-compose up; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: up-d
 up-d:
 	@echo "Building and running docker services in detached (daemon) mode..."; \
 	docker-compose up -d; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: start
 start:
 	@echo "Starting docker services..."; \
 	docker-compose start; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: restart
 restart:
 	@echo "Restarting docker services..."; \
 	docker-compose restart; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: stop
 stop:
 	@echo "Stopping docker services..."; \
 	docker-compose stop; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: kill
 kill:
 	@echo "Killing docker services..."; \
 	docker-compose kill; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: down
 down:
 	@echo "Stopping and removing docker services..."; \
 	docker-compose down; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: clean-docker
 clean-docker:
 	@echo "Stopping and removing docker services, volumes and images..."; \
 	docker-compose down --volumes --remove-orphans --rmi 'all'; \
 	printf $(DONE_MESSAGE); \
 
-clean-directories:
+.PHONY: clean-host
+clean-host:
 	@echo "Cleaning up generated directories and files on the host..."; \
-	rm -r {.storage,$(HOST_THEME_DIR)/node_modules,$(HOST_THEME_DIR)/build}; \
+	rm -r {$(HOST_STORAGE_DIR),$(HOST_THEME_DIR)/node_modules,$(HOST_THEME_DIR)/build}; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: ssh-web
 ssh-web:
 	@echo "Starting interactive shell in \`web\` container ..."; \
 	docker-compose exec web bash;
 
+.PHONY: ssh-node
 ssh-node:
 	@echo "Starting interactive shell in \`node\` container ..."; \
 	docker-compose exec node bash;
 
+.PHONY: ssh-database
 ssh-database:
 	@echo "Starting interactive shell in \`database\` container ..."; \
 	docker-compose exec database bash;
 
+.PHONY: export-database
 export-database:
 	@echo "Exporting database..."; \
 	docker-compose exec -T database /usr/bin/mysqldump -u root --password=$(DB_ROOT_PASSWORD) --skip-extended-insert $(DB_NAME) | gzip --best > $(DB_DUMP_DIR)/db_dump.sql.gz; \
 	printf $(DONE_MESSAGE);
 
+.PHONY: import-database
 import-database:
 	@echo "Importing database..."; \
 	gunzip < $(DB_DUMP_DIR)/db_dump.sql.gz | docker-compose exec -T database /usr/bin/mysql -u root --password=$(DB_ROOT_PASSWORD) $(DB_NAME); \
