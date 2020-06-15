@@ -30,7 +30,6 @@ commands:
             mkdir -p dist/wp-content
             cp -a app/. dist/wp-content
             cp .stubs/.gitignore-wpengine dist/.gitignore
-            cp .stubs/production.env dist/.env
 
   ssh_deploy:
     parameters:
