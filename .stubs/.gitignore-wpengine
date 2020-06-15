@@ -36,6 +36,7 @@ README.md
 .dockerignore
 docker-compose.yml
 composer.*
+package*.json
 .nvmrc
 .vscode
 .editorconfig
