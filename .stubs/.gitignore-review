@@ -3,7 +3,6 @@
 ._*
 Thumbs.db
 *.log
-.config
 
 # WordPress
 app/upgrade
@@ -11,3 +10,14 @@ app/uploads
 
 # Editors
 /.vscode
+
+# Dev only
+.config
+.docker
+.circleci
+Makefile
+README.md
+.stubs
+.dockerignore
+docker-compose.yml
+composer.*
