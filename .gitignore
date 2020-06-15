@@ -3,6 +3,10 @@
 ._*
 Thumbs.db
 
+# NodeJS
+node_modules/
+npm-debug.log
+
 # Config
 .env
 
@@ -23,3 +27,6 @@ wp
 # Keep custom plugins and themes
 !app/plugins/wlion-*
 !app/themes/wlion
+
+# Build
+app/themes/wlion/build/

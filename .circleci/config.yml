@@ -38,6 +38,11 @@ commands:
         type: string
     steps:
       - run:
+          name: Remove .git
+          working_directory: << parameters.working_directory >>
+          command: |
+            rm -rf .git
+      - run:
           name: Add/commit vendor, build and environment files
           working_directory: << parameters.working_directory >>
           command: |
