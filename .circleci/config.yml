@@ -167,13 +167,10 @@ jobs:
           at: ./
 
       - run:
-          name: Move config files
+          name: Move config files, replace .gitignore and copy .env
           command: |
+            shopt -s dotglob
             mv .config/* .
-
-      - run:
-          name: Replace .gitignore and copy .env
-          command: |
             rm .gitignore
             cp .stubs/.gitignore-$DEPLOY_ENV .gitignore
             cp .stubs/$DEPLOY_ENV.env .env

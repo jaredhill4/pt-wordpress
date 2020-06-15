@@ -22,7 +22,20 @@ wp-content/themes/twenty*/
 /readme.html
 /license.txt
 
-# Custom
+# WP Engine-specific
 .env
 vendor
+
+# Dev only
+.config
+.docker
+.circleci
+Makefile
+README.md
+.stubs
+.dockerignore
+docker-compose.yml
+composer.*
+
+# Editors
 /.vscode
