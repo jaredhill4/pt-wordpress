@@ -14,16 +14,17 @@ default:
 dev: env up
 refresh: down clean-host up
 rebuild: clean build up
+rebuild-all: clean build-no-cache up
 clean: clean-docker clean-host
 
 .PHONY: env
 env:
 	@if [ ! -f .env ]; then \
-	echo "No \`.env\` file found. Creating \`.env\` file..."; \
-	cp .stubs/dev.env .env; \
-	printf $(DONE_MESSAGE); \
+		echo "Creating \`.env\` file..."; \
+		cp .stubs/dev.env .env; \
+		printf $(DONE_MESSAGE); \
 	else \
-	echo "\`.env\` file found."; \
+		echo "The \`.env\` file already exists."; \
 	fi;
 
 .PHONY: build
@@ -117,6 +118,18 @@ export-database:
 import-database:
 	@echo "Importing database..."; \
 	gunzip < $(DB_DUMP_DIR)/db_dump.sql.gz | docker-compose exec -T database /usr/bin/mysql -u root --password=$(DB_ROOT_PASSWORD) $(DB_NAME); \
+	printf $(DONE_MESSAGE);
+
+.PHONY: composer-update
+composer-update:
+	@echo "Updating Composer packages..."; \
+	docker-compose exec web composer update; \
+	printf $(DONE_MESSAGE);
+
+.PHONY: npm-update
+npm-update:
+	@echo "Updating NPM packages..."; \
+	docker-compose exec web bash -c "cd app/themes/wlion && ncu -u && npm install"; \
 	printf $(DONE_MESSAGE);
 
 # TODO: Need to figure out how we should handle these in the Docker environment

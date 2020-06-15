@@ -55,6 +55,9 @@ RUN mkdir ${NVM_DIR} \
 ENV NODE_PATH ${NVM_DIR}/v${NODE_VERSION}/lib/node_modules
 ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
 
+# Get npm-check-updates
+RUN npm install -g npm-check-updates
+
 # Set the working directory to the web root
 WORKDIR ${WEB_ROOT_DIR}
 
