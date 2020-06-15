@@ -3,6 +3,7 @@
 ._*
 Thumbs.db
 *.log
+.config
 
 # WordPress
 app/upgrade

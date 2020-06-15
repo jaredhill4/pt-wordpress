@@ -47,9 +47,9 @@ services:
       - '${WEB_EXTERNAL_PORT}:80'
     volumes:
       # Configuration files
-      - ./.htaccess:${WEB_ROOT_DIR}/.htaccess
-      - ./index.php:${WEB_ROOT_DIR}/index.php
-      - ./wp-config.php:${WEB_ROOT_DIR}/wp-config.php
+      - ./.config/.htaccess:${WEB_ROOT_DIR}/.htaccess
+      - ./.config/index.php:${WEB_ROOT_DIR}/index.php
+      - ./.config/wp-config.php:${WEB_ROOT_DIR}/wp-config.php
 
       # Persist changes to composer.lock file (via `composer update`)
       # so we can commit them back to our central GitHub repo

@@ -64,11 +64,13 @@ jobs:
   build:
     executor: default-executor
 
-    environment:
-      COMPOSER_AUTH: '{"http-basic":{"composer.deliciousbrains.com":{"username":"${DELICIOUS_BRAINS_COMPOSER_API_USERNAME}","password":"${DELICIOUS_BRAINS_COMPOSER_API_PASSWORD}"}}}'
-
     steps:
       - checkout
+
+      - run:
+          name: Set COMPOSER_AUTH ENV variable
+          command: |
+            echo 'export COMPOSER_AUTH="{\"http-basic\":{\"composer.deliciousbrains.com\":{\"username\":\"${DELICIOUS_BRAINS_COMPOSER_API_USERNAME}\",\"password\":\"${DELICIOUS_BRAINS_COMPOSER_API_PASSWORD}\"}}}"' >> $BASH_ENV
 
       - restore_cache:
           keys:
@@ -163,6 +165,11 @@ jobs:
 
       - attach_workspace:
           at: ./
+
+      - run:
+          name: Move config files
+          command: |
+            mv .config/* .
 
       - run:
           name: Replace .gitignore and copy .env
