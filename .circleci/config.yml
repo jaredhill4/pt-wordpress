@@ -144,6 +144,7 @@ jobs:
             - app/plugins
             - app/themes/wlion/build
 
+  # Run Tests
   test:
     executor: default-executor
 
@@ -163,6 +164,7 @@ jobs:
           command: |
             echo "All tests passed successfully!"
 
+  # Deploy Review
   deploy-review:
     executor: default-executor
 
@@ -185,14 +187,15 @@ jobs:
       - ssh_deploy:
           working_directory: ~/project/dist
 
-  deploy-dev:
+  # Deploy Development
+  deploy-development:
     executor: default-executor
 
     environment:
-      DEPLOY_ENV: dev
+      DEPLOY_ENV: development
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/DEV_REPO
+      REPOSITORY: production/<DEVELOPMENT_REPO>
 
     steps:
       - checkout
@@ -215,7 +218,7 @@ jobs:
       DEPLOY_ENV: staging
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/STAGE_REPO
+      REPOSITORY: production/<STAGING_REPO>
 
     steps:
       - checkout
@@ -238,7 +241,7 @@ jobs:
       DEPLOY_ENV: production
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/PROD_REPO
+      REPOSITORY: production/<PRODUCTION_REPO>
 
     steps:
       - checkout
@@ -253,6 +256,7 @@ jobs:
       - ssh_deploy:
           working_directory: ~/project/dist
 
+# Workflows
 workflows:
   version: 2
   build-deploy:
@@ -263,7 +267,7 @@ workflows:
             branches:
               only:
                 - review
-                - dev
+                - development
                 - staging
             tags:
               only:
@@ -276,12 +280,12 @@ workflows:
             branches:
               only: review
 
-      - deploy-dev:
+      - deploy-development:
           requires:
             - build
           filters:
             branches:
-              only: dev
+              only: development
 
       - deploy-staging:
           requires:
@@ -291,6 +295,7 @@ workflows:
               only: staging
 
       # Reference for tag-based workflows (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
+      # Our tags must match the following structure: 2020.01.01.01
       - deploy-production:
           requires:
             - build
