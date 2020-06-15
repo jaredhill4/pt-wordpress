@@ -18,6 +18,7 @@ README.md
 .dockerignore
 docker-compose.yml
 composer.*
-
-# Editors
-/.vscode
+.nvmrc
+.vscode
+.editorconfig
+.prettierrc
