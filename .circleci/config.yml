@@ -65,6 +65,9 @@ jobs:
   build:
     executor: default-executor
 
+    environment:
+      COMPOSER_AUTH: '{"http-basic":{"composer.deliciousbrains.com":{"username":"${DELICIOUS_BRAINS_COMPOSER_API_USERNAME}","password":"${DELICIOUS_BRAINS_COMPOSER_API_PASSWORD}"}}}'
+
     steps:
       - checkout
 
