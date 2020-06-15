@@ -52,7 +52,7 @@ commands:
         type: string
     steps:
       - run:
-          name: Add/commit vendor, build and environment files
+          name: Add/commit files to be deployed
           working_directory: << parameters.working_directory >>
           command: |
             git init
@@ -61,7 +61,7 @@ commands:
             git config --global user.name "White Lion Automated Deployment"
             git commit -m "committing vendor, build and environment files for deployment"
       - run:
-          name: Checkout temporary branch
+          name: Checkout deployment branch
           working_directory: << parameters.working_directory >>
           command: |
             git checkout -b deploy-$CIRCLE_SHA1
