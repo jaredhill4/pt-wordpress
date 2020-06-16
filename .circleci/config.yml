@@ -29,7 +29,7 @@ commands:
             cp -a wp dist/wp
             cp -a app dist/app
             cp -a vendor dist/vendor
-            cp -R .config/. dist/
+            cp -R config/. dist/
             cp .stubs/.gitignore-$DEPLOY_ENV dist/.gitignore
             cp .stubs/$DEPLOY_ENV.env dist/.env
 

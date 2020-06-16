@@ -46,14 +46,14 @@ services:
     ports:
       - '${WEB_EXTERNAL_PORT}:80'
     volumes:
-      # Configuration files
-      - ./.config/.htaccess:${WEB_ROOT_DIR}/.htaccess
-      - ./.config/index.php:${WEB_ROOT_DIR}/index.php
-      - ./.config/wp-config.php:${WEB_ROOT_DIR}/wp-config.php
-
       # Persist changes to composer.lock file (via `composer update`)
       # so we can commit them back to our central GitHub repo
       - ./composer.lock:${WEB_ROOT_DIR}/composer.lock
+
+      # Configuration files
+      - ${HOST_CONFIG_DIR}/.htaccess:${WEB_ROOT_DIR}/.htaccess
+      - ${HOST_CONFIG_DIR}/index.php:${WEB_ROOT_DIR}/index.php
+      - ${HOST_CONFIG_DIR}/wp-config.php:${WEB_ROOT_DIR}/wp-config.php
 
       # Theme directory
       - ${HOST_THEME_DIR}:${WEB_ROOT_DIR}/app/themes/wlion/

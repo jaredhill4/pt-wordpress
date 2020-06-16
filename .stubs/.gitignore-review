@@ -9,17 +9,17 @@ app/upgrade
 app/uploads
 
 # Dev only
-.config
-.docker
 .circleci
-Makefile
-README.md
-.stubs
+.docker
 .dockerignore
-docker-compose.yml
-composer.*
-package*.json
-.nvmrc
-.vscode
 .editorconfig
+.nvmrc
 .prettierrc
+.stubs
+.vscode
+./config/
+composer.*
+docker-compose.yml
+Makefile
+package*.json
+README.md
