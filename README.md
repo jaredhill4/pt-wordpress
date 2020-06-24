@@ -134,7 +134,7 @@ Below are a few additional items to keep in mind when running your projects in D
 
 4. **To use the `make ssh-node` command, you will need to change the `node` container's startup command.**
 
-   As defined in the `node` service's (`[.docker/node/Dockerfile](.docker/node/Dockerfile)`), the container runs `npm start` on startup by default, which blocks any efforts to shell into the container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
+   As defined in the `node` service's ([`.docker/node/Dockerfile`](.docker/node/Dockerfile)), the container runs `npm start` on startup by default, which blocks any efforts to shell into the container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
 
 ## Front-end Scripts
 
