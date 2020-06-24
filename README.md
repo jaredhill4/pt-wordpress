@@ -53,7 +53,7 @@ This is some information about connecting to the databse.
 
 ### Interacting with Docker and Containers
 
-We have a number of make targets that allow us to interact with Docker and our containers more easily. They are listed and described briefly below.
+We have a number of `make` targets that allow us to interact with Docker and our containers more easily. They are listed and described briefly below.
 
 #### High-Level `make` Targets
 
