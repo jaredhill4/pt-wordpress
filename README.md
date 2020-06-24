@@ -18,6 +18,7 @@
 4. [WP Migrate DB Pro](#wp-migrate-db-pro)
 5. [CircleCI](#circleci)
    1. [Branch Deployments](#branch-deployments)
+   2. [Production Deployment](#production-deployment)
 6. [Front-end Scripts](#front-end-scripts)
 7. [WP-CLI](#wp-cli)
 
