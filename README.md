@@ -54,13 +54,13 @@ pt-wordpress_database | Version: '5.7.30'  socket: '/var/run/mysqld/mysqld.sock'
 
 To connect to the database inside the `database` container, first ensure the `database` service is running. Once you have done so, you may add the following database credentials in [Sequel Pro](http://sequelpro.com/).
 
-| Field    | Value     | Note                          |
-| -------- | --------- | ----------------------------- |
-| Host     | 127.0.0.1 |                               |
-| Username | root      |                               |
-| Password | root      | Must match `DB_ROOT_PASSWORD` |
-| Database | wordpress | Must match `DB_NAME`          |
-| Port     | 4036      | Must match `DB_EXTERNAL_PORT` |
+| Field    | Value     | Note                            |
+| -------- | --------- | ------------------------------- |
+| Host     | 127.0.0.1 |                                 |
+| Username | root      |                                 |
+| Password | root      | _Must match `DB_ROOT_PASSWORD`_ |
+| Database | wordpress | _Must match `DB_NAME`_          |
+| Port     | 4036      | _Must match `DB_EXTERNAL_PORT`_ |
 
 ### Interacting with Docker and Containers
 
