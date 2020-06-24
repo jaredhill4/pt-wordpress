@@ -3,6 +3,7 @@
 
 # Variables
 DONE_MESSAGE = " \033[1;32mDone\n\033[0m"
+UPLOADS_DIR = "./app/uploads"
 
 # Default
 .PHONY: default
@@ -132,21 +133,20 @@ npm-update:
 	docker-compose exec web bash -c "cd app/themes/wlion && ncu -u && npm install"; \
 	printf $(DONE_MESSAGE);
 
-# TODO: Need to figure out how we should handle these in the Docker environment
-#
-# permissions-directories:
-# 	@echo "Updating directory permissions...";
-# 	@find ./ -type d -exec chmod 0755 {} \;
-# 	@printf $(DONE_MESSAGE);
+.PHONY: permissions-directories
+permissions-directories:
+	@echo "Updating directory permissions...";
+	@docker-compose exec web find ./ -type d -exec chmod 0755 {} \;
+	@printf $(DONE_MESSAGE);
 
-# permissions-files:
-# 	@echo "Updating file permissions...";
-# 	@find ./ -type f -exec chmod 0644 {} \;
-# 	@printf $(DONE_MESSAGE);
+.PHONY: permissions-files
+permissions-files:
+	@echo "Updating file permissions...";
+	@docker-compose exec web find ./ -type f -exec chmod 0644 {} \;
+	@printf $(DONE_MESSAGE);
 
-# permissions-uploads:
-# 	@if test -d $(UPLOADS_DIR); \
-# 	then echo "Updating uploads directory permissions..."; \
-# 	chmod -R 0777 $(UPLOADS_DIR); \
-# 	printf $(DONE_MESSAGE); \
-# 	fi;
+.PHONY: permissions-uploads
+permissions-uploads:
+	@echo "Updating uploads directory permissions...";
+	@docker-compose exec web chmod -R 0777 $(UPLOADS_DIR);
+	@printf $(DONE_MESSAGE);
