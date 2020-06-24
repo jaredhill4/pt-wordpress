@@ -133,18 +133,6 @@ npm-update:
 	docker-compose exec web bash -c "cd app/themes/wlion && ncu -u && npm install"; \
 	printf $(DONE_MESSAGE);
 
-.PHONY: permissions-directories
-permissions-directories:
-	@echo "Updating directory permissions...";
-	@docker-compose exec web find ./ -type d -exec chmod 0755 {} \;
-	@printf $(DONE_MESSAGE);
-
-.PHONY: permissions-files
-permissions-files:
-	@echo "Updating file permissions...";
-	@docker-compose exec web find ./ -type f -exec chmod 0644 {} \;
-	@printf $(DONE_MESSAGE);
-
 .PHONY: permissions-uploads
 permissions-uploads:
 	@echo "Updating uploads directory permissions...";
