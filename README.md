@@ -6,6 +6,8 @@
    1. [Getting Started](#getting-started)
    2. [Connecting to the Database](#connecting-to-the-database)
    3. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
+      1. [High-Level `make` Targets](#high-level-make-targets)
+      1. [Low-Level `make` Targets](#low-level-make-targets)
 2. [Front-end Scripts](#front-end-scripts)
 3. [WP-CLI](#wp-cli)
 
@@ -51,7 +53,40 @@ This is some information about connecting to the databse.
 
 ### Interacting with Docker and Containers
 
-We have some make targets that allow us to interact with Docker and our containers more easily.
+We have a number of make targets that allow us to interact with Docker and our containers more easily. They are listed and described briefly below.
+
+#### High-Level `make` Targets
+
+| Target    | Description                    |
+| --------- | ------------------------------ |
+| `dev`     | Runs the `env up`              |
+| `refresh` | Runs the `down clean-host up`  |
+| `rebuild` | Runs `down build up`           |
+| `clean`   | Runs `clean build-no-cache up` |
+
+#### Low-Level `make` Targets
+
+| Target            | Description                                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `env`             | Generates the `.env` file.                                                                                          |
+| `build`           | Builds the Docker images for the Dockerfiles used by Docker Compose.                                                |
+| `build-no-cache`  | Builds the Docker images for the Dockerfiles used by Docker Compose but prevents Docker from using the layer cache. |
+| `up`              | Builds the Docker images, creates the Docker containers and runs Docker the services.                               |
+| `up-d`            | Builds the Docker images, creates the Docker containers and runs Docker the services in detached (daemon) mode.     |
+| `start`           | Starts the stopped Docker services.                                                                                 |
+| `restart`         | Retarts the running Docker services.                                                                                |
+| `stop`            | Stops the running Docker services.                                                                                  |
+| `kill`            | Immediately stops the running Docker services.                                                                      |
+| `down`            | Stops and removes the Docker services.                                                                              |
+| `clean-docker`    | Stops and removes the Docker services, as well as all volumes, images and orphan containers.                        |
+| `clean-host`      | Removes all Docker-generated files and directories from the host machine.                                           |
+| `ssh-web`         | Starts and interactive shell within the `web` container.                                                            |
+| `ssh-node`        | Starts and interactive shell within the `node` container.                                                           |
+| `ssh-database`    | Starts and interactive shell within the `database` container.                                                       |
+| `export-database` | Exports the database (as a gzipped sql dump file) from the `database` container to the `DB_DUMP_DIR`.               |
+| `import-database` | Imports the the gzipped sql dump file from the `DB_DUMP_DIR` to the database in the `database` container.           |
+| `composer-update` | Updates all Composer packages and generates a new `composer.lock` file.                                             |
+| `npm-update`      | Updates all NPM packages to their latest versions and generates new `package.json` and `package-lock.json` files.   |
 
 ## Front-end Scripts
 

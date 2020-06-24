@@ -12,9 +12,9 @@ default:
 # Top-level commands
 .PHONY: dev refresh rebuild rebuild-all clean
 dev: env up
-refresh: down clean-host
-rebuild: clean build
-rebuild-all: clean build-no-cache
+refresh: down clean-host up
+rebuild: clean build up
+rebuild-all: clean build-no-cache up
 clean: clean-docker clean-host
 
 .PHONY: env
