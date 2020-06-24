@@ -122,7 +122,7 @@ Below are a few additional items to keep in mind when running your projects in D
 
 1. **Only one project can be running at a time.**
 
-   This is because we use the same external ports for each project. If you try to start on project while another is already running, you will receive an error message that another container is already using the same port. If you would like to run multiple projects at the same time, you would need to change the external `web` and `database` ports to do so.
+   This is because we use the same external ports for each project. If you try to start a project while another is already running, you will receive an error message that another container is already using the same port. If you would like to run multiple projects at the same time, you would need to change the external `web` and `database` ports to do so.
 
 2. **The database is only populated from the SQL dump file during the initial build.**
 
