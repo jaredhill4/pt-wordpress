@@ -138,7 +138,9 @@ Below are a few additional items to keep in mind when running your projects in D
 
 ## Front-end Scripts
 
-These are the scripts to build and watch for changes to our front-end assets, like SCSS, JS and image files in the [`app/themes/wlion/assets`](app/themes/wlion/assets) directory. You likely won't need to run these manually, because our `node` Docker container runs `npm start` as its startup command. But just in case, they are all documented below. To run these scripts, you will first need to change directories to the `wlion` theme directory ([`app/themes/wlion`](app/themes/wlion)).
+These are the scripts to build and watch for changes to our front-end assets, like SCSS, JS and image files in the [`app/themes/wlion/assets`](app/themes/wlion/assets) directory. To run these scripts, you will first need to change directories to the `wlion` theme directory ([`app/themes/wlion`](app/themes/wlion)).
+
+_Note: You likely won't need to run these manually, because our `node` Docker container runs `npm start` as its startup command. But just in case, they are all documented below._
 
 | Command          | Description                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------------- |
