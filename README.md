@@ -5,13 +5,21 @@
 1. [Overview](#overview)
 2. [Local Development](#local-development)
    1. [Getting Started](#getting-started)
-   1. [Accessing the Site](#accessing-the-site)
-   1. [Connecting to the Database](#connecting-to-the-database)
-   1. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
+   2. [Accessing the Site](#accessing-the-site)
+   3. [Connecting to the Database](#connecting-to-the-database)
+   4. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
       1. [High-Level `make` Targets](#high-level-make-targets)
-      1. [Low-Level `make` Targets](#low-level-make-targets)
-3. [Front-end Scripts](#front-end-scripts)
-4. [WP-CLI](#wp-cli)
+      2. [Low-Level `make` Targets](#low-level-make-targets)
+3. [Advanced Custom Fields](#advanced-custom-fields)
+   1. [Local JSON](#local-json)
+   2. [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
+   3. [Updating the ACF Pro Plugin](#updating-the-acf-pro-plugin)
+   4. [Further ACF Reading](#further-acf-reading)
+4. [WP Migrate DB Pro](#wp-migrate-db-pro)
+5. [CircleCI](#circleci)
+   1. [Branch Deployments](#branch-deployments)
+6. [Front-end Scripts](#front-end-scripts)
+7. [WP-CLI](#wp-cli)
 
 ## Overview
 
@@ -174,11 +182,23 @@ To update the plugin, similar to ACF, we must ensure the lisence keys are availa
 
 ## CircleCI
 
-We use CircleCI to build and deploy to our WP Engine environments. CircleCI is set to automatically watch for changes to the `review` branch and deploy them automatically to their respective environments (expect `percproduction`, which must be deployed manually).
+We use [CircleCI](https://circleci.com/) to build, test and deploy our application to remote environments.
 
-CircleCI may be accessed using the credentials in the client passport. However, only lead/senior developers should make changes to the CircleCI configuration, and you must receive approval before manually deploying to `percproduction`.
+The [White Lion CircleCI dashboard](https://app.circleci.com/projects/project-dashboard/github/wlion) may be accessed by logging in with your personal GitHub account. However, only lead/senior developers should make changes to the CircleCI configuration. Additionally, It is recommended for senior/lead developers to enable [notifications](https://app.circleci.com/settings/user/notifications) for White Lion projects, so you can be notifed when builds fail.
 
-## WP-CLIg
+### Branch Deployments
+
+We have branch deployment support built-in to our CircleCI configuration (found in the project at `.circleci/config.yml`). Currently, the configuration supports three branches: `review`, `development`, and `staging`.
+
+By default, the CircleCI configuration is set to watch for changes to the `review` branch and build and deploy the site automatically to the `review` server (`web8.wlion.com`).
+
+The `development` and `staging` branches/environments require some additional configuration, but by default assume the configuration assumes we will be using WP Engine for those environments. This may be changed to meet the needs of the project.
+
+### Production Deployment
+
+To trigger a deployment to `production`, rather than simply pushing or merging to the `master` branch in GitHub, an additional step is required: You must create a new tag/release using the following specific format: `20XX.XX.XX.XX`. Each "X" in the template above represents and integer. So, similar to our traditional tagged release workflow, a typical tag might be: `2020.06.24.01`. Only tags in this format will trigger the production deployment.
+
+## WP-CLI
 
 We use [WP-CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
 
