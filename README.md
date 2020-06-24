@@ -99,7 +99,7 @@ We have a number of `make` targets that allow us to interact with Docker and our
 | `import-database`     | Imports the the gzipped sql dump file from the `DB_DUMP_DIR` to the database in the `database` container.           |
 | `composer-update`     | Updates all Composer packages and generates a new `composer.lock` file.                                             |
 | `npm-update`          | Updates all NPM packages to their latest versions and generates new `package.json` and `package-lock.json` files.   |
-| `permissions-uploads` | Updates permissions for the `uploads` directory within the `web` container.                                         |
+| `permissions-uploads` | Updates permissions for the WordPress uploads (`app/uploads`) directory within the `web` container.                 |
 
 ## Front-end Scripts
 
