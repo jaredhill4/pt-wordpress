@@ -114,33 +114,76 @@ To run these scripts, you will first need to change directories to the `wlion` t
 | `npm run build`  | Compiles assets                                                                           |
 | `npm run format` | Runs Prettier to format all of the projects javascript/scss files (run before committing) |
 
-## WP-CLI
-
-We use [WP CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
-
-| Command                                       | Description                                                                |
-| --------------------------------------------- | -------------------------------------------------------------------------- |
-| `wp core update`                              | Update the WordPress core to the latest version                            |
-| `wp plugin search "__PLUGIN_NAME__"`          | Search for a plugin by name                                                |
-| `wp plugin install "__PLUGIN_NAME__"`         | Install a plugin by name                                                   |
-| `wp plugin update "__PLUGIN_NAME__"`          | Update plugin by name                                                      |
-| `wp plugin update --all`                      | Update all plugins                                                         |
-| `wp search-replace "old string" "new string"` | Search and replace a specific string everywhere it appears in the database |
-
-There are many other commands that you can find in the [documentation for WP CLI](https://developer.wordpress.org/cli/commands/).
-
 ## Advanced Custom Fields
 
-To create custom fields, we use the [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/) plugin.
+We use the [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/) (ACF) plugin to add custom fields to templates, build navigation menus, and manage global options and settings.
 
-### Documentation
+### Local JSON
 
-You can view the [documention for ACF here](https://www.advancedcustomfields.com/resources/).
+Because of the potential for having many developers (both internal and third party) working on a project at any given time and the need to frequently migrate field groups between a number of environments, we use a feature of ACF called [Local JSON](https://www.advancedcustomfields.com/resources/local-json/). This provides us with the most seamless development workflow and circumvents many of the conflicts that arise from the complexities mentioned above.
 
-### Updating ACF Pro
+### Adding and Updating ACF Field Groups
 
-We have a developer license, which allows us to use the plugin on as many sites as we want. To do so, we need to make sure the license key is present in the site admin. Our license key is:
+When developing, we follow a particular workflow to add or update ACF field groups. The goal is to maintain all field groups in version control in the form of JSON files representing each field group. To avoid any changes that could get lost by editing field groups in production or other environments, we have manually disabled the "Custom Fields" menu item (and other links to the ACF settings pages) in the admin on all environments except the local environment (`local`). Please follow the workflow below closely for best results.
 
-```
-b3JkZXJfaWQ9OTE3MTh8dHlwZT1kZXZlbG9wZXJ8ZGF0ZT0yMDE2LTEwLTE0IDE5OjE5OjA2
-```
+1. **Sync all field groups.**
+
+   This is a key step to ensure we don't lose any changes that other developers may have made since we last synced. To do this, go to the "Custom Fields" settings in the WordPress admin and click on "Sync available" link at the top of the "Field Groups" page. (It is recommended to sync the field groups just a few at a time to avoid "504 gateway timeout" errors.)
+
+2. **Add or edit a field group in the "Custom Fields" settings.**
+
+   Once you have synced all fields, you may begin adding and editing fields and fields groups via the WordPress admin under the "Custom Fields" menu item.
+
+3. **Assign field groups to page templates.**
+
+   If you are working on a new field group for a particular page, _DO NOT_ assign the field group to that specific page. This is because ACF will store a post ID as the location. Since post IDs are subject to change from environment to environment and because you will not be able to edit the field group in other environments, it is required to assign field groups to page templates.
+
+4. **Commit your changes.**
+
+   Upon saving your field groups in the admin, all changes will be reflected in JSON files in the `acf-json` directory in the `wlion` theme. Be sure to commit these changes along with the rest of your work.
+
+5. **Review and resolve conflicts.**
+
+   As with other code changes, your updates to the ACF field groups may come into conflict with those of another developer. Be sure to work closely with other developers who have recently worked on the same field groups to make sure you don't remove any fields they've added (or keep any fields they've removed).
+
+6. **Deploy and test.**
+
+   Once deployed to other environments, test your updates thoroughly and make sure everything is working as expected. Remember, if you need to make further changes to field groups, you will need to make them in your local environment and re-deploy them. Since we are using ACF Local JSON, field groups in higher environments need not (and should not) be "synced" in the admin. Rather, ACF will load the field groups directly from the JSON files in the `acf-json` directory.
+
+### Updating the ACF Pro Plugin
+
+We have a developer license for ACF Pro, which allows us to use the plugin on as many sites as we want. To do so, we need to make sure the license key is present in `.env` file as `ACF_PRO_KEY`, as this is what Composer will use to authenticate the account when updating. You may find the license key in the [White Lion passport](https://whitelion.atlassian.net/wiki/spaces/WL/pages/100536883/White+Lion+-+Passport) in Confluence.
+
+### Further ACF Reading
+
+You can view the [documention for ACF here](https://www.advancedcustomfields.com/resources/). In addition, the following links provide more information about ACF Local JSON, as well as context for our workflow:
+
+- [How to avoid conflicts when using the ACF Local JSON feature](https://www.awesomeacf.com/how-to-avoid-conflicts-when-using-the-acf-local-json-feature/)
+- [Understanding where your ACF field group settings are coming from](https://www.awesomeacf.com/understanding-where-your-acf-field-group-settings-are-coming-from/)
+
+## WP Migrate DB Pro
+
+We use [WP Migrate DB Pro](https://deliciousbrains.com/wp-migrate-db-pro/) to migrate data between environments. Typically, this means pulling data from the production environment to make sure we have a current version of the site data to work with. We should _NEVER_ **push** data to production using the plugin. Rather, we should only **pull** from production into other environments (i.e., local, development, staging).
+
+To update the plugin, similar to ACF, we must ensure the lisence keys are available for use by Composer. To do so, make sure the `DELICIOUS_BRAINS_COMPOSER_API_USERNAME` and `DELICIOUS_BRAINS_COMPOSER_API_PASSWORD` variables and present and correct in your `.env` file. You may find the license keys in the [White Lion passport](https://whitelion.atlassian.net/wiki/spaces/WL/pages/100536883/White+Lion+-+Passport) in Confluence.
+
+## CircleCI
+
+We use CircleCI to build and deploy to our WP Engine environments. DeployBot is set to automatically watch for changes to the `development`, `staging` and `master` branches and deploy them automatically to their respective environments (expect `percproduction`, which must be deployed manually).
+
+DeployBot may be accessed using the credentials in the client passport. However, only lead/senior developers should make changes to the DeployBot configuration, and you must receive approval before manually deploying to `percproduction`.
+
+## WP-CLI
+
+We use [WP-CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
+
+| Command                                               | Description                                                                |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| `wp core update`                                      | Update the WordPress core to the latest version                            |
+| `wp plugin search "__PLUGIN_NAME__"`                  | Search for a plugin by name                                                |
+| `wp plugin install "__PLUGIN_NAME__"`                 | Install a plugin by name                                                   |
+| `wp plugin update "__PLUGIN_NAME__"`                  | Update plugin by name                                                      |
+| `wp plugin update --all`                              | Update all plugins                                                         |
+| `wp search-replace "__OLD_STRING__" "__NEW_STRING__"` | Search and replace a specific string everywhere it appears in the database |
+
+There are many other commands that you can find in the [documentation for WP-CLI](https://developer.wordpress.org/cli/commands/).
