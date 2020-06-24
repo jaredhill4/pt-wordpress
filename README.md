@@ -126,7 +126,7 @@ Below are a few additional items to keep in mind when running your projects in D
 
 2. **The database is only populated from the SQL dump file during the initial build.**
 
-   After the initial build, the `database` container will use the data from the `data` volume locate at `.storage/data`. To repopulate the database, you could either delete the `.storage/data` directory and then run `make restart`, or you could simply run `make refresh`.
+   After the initial build, the `database` container will use the data from the `data` volume locate at `.storage/data`. To repopulate the database from the SQL dump file, you could wither run `make import-database` while the container is running, or delete the `.storage/data` directory and then run `make restart`.
 
 3. **Be cautious when running `make refresh`, `make build`, `make rebuild` or `make clean`.**
 
@@ -134,7 +134,7 @@ Below are a few additional items to keep in mind when running your projects in D
 
 4. **To use the `make ssh-node` command, you will need to change the `node` container's startup command.**
 
-   As defined in the `node` service's ([`.docker/node/Dockerfile`](.docker/node/Dockerfile)), the container will run `npm start` by default, which blocks any efforts to shell into the running container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
+   As defined in the `node` service's Dockerfile ([`.docker/node/Dockerfile`](.docker/node/Dockerfile)), the container will run `npm start` by default, which blocks any efforts to shell into the running container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
 
 ## Front-end Scripts
 
