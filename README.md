@@ -57,12 +57,13 @@ We have a number of `make` targets that allow us to interact with Docker and our
 
 #### High-Level `make` Targets
 
-| Target    | Description                    |
-| --------- | ------------------------------ |
-| `dev`     | Runs `env up`                  |
-| `refresh` | Runs `down clean-host up`      |
-| `rebuild` | Runs `down build up`           |
-| `clean`   | Runs `clean build-no-cache up` |
+| Target        | Description                    |
+| ------------- | ------------------------------ |
+| `dev`         | Runs `env up`                  |
+| `refresh`     | Runs `down clean-host up`      |
+| `rebuild`     | Runs `down build up`           |
+| `rebuild-all` | Runs `down build-no-cache up`  |
+| `clean`       | Runs `clean build-no-cache up` |
 
 #### Low-Level `make` Targets
 
