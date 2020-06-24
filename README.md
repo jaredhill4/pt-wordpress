@@ -23,19 +23,25 @@ In our case, we have three unique services. They are described briefly below.
 
 ### Getting Started
 
-1. Clone the project into your local directory (~/Code).
+Before running the project, you must have [Docker Desktop](https://www.docker.com/products/docker-desktop) installed on your machine. Once it is installed, just follow the two steps below to get the application running locally.
+
+1. Clone the project into your local directory (`~/Code`).
 
    ```
    $ git clone git@github.com:wlion/pt-wordpress-composer.git
    ```
 
-2. Generate the environment file and build and run our Docker services.
+2. From within the project directory, run the following to generate the environment (`.env`) file and build and run our Docker services.
 
    ```
    $ make dev
    ```
 
-Once the Docker services are running, you will be able to visit the site in your browser at http://localhost:8080.
+Once the Docker services are running, you will be able to visit the site in your browser at http://localhost:8080. If you attempt to visit the site too early, you may see a "Connection refused" and "Error establishing a database connection" message. This usally means you just need to wait a bit longer for the database service to be ready. Once the database is ready, you will see the following line in the logs in your terminal (or something similar). Once you see it, you should be good to go.
+
+```
+pt-wordpress_database | Version: '5.7.30'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+```
 
 ### Connecting to the Database
 
