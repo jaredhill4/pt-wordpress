@@ -193,7 +193,7 @@ We have branch deployment support built-in to our CircleCI configuration (found 
 
 By default, the CircleCI configuration is set to watch for changes to the `review` branch and build and deploy the site automatically to the `review` server (`web8.wlion.com`).
 
-The `development` and `staging` branches/environments require some additional configuration, but by default assume the configuration assumes we will be using WP Engine for those environments. This may be changed to meet the needs of the project.
+The `development` and `staging` branches/environments require some additional configuration, but the default configuration assumes we will be using WP Engine for those environments. This may be changed as needed to meet the project requirements.
 
 ### Production Deployment
 
