@@ -189,7 +189,7 @@ The [White Lion CircleCI dashboard](https://app.circleci.com/projects/project-da
 
 ### Branch Deployments
 
-We have branch deployment support built-in to our [CircleCI configuration](.circleci/config.yml) (found in the project at `.circleci/config.yml`). Currently, the configuration supports three branches: `review`, `development`, and `staging`.
+We have branch deployment support built-in to our [CircleCI configuration](.circleci/config.yml) (found in the project at [`.circleci/config.yml`](.circleci/config.yml)). Currently, the configuration supports three branches: `review`, `development`, and `staging`.
 
 By default, the [CircleCI configuration](.circleci/config.yml) is set to watch for changes to the `review` branch and build and deploy the site automatically to the `review` server (`web8.wlion.com`).
 
