@@ -2,15 +2,20 @@
 
 ## Table of Contents
 
-1. [Local Development](#local-development)
+1. [Overview](#overview)
+2. [Local Development](#local-development)
    1. [Getting Started](#getting-started)
    1. [Accessing the Site](#accessing-the-site)
    1. [Connecting to the Database](#connecting-to-the-database)
    1. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
       1. [High-Level `make` Targets](#high-level-make-targets)
       1. [Low-Level `make` Targets](#low-level-make-targets)
-2. [Front-end Scripts](#front-end-scripts)
-3. [WP-CLI](#wp-cli)
+3. [Front-end Scripts](#front-end-scripts)
+4. [WP-CLI](#wp-cli)
+
+## Overview
+
+This is the overview...
 
 ## Local Development
 
@@ -173,7 +178,7 @@ We use CircleCI to build and deploy to our WP Engine environments. CircleCI is s
 
 CircleCI may be accessed using the credentials in the client passport. However, only lead/senior developers should make changes to the CircleCI configuration, and you must receive approval before manually deploying to `percproduction`.
 
-## WP-CLI
+## WP-CLIg
 
 We use [WP-CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
 
