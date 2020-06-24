@@ -4,8 +4,9 @@
 
 1. [Local Development](#local-development)
    1. [Getting Started](#getting-started)
-   2. [Connecting to the Database](#connecting-to-the-database)
-   3. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
+   1. [Accessing the Site](#accessing-the-site)
+   1. [Connecting to the Database](#connecting-to-the-database)
+   1. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
       1. [High-Level `make` Targets](#high-level-make-targets)
       1. [Low-Level `make` Targets](#low-level-make-targets)
 2. [Front-end Scripts](#front-end-scripts)
@@ -38,6 +39,8 @@ Before running the project, you must have [Docker Desktop](https://www.docker.co
    ```
    $ make dev
    ```
+
+### Accessing the Site
 
 Once the Docker services are running, you will be able to visit the site in your browser at http://localhost:8080.
 
