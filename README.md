@@ -206,7 +206,7 @@ To update the plugin, similar to ACF, we must ensure the lisence keys are availa
 
 We use [CircleCI](https://circleci.com/) to build, test and deploy our application to remote environments.
 
-The [White Lion CircleCI dashboard](https://app.circleci.com/projects/project-dashboard/github/wlion) may be accessed by logging in with your personal GitHub account. However, only lead/senior developers should make changes to the CircleCI configuration. Additionally, It is recommended for senior/lead developers to enable [notifications](https://app.circleci.com/settings/user/notifications) for White Lion projects, so you can be notifed when builds fail.
+The [White Lion CircleCI dashboard](https://app.circleci.com/projects/project-dashboard/github/wlion) may be accessed by logging in with your personal GitHub account. However, only lead/senior developers should make changes to the CircleCI configuration. Additionally, It is recommended for senior/lead developers to enable [notifications](https://app.circleci.com/settings/user/notifications) for White Lion projects, so you can be notified when builds fail.
 
 ### Branch Deployments
 
