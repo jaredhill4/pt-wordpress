@@ -52,7 +52,7 @@ pt-wordpress_database | Version: '5.7.30'  socket: '/var/run/mysqld/mysqld.sock'
 
 ### Connecting to the Database
 
-To connect to the database inside the `database` container, first ensure the `database` service is running. Once you have done so, you may add the following database credentials in [Sequel Pro](http://sequelpro.com/).
+To connect to the database inside the `database` container, first ensure the `database` service is running. Once you have done so, you may add the following database credentials in [Sequel Pro](http://sequelpro.com/) and connect to the running database.
 
 | Field    | Value     | Note                            |
 | -------- | --------- | ------------------------------- |
