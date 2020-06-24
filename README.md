@@ -197,7 +197,7 @@ The `development` and `staging` branches/environments require some additional co
 
 ### Production Deployment
 
-To trigger a deployment to `production`, rather than simply pushing or merging to the `master` branch in GitHub, an additional step is required: You must create a new tag/release using the following specific format: `20XX.XX.XX.XX`. Each "X" in the template above represents and integer. So, similar to our traditional tagged release workflow, a typical tag might be: `2020.06.24.01`. Only tags in this format will trigger the production deployment. To see how this is working, take a look at the `deploy-production` in the [CircleCI configuration](.circleci/config.yml)
+To trigger a deployment to `production`, rather than simply pushing or merging to the `master` branch in GitHub, an additional step is required: You must create a new tag/release using the following specific format: `20XX.XX.XX.XX`. Each "X" in the template above represents and integer. So, similar to our traditional tagged release workflow, a typical tag might be: `2020.06.24.01`. Only tags in this format will trigger the production deployment. To see how this is working, take a look at the `deploy-production` in the [CircleCI configuration](.circleci/config.yml).
 
 ## WP-CLI
 
