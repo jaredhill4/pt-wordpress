@@ -1,8 +1,9 @@
-# Project Template (WordPress - Composer)
+# Project Template (WordPress)
 
 ## Table of Contents
 
-1. [Local Development](#local-development)
+1. [Overview](#overview)
+2. [Local Development](#local-development)
    1. [Getting Started](#getting-started)
    2. [Accessing the Site](#accessing-the-site)
    3. [Connecting to the Database](#connecting-to-the-database)
@@ -10,17 +11,21 @@
       1. [High-Level `make` Targets](#high-level-make-targets)
       2. [Low-Level `make` Targets](#low-level-make-targets)
    5. [Things to Remember](#things-to-remember)
-2. [Advanced Custom Fields](#advanced-custom-fields)
+3. [Advanced Custom Fields](#advanced-custom-fields)
    1. [Local JSON](#local-json)
    2. [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
    3. [Updating the ACF Pro Plugin](#updating-the-acf-pro-plugin)
    4. [Further ACF Reading](#further-acf-reading)
-3. [WP Migrate DB Pro](#wp-migrate-db-pro)
-4. [CircleCI](#circleci)
+4. [WP Migrate DB Pro](#wp-migrate-db-pro)
+5. [CircleCI](#circleci)
    1. [Branch Deployments](#branch-deployments)
    2. [Production Deployment](#production-deployment)
-5. [Front-end Scripts](#front-end-scripts)
-6. [WP-CLI](#wp-cli)
+6. [Front-end Scripts](#front-end-scripts)
+7. [WP-CLI](#wp-cli)
+
+## Overview
+
+This is our project template for WordPress sites. It is configured for use with [Docker Compose](https://docs.docker.com/compose/) for local development and [CircleCI](https://circleci.com/) for remote deployments. It uses [Composer](https://getcomposer.org/) to manage project dependencies, including the WordPress core, third-party plugins (like [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/) and [WP Migrate DB Pro](https://deliciousbrains.com/wp-migrate-db-pro/)) and other PHP dependencies we might need. It also includes a number of helpful `make` targets to perform common tasks and make local development simpler and more efficient.
 
 ## Local Development
 
