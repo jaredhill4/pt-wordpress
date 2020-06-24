@@ -1,6 +1,27 @@
 # Project Template (WordPress - Composer)
 
-## Setup Locally (Valet)
+## Table of Contents
+
+1. [Local Development](#local-development)
+   1. [Getting Started](#getting-started)
+   2. [Connecting to the Database](#connecting-to-the-database)
+   3. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
+2. [Front-end Scripts](#front-end-scripts)
+3. [WP-CLI](#wp-cli)
+
+## Local Development
+
+We use [Docker](https://www.docker.com/) with [Docker Compose](https://docs.docker.com/compose/) for local development. Docker Compose allows us to run a multi-container Docker application simply using a Compose file and configuring our services.
+
+In our case, we have three unique services. They are described briefly below.
+
+| Service    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Image             |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `database` | A simple MySQL server. It requires minimal configuration. It uses two volumes on the host machine: one to initially populate the database when the container is first created and another to persist subsequent database updates to the host.                                                                                                                                                                                                                                                                                                                                    | MySQL             |
+| `node`     | A Node server which, once built and running, contains all our theme files. On start up, it runs `npm run watch` to watch for changes to our front-end assets                                                                                                                                                                                                                                                                                                                                                                                                                     | Custom Dockerfile |
+| `web`      | A web server based on a PHP/Apache base image. This is where all our application files will reside, including WordPress core, plugins, and theme files. It uses a number of volumes to sync changes between the container and the host, but the most important is the `uploads` volume, which persists media library files (and other files added to the WordPress `uploads` directory) to the `.storage/uploads` on the host. It also has Composer, Node and WP-CLI installed, allowing us to update our website configuration and application dependencies quickly and easily. | Custom Dockerfile |
+
+### Getting Started
 
 1. Clone the project into your local directory (~/Code).
 
@@ -8,32 +29,21 @@
    $ git clone git@github.com:wlion/pt-wordpress-composer.git
    ```
 
-2. Link the project to Valet.
-
-   ```
-   $ cd pt-wordpress-composer
-   $ valet link
-   ```
-
-3. Create a local database with the following credentials.
-
-   ```
-   dbname: pt-wordpress-composer
-   username: root
-   password:
-   ```
-
-4. Generate the environment file and import the database.
+2. Generate the environment file and build and run our Docker services.
 
    ```
    $ make dev
    ```
 
-5. Secure the project with Valet (optional)
+Once the Docker services are running, you will be able to visit the site in your browser at http://localhost:8080.
 
-   ```
-   $ valet secure pt-wordpress-composer
-   ```
+### Connecting to the Database
+
+This is some information about connecting to the databse.
+
+### Interacting with Docker and Containers
+
+We have some make targets that allow us to interact with Docker and our containers more easily.
 
 ## Front-end Scripts
 
@@ -41,19 +51,23 @@ These are the scripts to build and watch for changes to our front-end assets, li
 
 To run these scripts, you will first need to change directories to the `wlion` theme directory (`/app/themes/wlion`).
 
-- `$ npm run build` => compile assets
-- `$ npm run watch` => watch for changes and compile assets
+| Command         | Description                          |
+| --------------- | ------------------------------------ |
+| `npm run build` | compile assets                       |
+| `npm run watch` | watch for changes and compile assets |
 
-## WP CLI
+## WP-CLI
 
 We use [WP CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
 
-- `$ wp core update` => update the WordPress core to the latest version
-- `$ wp plugin search "__PLUGIN_NAME__"` => search for a plugin by name
-- `$ wp plugin install "__PLUGIN_NAME__"` => install a plugin by name
-- `$ wp plugin update "__PLUGIN_NAME__"` => update plugin by name
-- `$ wp plugin update --all` => update all plugins
-- `$ wp search-replace "old string" "new string"` => search and replace a specific string everywhere it appears in the database
+| Command                                       | Description                                                                |
+| --------------------------------------------- | -------------------------------------------------------------------------- |
+| `wp core update`                              | Update the WordPress core to the latest version                            |
+| `wp plugin search "__PLUGIN_NAME__"`          | Search for a plugin by name                                                |
+| `wp plugin install "__PLUGIN_NAME__"`         | Install a plugin by name                                                   |
+| `wp plugin update "__PLUGIN_NAME__"`          | Update plugin by name                                                      |
+| `wp plugin update --all`                      | Update all plugins                                                         |
+| `wp search-replace "old string" "new string"` | Search and replace a specific string everywhere it appears in the database |
 
 There are many other commands that you can find in the [documentation for WP CLI](https://developer.wordpress.org/cli/commands/).
 
