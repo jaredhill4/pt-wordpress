@@ -2,8 +2,7 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-2. [Local Development](#local-development)
+1. [Local Development](#local-development)
    1. [Getting Started](#getting-started)
    2. [Accessing the Site](#accessing-the-site)
    3. [Connecting to the Database](#connecting-to-the-database)
@@ -11,21 +10,17 @@
       1. [High-Level `make` Targets](#high-level-make-targets)
       2. [Low-Level `make` Targets](#low-level-make-targets)
    5. [Things to Remember](#things-to-remember)
-3. [Advanced Custom Fields](#advanced-custom-fields)
+2. [Advanced Custom Fields](#advanced-custom-fields)
    1. [Local JSON](#local-json)
    2. [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
    3. [Updating the ACF Pro Plugin](#updating-the-acf-pro-plugin)
    4. [Further ACF Reading](#further-acf-reading)
-4. [WP Migrate DB Pro](#wp-migrate-db-pro)
-5. [CircleCI](#circleci)
+3. [WP Migrate DB Pro](#wp-migrate-db-pro)
+4. [CircleCI](#circleci)
    1. [Branch Deployments](#branch-deployments)
    2. [Production Deployment](#production-deployment)
-6. [Front-end Scripts](#front-end-scripts)
-7. [WP-CLI](#wp-cli)
-
-## Overview
-
-This is the overview...
+5. [Front-end Scripts](#front-end-scripts)
+6. [WP-CLI](#wp-cli)
 
 ## Local Development
 
