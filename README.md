@@ -79,7 +79,7 @@ To connect to the database inside the `database` container, first ensure the `da
 
 ### Interacting with Docker and Containers
 
-We have a number of `make` targets that allow us to interact with Docker and our containers more easily. Most of the targets are simply aliases for more verbose `docker-compose` commands, but others are particular to our preferred workflow. All targets are listed and described briefly below.
+We have a number of `make` targets (defined in the [`Makefile`](Makefile)) that allow us to interact with Docker and our containers more easily. Most of the targets are simply aliases for more verbose `docker-compose` commands, but others are particular to our preferred workflow. All targets are listed and described briefly below.
 
 #### High-Level `make` Targets
 
