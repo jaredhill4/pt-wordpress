@@ -140,7 +140,7 @@ Below are a few additional items to keep in mind when running your projects in D
 
 These are the scripts to build and watch for changes to our front-end assets, like SCSS, JS and image files in the [`app/themes/wlion/assets`](app/themes/wlion/assets) directory. To run these scripts, you will first need to change directories to the `wlion` theme directory ([`app/themes/wlion`](app/themes/wlion)).
 
-_Note: You likely won't need to run these manually, because our `node` Docker container runs `npm start` as its startup command. But just in case, they are all documented below._
+\_Note: You likely won't need to run these manually, because our `node` Docker container runs `npm start` as its startup command. But just in case, they are all documented below.\_g
 
 | Command          | Description                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------------- |
@@ -220,7 +220,7 @@ The `development` and `staging` branches/environments require some additional co
 
 To trigger a deployment to `production`, rather than simply pushing or merging to the `master` branch in GitHub, an additional step is required: You must create a new tag/release using the following specific format: `20XX.XX.XX.XX`. Each "X" in the template above represents and integer. So, similar to our traditional tagged release workflow, a typical tag might be: `2020.06.24.01`. Only tags in this format will trigger the production deployment. (To see how this is working, take a look at the `deploy-production` in the [CircleCI configuration](.circleci/config.yml).)
 
-## WP-CLIg
+## WP-CLI
 
 We use [WP-CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
 
