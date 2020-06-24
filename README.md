@@ -59,8 +59,8 @@ We have a number of `make` targets that allow us to interact with Docker and our
 
 | Target    | Description                    |
 | --------- | ------------------------------ |
-| `dev`     | Runs the `env up`              |
-| `refresh` | Runs the `down clean-host up`  |
+| `dev`     | Runs `env up`                  |
+| `refresh` | Runs `down clean-host up`      |
 | `rebuild` | Runs `down build up`           |
 | `clean`   | Runs `clean build-no-cache up` |
 
