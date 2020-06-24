@@ -8,4 +8,4 @@ COPY ./app/themes/wlion/package*.json ./
 
 RUN npm install
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]

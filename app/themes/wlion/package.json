@@ -1,12 +1,12 @@
 {
   "name": "pt-wordpress",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
-    "build": "node webpack/scripts/build.js",
-    "format": "prettier --write \"assets/{js,scss}/**/*.{js,scss}\"",
     "start": "npm run watch",
-    "watch": "node webpack/scripts/watch.js"
+    "watch": "node webpack/scripts/watch.js",
+    "build": "node webpack/scripts/build.js",
+    "format": "prettier --write \"assets/{js,scss}/**/*.{js,scss}\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",

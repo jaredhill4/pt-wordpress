@@ -106,10 +106,12 @@ These are the scripts to build and watch for changes to our front-end assets, li
 
 To run these scripts, you will first need to change directories to the `wlion` theme directory (`/app/themes/wlion`).
 
-| Command         | Description                          |
-| --------------- | ------------------------------------ |
-| `npm run build` | compile assets                       |
-| `npm run watch` | watch for changes and compile assets |
+| Command          | Description                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------- |
+| `npm start`      | Alias for `npm run watch`                                                                 |
+| `npm run watch`  | Watches for changes and compile assets                                                    |
+| `npm run build`  | Compiles assets                                                                           |
+| `npm run format` | Runs Prettier to format all of the projects javascript/scss files (run before committing) |
 
 ## WP-CLI
 
