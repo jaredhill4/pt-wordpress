@@ -10,6 +10,7 @@
    4. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
       1. [High-Level `make` Targets](#high-level-make-targets)
       2. [Low-Level `make` Targets](#low-level-make-targets)
+   5. [Things to Remember](#things-to-remember)
 3. [Advanced Custom Fields](#advanced-custom-fields)
    1. [Local JSON](#local-json)
    2. [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
@@ -78,7 +79,7 @@ To connect to the database inside the `database` container, first ensure the `da
 
 ### Interacting with Docker and Containers
 
-We have a number of `make` targets that allow us to interact with Docker and our containers more easily. They are listed and described briefly below.
+We have a number of `make` targets that allow us to interact with Docker and our containers more easily. Most of the targets are simply aliases for more verbose `docker-compose` commands, but others are more particular to our preferred workflow. All targets are listed and described briefly below.
 
 #### High-Level `make` Targets
 
@@ -86,40 +87,58 @@ We have a number of `make` targets that allow us to interact with Docker and our
 | ------------- | ------------------------------ |
 | `dev`         | Runs `env up`                  |
 | `refresh`     | Runs `down clean-host up`      |
-| `rebuild`     | Runs `down build up`           |
-| `rebuild-all` | Runs `down build-no-cache up`  |
-| `clean`       | Runs `clean build-no-cache up` |
+| `rebuild`     | Runs `clean build up`          |
+| `rebuild-all` | Runs `clean build-no-cache up` |
+| `clean`       | Runs `clean-docker clean-host` |
 
 #### Low-Level `make` Targets
 
-| Target                | Description                                                                                                         |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `env`                 | Generates the `.env` file.                                                                                          |
-| `build`               | Builds the Docker images for the Dockerfiles used by Docker Compose.                                                |
-| `build-no-cache`      | Builds the Docker images for the Dockerfiles used by Docker Compose but prevents Docker from using the layer cache. |
-| `up`                  | Builds the Docker images, creates the Docker containers and runs Docker the services.                               |
-| `up-d`                | Builds the Docker images, creates the Docker containers and runs Docker the services in detached (daemon) mode.     |
-| `start`               | Starts the stopped Docker services.                                                                                 |
-| `restart`             | Retarts the running Docker services.                                                                                |
-| `stop`                | Stops the running Docker services.                                                                                  |
-| `kill`                | Immediately stops the running Docker services.                                                                      |
-| `down`                | Stops and removes the Docker services.                                                                              |
-| `clean-docker`        | Stops and removes the Docker services, as well as all volumes, images and orphan containers.                        |
-| `clean-host`          | Removes all Docker-generated files and directories from the host machine.                                           |
-| `ssh-web`             | Starts and interactive shell within the `web` container.                                                            |
-| `ssh-node`            | Starts and interactive shell within the `node` container.                                                           |
-| `ssh-database`        | Starts and interactive shell within the `database` container.                                                       |
-| `export-database`     | Exports the database (as a gzipped sql dump file) from the `database` container to the `DB_DUMP_DIR`.               |
-| `import-database`     | Imports the the gzipped sql dump file from the `DB_DUMP_DIR` to the database in the `database` container.           |
-| `composer-update`     | Updates all Composer packages and generates a new `composer.lock` file.                                             |
-| `npm-update`          | Updates all NPM packages to their latest versions and generates new `package.json` and `package-lock.json` files.   |
-| `permissions-uploads` | Updates permissions for the WordPress uploads (`app/uploads`) directory within the `web` container.                 |
+| Target                | Description                                                                                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `env`                 | Generates the `.env` file.                                                                                                       |
+| `build`               | Builds the Docker images for the Dockerfiles used by Docker Compose.                                                             |
+| `build-no-cache`      | Builds the Docker images for the Dockerfiles used by Docker Compose but prevents Docker from using the layer cache.              |
+| `up`                  | Builds the Docker images, creates the Docker containers and runs Docker the services.                                            |
+| `up-d`                | Builds the Docker images, creates the Docker containers and runs Docker the services in detached (daemon) mode.                  |
+| `start`               | Starts the stopped Docker services.                                                                                              |
+| `restart`             | Retarts the running Docker services.                                                                                             |
+| `stop`                | Stops the running Docker services.                                                                                               |
+| `kill`                | Immediately stops the running Docker services.                                                                                   |
+| `down`                | Stops and removes the Docker services.                                                                                           |
+| `clean-docker`        | Stops and removes the Docker services, as well as all volumes, images and orphan containers.                                     |
+| `clean-host`          | Removes all Docker-generated files and directories from the host machine.                                                        |
+| `ssh-web`             | Starts and interactive shell within the `web` container.                                                                         |
+| `ssh-node`            | Starts and interactive shell within the `node` container.                                                                        |
+| `ssh-database`        | Starts and interactive shell within the `database` container.                                                                    |
+| `export-database`     | Exports the database (as a gzipped sql dump file) from the `database` container to the `DB_DUMP_DIR`.                            |
+| `import-database`     | Imports the the gzipped sql dump file from the `DB_DUMP_DIR` to the database in the `database` container.                        |
+| `composer-update`     | Updates all Composer packages and generates a new `composer.lock` file.                                                          |
+| `npm-update`          | Updates all NPM packages to their latest versions, updates the `package.json` file and generates a new `package-lock.json` file. |
+| `permissions-uploads` | Updates permissions for the WordPress uploads (`app/uploads`) directory within the `web` container.                              |
+
+#### Things to Remember
+
+Below are a few additional items to keep in mind when running your projects in Docker locally:
+
+1. **Only one project can be running at a time.**
+
+   This is because we use the same external ports for each project. If you try to start on project while another is already running, you will receive an error message that another container is already using the same port. If you would like to run multiple projects at the same time, you would need to change the external `web` and `database` ports to do so.
+
+2. **The database is only populated from the SQL dump file during the initial build.**
+
+   After the initial build, the `database` container will use the data from the `data` volume locate at `.storage/data`. To repopulate the database, you could either delete the `.storage/data` directory and then run `make restart`, or you could simply run `make refresh`.
+
+3. **Be cautious when running `make refresh`, `make build`, `make rebuild` or `make clean`.**
+
+   All these commands will remove the `.storage` directory on your host machine, which means you would lose any changes you have made to the database or uploads. So be careful and make sure you know what you are doing when using these commands.
+
+4. **To use the `make ssh-node` command, you will need to change the `node` container's startup command.**
+
+   The `node` service runs `npm start` on startup by default, which blocks any efforts to shell into the container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
 
 ## Front-end Scripts
 
-These are the scripts to build and watch for changes to our front-end assets, like SCSS, JS and image files in the `assets` directory.
-
-To run these scripts, you will first need to change directories to the `wlion` theme directory (`/app/themes/wlion`).
+These are the scripts to build and watch for changes to our front-end assets, like SCSS, JS and image files in the `assets` directory. You likely won't need to run these manually, because our `node` Docker container runs `npm start` as its startup command. But just in case, they are all documented below. To run these scripts, you will first need to change directories to the `wlion` theme directory (`/app/themes/wlion`).
 
 | Command          | Description                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------------- |
@@ -138,7 +157,7 @@ Because of the potential for having many developers (both internal and third par
 
 ### Adding and Updating ACF Field Groups
 
-When developing, we follow a particular workflow to add or update ACF field groups. The goal is to maintain all field groups in version control in the form of JSON files representing each field group. To avoid any changes that could get lost by editing field groups in production or other environments, we have manually disabled the "Custom Fields" menu item (and other links to the ACF settings pages) in the admin on all environments except the local environment (`local`). Please follow the workflow below closely for best results.
+When developing, we follow a particular workflow to add or update ACF field groups. The goal is to maintain all field groups in version control in the form of JSON files representing each field group. To avoid any changes that could get lost by editing field groups in production or other environments, we have manually disabled the "Custom Fields" menu item (and other links to the ACF settings pages) in the admin on all environments except the `local` environment. Please follow the workflow below closely for best results.
 
 1. **Sync all field groups.**
 
@@ -162,7 +181,7 @@ When developing, we follow a particular workflow to add or update ACF field grou
 
 6. **Deploy and test.**
 
-   Once deployed to other environments, test your updates thoroughly and make sure everything is working as expected. Remember, if you need to make further changes to field groups, you will need to make them in your local environment and re-deploy them. Since we are using ACF Local JSON, field groups in higher environments need not (and should not) be "synced" in the admin. Rather, ACF will load the field groups directly from the JSON files in the `acf-json` directory.
+   Once deployed to other environments, test your updates thoroughly and make sure everything is working as expected. Remember, if you need to make further changes to field groups, you will need to make them in your `local` environment and re-deploy them. Since we are using ACF Local JSON, field groups in higher environments need not (and should not) be "synced" in the admin. Rather, ACF will load the field groups directly from the JSON files in the `acf-json` directory.
 
 ### Updating the ACF Pro Plugin
 
@@ -199,7 +218,7 @@ The `development` and `staging` branches/environments require some additional co
 
 To trigger a deployment to `production`, rather than simply pushing or merging to the `master` branch in GitHub, an additional step is required: You must create a new tag/release using the following specific format: `20XX.XX.XX.XX`. Each "X" in the template above represents and integer. So, similar to our traditional tagged release workflow, a typical tag might be: `2020.06.24.01`. Only tags in this format will trigger the production deployment. (To see how this is working, take a look at the `deploy-production` in the [CircleCI configuration](.circleci/config.yml).)
 
-## WP-CLI
+## WP-CLIg
 
 We use [WP-CLI](http://wp-cli.org/) to perform common tasks in WordPress. Here are a few commands that will be helpful for you as you work on your project:
 
