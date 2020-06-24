@@ -116,7 +116,7 @@ We have a number of `make` targets that allow us to interact with Docker and our
 | `npm-update`          | Updates all NPM packages to their latest versions, updates the `package.json` file and generates a new `package-lock.json` file. |
 | `permissions-uploads` | Updates permissions for the WordPress uploads (`app/uploads`) directory within the `web` container.                              |
 
-#### Things to Remember
+### Things to Remember
 
 Below are a few additional items to keep in mind when running your projects in Docker locally:
 
