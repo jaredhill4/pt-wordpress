@@ -165,13 +165,13 @@ You can view the [documention for ACF here](https://www.advancedcustomfields.com
 
 We use [WP Migrate DB Pro](https://deliciousbrains.com/wp-migrate-db-pro/) to migrate data between environments. Typically, this means pulling data from the production environment to make sure we have a current version of the site data to work with. We should _NEVER_ **push** data to production using the plugin. Rather, we should only **pull** from production into other environments (i.e., local, development, staging).
 
-To update the plugin, similar to ACF, we must ensure the lisence keys are available for use by Composer. To do so, make sure the `DELICIOUS_BRAINS_COMPOSER_API_USERNAME` and `DELICIOUS_BRAINS_COMPOSER_API_PASSWORD` variables and present and correct in your `.env` file. You may find the license keys in the [White Lion passport](https://whitelion.atlassian.net/wiki/spaces/WL/pages/100536883/White+Lion+-+Passport) in Confluence.
+To update the plugin, similar to ACF, we must ensure the lisence keys are available for use by Composer. To do so, make sure the `DELICIOUS_BRAINS_COMPOSER_API_USERNAME` and `DELICIOUS_BRAINS_COMPOSER_API_PASSWORD` variables are present and correct in your `.env` file. You may find the license keys in the [White Lion passport](https://whitelion.atlassian.net/wiki/spaces/WL/pages/100536883/White+Lion+-+Passport) in Confluence.
 
 ## CircleCI
 
-We use CircleCI to build and deploy to our WP Engine environments. DeployBot is set to automatically watch for changes to the `development`, `staging` and `master` branches and deploy them automatically to their respective environments (expect `percproduction`, which must be deployed manually).
+We use CircleCI to build and deploy to our WP Engine environments. CircleCI is set to automatically watch for changes to the `review` branch and deploy them automatically to their respective environments (expect `percproduction`, which must be deployed manually).
 
-DeployBot may be accessed using the credentials in the client passport. However, only lead/senior developers should make changes to the DeployBot configuration, and you must receive approval before manually deploying to `percproduction`.
+CircleCI may be accessed using the credentials in the client passport. However, only lead/senior developers should make changes to the CircleCI configuration, and you must receive approval before manually deploying to `percproduction`.
 
 ## WP-CLI
 
