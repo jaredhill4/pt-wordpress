@@ -8,7 +8,7 @@ version: 2.1
 executors:
   default-executor:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.3-node-browsers
 
 # Custom commands
 commands:
@@ -19,7 +19,21 @@ commands:
           command: |
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 
-  build_wpengine:
+  dist_default:
+    steps:
+      - run:
+          name: Prepare files for deployment
+          command: |
+            shopt -s dotglob
+            mkdir dist
+            cp -a wp dist/wp
+            cp -a app dist/app
+            cp -a vendor dist/vendor
+            cp -R config/. dist/
+            cp .stubs/.gitignore-$DEPLOY_ENV dist/.gitignore
+            cp .stubs/$DEPLOY_ENV.env dist/.env
+
+  dist_wpengine:
     steps:
       - run:
           name: Prepare files for WP Engine
@@ -30,16 +44,15 @@ commands:
             mkdir -p dist/wp-content
             cp -a app/. dist/wp-content
             cp .stubs/.gitignore-wpengine dist/.gitignore
-            cp .stubs/production.env dist/.env
 
   ssh_deploy:
     parameters:
       working_directory:
-        default: ~/project
+        default: ~/project/dist
         type: string
     steps:
       - run:
-          name: Add/commit vendor, build and environment files
+          name: Add/commit files to be deployed
           working_directory: << parameters.working_directory >>
           command: |
             git init
@@ -48,7 +61,7 @@ commands:
             git config --global user.name "White Lion Automated Deployment"
             git commit -m "committing vendor, build and environment files for deployment"
       - run:
-          name: Checkout temporary branch
+          name: Checkout deployment branch
           working_directory: << parameters.working_directory >>
           command: |
             git checkout -b deploy-$CIRCLE_SHA1
@@ -67,6 +80,11 @@ jobs:
 
     steps:
       - checkout
+
+      - run:
+          name: Set COMPOSER_AUTH ENV variable
+          command: |
+            echo 'export COMPOSER_AUTH="{\"http-basic\":{\"composer.deliciousbrains.com\":{\"username\":\"${DELICIOUS_BRAINS_COMPOSER_API_USERNAME}\",\"password\":\"${DELICIOUS_BRAINS_COMPOSER_API_PASSWORD}\"}}}"' >> $BASH_ENV
 
       - restore_cache:
           keys:
@@ -126,6 +144,7 @@ jobs:
             - app/plugins
             - app/themes/wlion/build
 
+  # Run Tests
   test:
     executor: default-executor
 
@@ -145,6 +164,7 @@ jobs:
           command: |
             echo "All tests passed successfully!"
 
+  # Deploy Review
   deploy-review:
     executor: default-executor
 
@@ -162,23 +182,20 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - run:
-          name: Replace .gitignore and copy .env
-          command: |
-            rm .gitignore
-            cp .stubs/.gitignore-$DEPLOY_ENV .gitignore
-            cp .stubs/$DEPLOY_ENV.env .env
+      - dist_default
 
-      - ssh_deploy
+      - ssh_deploy:
+          working_directory: ~/project/dist
 
-  deploy-dev:
+  # Deploy Development
+  deploy-development:
     executor: default-executor
 
     environment:
-      DEPLOY_ENV: dev
+      DEPLOY_ENV: development
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/DEV_REPO
+      REPOSITORY: production/__DEVELOPMENT_REPO__
 
     steps:
       - checkout
@@ -188,7 +205,7 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - build_wpengine
+      - dist_wpengine
 
       - ssh_deploy:
           working_directory: ~/project/dist
@@ -201,7 +218,7 @@ jobs:
       DEPLOY_ENV: staging
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/STAGE_REPO
+      REPOSITORY: production/__STAGING_REPO__
 
     steps:
       - checkout
@@ -211,7 +228,7 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - build_wpengine
+      - dist_wpengine
 
       - ssh_deploy:
           working_directory: ~/project/dist
@@ -224,7 +241,7 @@ jobs:
       DEPLOY_ENV: production
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/PROD_REPO
+      REPOSITORY: production/__PRODUCTION_REPO__
 
     steps:
       - checkout
@@ -234,11 +251,12 @@ jobs:
       - attach_workspace:
           at: ./
 
-      - build_wpengine
+      - dist_wpengine
 
       - ssh_deploy:
           working_directory: ~/project/dist
 
+# Workflows
 workflows:
   version: 2
   build-deploy:
@@ -249,7 +267,7 @@ workflows:
             branches:
               only:
                 - review
-                - dev
+                - development
                 - staging
             tags:
               only:
@@ -262,12 +280,12 @@ workflows:
             branches:
               only: review
 
-      - deploy-dev:
+      - deploy-development:
           requires:
             - build
           filters:
             branches:
-              only: dev
+              only: development
 
       - deploy-staging:
           requires:
@@ -277,6 +295,7 @@ workflows:
               only: staging
 
       # Reference for tag-based workflows (https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag)
+      # Our tags must match the following structure: 2020.01.01.01
       - deploy-production:
           requires:
             - build

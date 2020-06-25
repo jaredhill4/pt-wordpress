@@ -1,0 +1,43 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Ensure auth token remains in request
+    RewriteCond %{HTTP:Authorization} ^(.+)$
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+</IfModule>
+
+<Files wp-config.php>
+    Order Allow,Deny
+    Deny from All
+</Files>
+
+<FilesMatch "^.*\.([Hh][Tt][Aa])">
+    Order Allow,Deny
+    Deny from All
+    Satisfy All
+</FilesMatch>
+
+# Block WordPress xmlrpc.php requests
+<Files xmlrpc.php>
+    Order Allow,Deny
+    Deny from All
+</Files>
+
+<FilesMatch "README.md|Makefile|license.txt">
+    Order Allow,Deny
+    Deny from All
+</FilesMatch>
+
+Options All -Indexes
+
+# Increase max upload size
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300

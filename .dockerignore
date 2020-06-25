@@ -1,0 +1,19 @@
+# Custom
+.circleci
+.docker
+.git
+.storage
+.stubs
+README.md
+docker-compose*.yml
+Makefile
+
+# Generated
+app/plugins/*
+app/themes/*
+vendor
+wp
+
+# Keep custom plugins and themes
+!app/plugins/wlion-*
+!app/themes/wlion

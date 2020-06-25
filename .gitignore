@@ -1,22 +1,32 @@
-# System/config/vendors
+# System
 .DS_Store
 ._*
 Thumbs.db
-*.log
-.env
-vendor/
 
-# WordPress
-wp/*
+# NodeJS
+node_modules/
+npm-debug.log
+
+# Config
+.env
+
+# Editors
+/.vscode
+
+# Generated
+.storage
+*.log
 app/mu-plugins
 app/plugins/*
 app/themes/*
 app/upgrade
 app/uploads
+vendor/
+wp
 
 # Keep custom plugins and themes
 !app/plugins/wlion-*
 !app/themes/wlion
 
-# Editors
-/.vscode
+# Build
+app/themes/wlion/build/
