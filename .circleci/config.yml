@@ -48,7 +48,7 @@ commands:
   ssh_deploy:
     parameters:
       working_directory:
-        default: ~/project
+        default: ~/project/dist
         type: string
     steps:
       - run:
@@ -195,7 +195,7 @@ jobs:
       DEPLOY_ENV: development
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/<DEVELOPMENT_REPO>
+      REPOSITORY: production/__DEVELOPMENT_REPO__
 
     steps:
       - checkout
@@ -218,7 +218,7 @@ jobs:
       DEPLOY_ENV: staging
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/<STAGING_REPO>
+      REPOSITORY: production/__STAGING_REPO__
 
     steps:
       - checkout
@@ -241,7 +241,7 @@ jobs:
       DEPLOY_ENV: production
       SSH_USER: git
       SSH_HOST: git.wpengine.com
-      REPOSITORY: production/<PRODUCTION_REPO>
+      REPOSITORY: production/__PRODUCTION_REPO__
 
     steps:
       - checkout
