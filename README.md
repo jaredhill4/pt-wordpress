@@ -1,4 +1,4 @@
-# Project Template (WordPress)
+# Project Template - WordPress
 
 ## Table of Contents
 
