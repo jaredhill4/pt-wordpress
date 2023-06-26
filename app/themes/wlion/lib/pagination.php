@@ -6,13 +6,13 @@
   */
 
 /**
- * Setup the Bootstrap pagintion template
+ * Setup the pagintion template
  *
  * @param  string $pages
  * @param  int    $range
  * @return void
  */
-function bootstrap_pagination($pages = '', $range = 1)
+function wl_pagination($pages = '', $range = 1)
 {
     $showitems = ($range * 2) + 1;
 

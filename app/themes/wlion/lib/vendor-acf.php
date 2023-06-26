@@ -34,6 +34,6 @@ if (function_exists('acf_add_options_page')) {
  * @return bool
  */
 function wl_acf_settings_show_admin() {
-    return WP_ENV === 'local';
+    return WP_ENV === 'development';
 }
 add_filter('acf/settings/show_admin', 'wl_acf_settings_show_admin');

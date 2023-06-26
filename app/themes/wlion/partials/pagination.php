@@ -3,5 +3,5 @@
  * Partial: Pagination
  */
 
-bootstrap_pagination();
+wl_pagination();
 ?>

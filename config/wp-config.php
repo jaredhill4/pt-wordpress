@@ -7,7 +7,7 @@ require __DIR__ . '/vendor/autoload.php';
 $root_dir = dirname(__FILE__);
 
 /** Use Dotenv to set required environment variables and load .env file in root */
-$dotenv = Dotenv\Dotenv::create($root_dir);
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable($root_dir);
 $dotenv->load();
 
 /* Environment */

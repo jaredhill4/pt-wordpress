@@ -2,26 +2,28 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-2. [Local Development](#local-development)
-   1. [Getting Started](#getting-started)
-   2. [Accessing the Site](#accessing-the-site)
-   3. [Connecting to the Database](#connecting-to-the-database)
-   4. [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
-      1. [High-Level `make` Targets](#high-level-make-targets)
-      2. [Low-Level `make` Targets](#low-level-make-targets)
-   5. [Things to Remember](#things-to-remember)
-3. [Advanced Custom Fields](#advanced-custom-fields)
-   1. [Local JSON](#local-json)
-   2. [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
-   3. [Updating the ACF Pro Plugin](#updating-the-acf-pro-plugin)
-   4. [Further ACF Reading](#further-acf-reading)
-4. [WP Migrate DB Pro](#wp-migrate-db-pro)
-5. [CircleCI](#circleci)
-   1. [Branch Deployments](#branch-deployments)
-   2. [Production Deployment](#production-deployment)
-6. [Front-end Scripts](#front-end-scripts)
-7. [WP-CLI](#wp-cli)
+- [Project Template - WordPress](#project-template---wordpress)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Local Development](#local-development)
+    - [Getting Started](#getting-started)
+    - [Accessing the Site](#accessing-the-site)
+    - [Connecting to the Database](#connecting-to-the-database)
+    - [Interacting with Docker and Containers](#interacting-with-docker-and-containers)
+      - [High-Level `make` Targets](#high-level-make-targets)
+      - [Low-Level `make` Targets](#low-level-make-targets)
+    - [Things to Remember](#things-to-remember)
+  - [Front-end Scripts](#front-end-scripts)
+  - [Advanced Custom Fields](#advanced-custom-fields)
+    - [Local JSON](#local-json)
+    - [Adding and Updating ACF Field Groups](#adding-and-updating-acf-field-groups)
+    - [Updating the ACF Pro Plugin](#updating-the-acf-pro-plugin)
+    - [Further ACF Reading](#further-acf-reading)
+  - [WP Migrate DB Pro](#wp-migrate-db-pro)
+  - [CircleCI](#circleci)
+    - [Branch Deployments](#branch-deployments)
+    - [Production Deployment](#production-deployment)
+  - [WP-CLI](#wp-cli)
 
 ## Overview
 
@@ -57,7 +59,10 @@ Before running the project, you must have [Docker Desktop](https://www.docker.co
 
 ### Accessing the Site
 
-Once the Docker services are running, you will be able to visit the site in your browser at http://localhost:8080.
+Once the Docker services are running, you will be able to visit the site in your browser at the following URLs:
+
+- Front-end: http://localhost:8080
+- Admin: http://localhost:8080/wp/admin
 
 _Note: If you attempt to visit the site too early, you may see a "Connection refused" and "Error establishing a database connection" message. This usally means you just need to wait a bit longer for the database service to be ready. Once the database is ready, you will see the following line in the logs in your terminal. Once you see it, you should be good to go._
 
@@ -108,7 +113,6 @@ We have a number of `make` targets (defined in the [`Makefile`](Makefile)) that 
 | `clean-docker`        | Stops and removes the Docker services, as well as all volumes, images and orphan containers.                                     |
 | `clean-host`          | Removes all Docker-generated files and directories from the host machine.                                                        |
 | `ssh-web`             | Starts and interactive shell within the `web` container.                                                                         |
-| `ssh-node`            | Starts and interactive shell within the `node` container.                                                                        |
 | `ssh-database`        | Starts and interactive shell within the `database` container.                                                                    |
 | `export-database`     | Exports the database (as a gzipped sql dump file) from the `database` container to the `DB_DUMP_DIR`.                            |
 | `import-database`     | Imports the the gzipped sql dump file from the `DB_DUMP_DIR` to the database in the `database` container.                        |
@@ -126,15 +130,11 @@ Below are a few additional items to keep in mind when running your projects in D
 
 2. **The database is only populated from the SQL dump file during the initial build.**
 
-   After the initial build, the `database` container will use the data from the `data` volume locate at `.storage/data`. To repopulate the database from the SQL dump file, you could wither run `make import-database` while the container is running, or delete the `.storage/data` directory and then run `make restart`.
+   After the initial build, the `database` container will use the data from the `data` volume locate at `.storage/data`. To repopulate the database from the SQL dump file, you could either run `make import-database` while the container is running, or delete the `.storage/data` directory and then run `make restart`.
 
 3. **Be cautious when running `make refresh`, `make build`, `make rebuild` or `make clean`.**
 
    All these commands will remove the `.storage` directory on your host machine, which means you would lose any changes you have made to the database or uploads. So be careful and make sure you know what you are doing when using these commands.
-
-4. **To use the `make ssh-node` command, you will need to change the `node` container's startup command.**
-
-   As defined in the `node` service's Dockerfile ([`.docker/node/Dockerfile`](.docker/node/Dockerfile)), the container will run `npm start` by default, which blocks any efforts to shell into the running container. To enable `make ssh-node`, you may override the default command by adding a `command` setting to the `node` service in the [docker-compose.yml](docker-compose.yml) file.
 
 ## Front-end Scripts
 

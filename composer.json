@@ -25,16 +25,16 @@
     {
       "type": "package",
       "package": {
-        "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "version": "5.8.12",
+        "name": "wpengine/advanced-custom-fields-pro",
+        "version": "6.1.6",
         "type": "wordpress-plugin",
         "dist": {
           "type": "zip",
           "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%ACF_PRO_KEY}&t={%version}"
         },
         "require": {
-          "composer/installers": "^1.4",
-          "ffraenz/private-composer-installer": "^2.0"
+          "composer/installers": "^2.2.0",
+          "ffraenz/private-composer-installer": "^5.0.1"
         }
       }
     }
@@ -56,11 +56,14 @@
     "wpackagist-plugin/wp-smushit": "*",
     "wpackagist-plugin/sucuri-scanner": "*",
     "wpackagist-plugin/tinymce-advanced": "*",
-    "advanced-custom-fields/advanced-custom-fields-pro": "*",
-    "deliciousbrains-plugin/wp-migrate-db-pro": "*",
-    "deliciousbrains-plugin/wp-migrate-db-pro-cli": "*",
-    "deliciousbrains-plugin/wp-migrate-db-pro-media-files": "*",
-    "deliciousbrains-plugin/wp-migrate-db-pro-multisite-tools": "*",
-    "deliciousbrains-plugin/wp-migrate-db-pro-theme-plugin-files": "*"
+    "wpengine/advanced-custom-fields-pro": "*",
+    "deliciousbrains-plugin/wp-migrate-db-pro": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "ffraenz/private-composer-installer": true,
+      "composer/installers": true,
+      "johnpbloch/wordpress-core-installer": true
+    }
   }
 }
